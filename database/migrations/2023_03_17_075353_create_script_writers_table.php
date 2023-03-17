@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('script_writers', function (Blueprint $table) {
             $table->id();
             $table->Date('date_of_birth');
-            $table->int('age');
+            $table->integer('age');
             $table->string('City');
             $table->string('gender');
             $table->text('bio')->nullable();
-            $table->int('user_id');
+            $table->integer('user_id');
             $table->timestamps();
         });
     }

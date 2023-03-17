@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('password');
             $table->string('phone_number')->nullable();
             $table->text('profile_pic_url')->nullable();
-            $table->int('role_id')->nullable(); // will contain the id of the role of the user
-            $table->int('script_writer_id')->nullable(); // will contain the id of the script writer of the user or defualt to null for to other users
-            $table->bool('is_active')->default(true); // can be used to deactivate and activate a user account
+            $table->integer('role_id')->nullable(); // will contain the id of the role of the user
+            $table->integer('script_writer_id')->nullable(); // will contain the id of the script writer of the user or defualt to null for to other users
+            $table->boolean('is_active')->default(true); // can be used to deactivate and activate a user account
             $table->rememberToken();
             $table->timestamps();
         });

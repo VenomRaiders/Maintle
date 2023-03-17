@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('script_sub_genre')->nullable();
             $table->string('script_target_audience');
             $table->integer('script_no_locations');
-            $table->array('script_suggested_cast')->nullable();
+            $table->json('script_suggested_cast')->nullable();
             $table->text('poster_image')->nullable();
             $table->boolean('is_bought')->default(false);
             $table->timestamps();
