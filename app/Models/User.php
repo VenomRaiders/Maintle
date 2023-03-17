@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -52,5 +53,9 @@ class User extends Authenticatable
 
     public function scriptWriter(): HasOne {
         return $this->hasOne(ScriptWriter::class);
+    }
+
+    public function scripts(): HasMany {
+        return $this->hasMany(ScriptCollection::class, 'script_writer_id');
     }
 }

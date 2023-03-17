@@ -22,4 +22,8 @@ class ScriptCollection extends Model
         'script_suggested_cast',
         'poster_image',
     ];
+
+    public function user(): BelongsTo {
+        return $this->belongsTo(User::class, 'script_writer_id', 'id');
+    }
 }
