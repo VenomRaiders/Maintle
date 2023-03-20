@@ -25,6 +25,12 @@ Route::get('/', function () {
     ]);
 });
 
+Route::group(['middleware' => ['auth', 'is_investor'], 'prefix' => 'investor', 'as' => 'investor.'],function () {
+    Route::get('/dashboard', function(){
+        return Inertia::render('Investor/Index');
+    })->name('dashboard');
+});
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
