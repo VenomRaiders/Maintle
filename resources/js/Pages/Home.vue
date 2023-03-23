@@ -6,7 +6,23 @@ import NavBar from "@/Components/NavBar.vue"
 <template>
     <Head title="Home"/>
 
-    <div id="homepage" class="h-48">
+    <div id="homepage">
         <NavBar />
+        <div class="herro bg-black bg-opacity-70 py-8 flex flex-col items-center">
+            <h1 class="text-white font-bold text-6xl uppercase">Welcome to the maintle</h1>
+            <div class="">
+                <h1 class="text-yellow-500 font-bold text-2xl my-4 uppercase">Professional Script writers and scripts available</h1>
+            <p class="text-white text-justify">A marketing platform for scriptwriters where potential film-makers purchase <br />meaningful scripts for their movies</p>
+            </div>
+        </div>
+
+        <section class="container mx-auto py-8 flex flex-col items-end space-y-4">
+            <Link href="#" class="bg-green-300 text-white font-bold rounded-md py-2 text-center w-60">become an investor</Link>
+            <Link href="#" class="bg-green-300 text-white font-bold rounded-md py-2 text-center w-60">become a scriptwriter</Link>
+        </section>
+
+        <section class="w-2/5 py-16 bg-black bg-opacity-70 flex flex-col items-center justify-center">
+            <Link href="#" class="bg-green-300 text-white font-bold rounded-md py-2 px-4 text-center">browse scripts & projects</Link>
+        </section>
     </div>
 </template>
