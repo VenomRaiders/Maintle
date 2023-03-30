@@ -50,8 +50,8 @@ function removeLeadRole(leadrole) {
     <div class="">
         <h1 class="text-center text-2xl uppercase font-bold">Create a new script</h1>
         <form action="" class="mt-4">
-          <div class="flex justify-between">
-            <div class="w-3/5 px-2 mb-2">
+          <div class="flex flex-col space-y-4 md:flex-row justify-between">
+            <div class="w-full md:w-3/5 px-2 mb-2">
               <div class="form-group mb-2">
                 <label for="title" class="font-bold text-2xl">Title</label> <br />
                 <input type="text" v-model="form.title" class="w-full bg-[#7dd1b8] rounded-md text-white" name="" id="title">
@@ -106,7 +106,7 @@ function removeLeadRole(leadrole) {
               </div>
 
             </div>
-            <div class="w-1/5">
+            <div class="w-full md:w-1/5">
               <StandardButton @click.prevent="showLeadRoles = !showLeadRoles" text="UPLOAD LEAD ROLES" />
               <div v-if="showLeadRoles">
                 <div class="my-2 p-1 border">
