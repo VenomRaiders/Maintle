@@ -1,17 +1,21 @@
-<script>
+<script setup>
+import { Link } from "@inertiajs/vue3"
 
 </script>
 
 <template>
   <main>
     <section id="sw-nav">
-      <div class="logo">
+      <Link :href="route('home')" class="logo">
         <img src="/images/maintle-logo.png" alt="maintle logo image">
-      </div>
+      </Link>
       <ul>
-        <li><a href="/">Home</a></li>
-        <li class="active"><a href="">My Scripts</a></li>
-        <li><a href="">Statistics</a></li>
+        <Link :href="route('scriptwriter.dashboard')" as="li" :class="{'active': $page.url.startsWith('/scriptwriter/dashboard')}" class="cursor-pointer">
+          My Scripts
+        </Link>
+        <Link :href="route('scriptwriter.statistics')" as="li" :class="{'active': $page.url.startsWith('/scriptwriter/statistics')}" class="cursor-pointer">
+          Statistics
+        </Link>
       </ul>
     </section>
     <section id="sw-body">

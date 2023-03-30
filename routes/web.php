@@ -7,6 +7,7 @@ use Inertia\Inertia;
 
 // Controllers
 use App\Http\Controllers\GeneralController;
+use App\Http\Controllers\ScriptWrittersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +22,10 @@ use App\Http\Controllers\GeneralController;
 
 Route::get('/', [GeneralController::class, 'home'])->name('home');
 
-Route::get("/scriptwriter/dashboard", function () {
-    return Inertia::render('scriptwriter/Main');
+Route::group(['middleware' => ['guest'], 'prefix' => 'scriptwriter', 'as'=>'scriptwriter.'], function(){
+    Route::get("/dashboard", [ScriptWrittersController::class, "dashboard"])->name("dashboard");
+    Route::get("/add_script", [ScriptWrittersController::class, "add_script"])->name("add_script");
+    Route::get("/statistics", [ScriptWrittersController::class, "statistics"])->name("statistics");
 });
 
 Route::group(['middleware' => ['auth', 'is_investor'], 'prefix' => 'investor', 'as' => 'investor.'],function () {

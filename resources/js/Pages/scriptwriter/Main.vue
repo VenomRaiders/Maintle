@@ -11,7 +11,7 @@ function testEvent() {
 <template>
   <ScriptNavBar>
     <div>
-      <StandardButton text="New Script"></StandardButton>
+      <StandardButton text="New Script" isLink="true" :href="route('scriptwriter.add_script')"></StandardButton>
     </div>
     <div class="all-scripts">
       <ScriptsCard
