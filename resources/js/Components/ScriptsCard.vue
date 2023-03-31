@@ -33,39 +33,52 @@ export default {
 </template>
 
 <style>
+/* default mobile styling */
+
 .card img {
-    width: 100%;
-    height: 300px;
+    height: 200px;
     object-fit: fill;
 }
+
 .card {
-    display: grid;
-    grid-template-rows: 300px 1fr;
+    flex: 1;
     background-color: var(--text-color);
     box-shadow: 0 4px 8px 0 var(--shadow-color);
-    transition: 0.3s;
-    border-radius: 5px;
-    width: 350px;
-    height: 470px;
-    margin-top: 15px;
+    transition: 0.5s;
+    border-radius: 10px;
+    width: 290px;
 }
-
 
 .card:hover {
     box-shadow: 0 8px 16px 0 var(--shadow-color);
 }
 
-
 .card .container {
     padding: 7px 16px;
     display: flex;
     flex-direction: column;
-    align-items: right;
+    align-items: flex-start;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.buttons .btn {
+    min-width: 0; /* reset the default width */
+    width: 50px;
+    height: 40px;
+}
+
+.container div {
+    margin-bottom: 7px;
 }
 
 .card h4 {
     font-weight: bold;
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .card .script-tags {
@@ -74,15 +87,51 @@ export default {
 }
 
 .card .script-content {
-    width: 100%;
-    max-height: 50px;
+    max-height: 125px;
+    text-overflow: ellipsis;
     overflow: hidden;
-    text-overflow: ellipsis " [..]";
-    white-space: wrap;
 }
-.card .buttons {
-    width: 100%;
-    display: flex;
-    gap: 5px;
+
+/* Media queries for large screens */
+
+/*  450px */
+@media only screen and (min-width: 450px) {
+  .card img {
+    height: 320px;
+  }
+}
+
+/*  450px */
+@media only screen and (min-width: 535px) {
+    p {
+        font-size: 16px;
+    }
+
+    .card img {
+        height: 400px;
+    }
+    .card h4 {
+        font-size: 22px;
+    }
+}
+
+/* 1200px -> 1700px */
+@media only screen and (min-width: 1200px) { 
+  .all-scripts {
+    max-height: 590px;
+    overflow-y: clip;
+  }
+  .all-scripts .card {
+    margin-right: 5px;
+    margin-bottom: 5px;
+  }
+
+  .card img {
+    height: 300px;
+  }
+  
+  .all-scripts .card {
+    flex-grow: 0.5;
+  }
 }
 </style>

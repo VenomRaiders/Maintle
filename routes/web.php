@@ -28,7 +28,7 @@ Route::group(['middleware' => ['guest'], 'prefix' => 'scriptwriter', 'as'=>'scri
     Route::get("/statistics", [ScriptWrittersController::class, "statistics"])->name("statistics");
 });
 
-Route::group(['middleware' => ['auth', 'is_investor'], 'prefix' => 'investor', 'as' => 'investor.'],function () {
+Route::group(['middleware' => ['guest'], 'prefix' => 'investor', 'as' => 'investor.'],function () {
     Route::get('/dashboard', function(){
         return Inertia::render('Investor/Index');
     })->name('dashboard');

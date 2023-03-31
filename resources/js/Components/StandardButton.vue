@@ -29,13 +29,21 @@ defineProps({
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 80px;
+  min-width: 60px;
   height: 43px;
   color: var(--text-color);
   background-color: v-bind("bgColor");
   padding: 10px;
   border-radius: 5px;
+  font-size: 15px;
 }
 
-
+@media only screen and (min-width: 535px) {
+  .btn {
+    min-width: 0; /* reset the default width */
+    width: 65px;
+    height: 40px;
+    font-size: normal;
+  }
+}
 </style>
