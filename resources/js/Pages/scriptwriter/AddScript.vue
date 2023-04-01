@@ -146,5 +146,8 @@ function submitForm(){
         </form>
     </div>
 
-  </ScriptNavBar>
+</ScriptNavBar>
 </template>
+
+<style>
+</style>

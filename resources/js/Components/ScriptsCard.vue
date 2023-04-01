@@ -133,5 +133,11 @@ export default {
   .all-scripts .card {
     flex-grow: 0.5;
   }
+
+  .buttons .btn {
+    width: 60px;
+    height: 45px;
+    font-size: 17px;
+  }
 }
 </style>

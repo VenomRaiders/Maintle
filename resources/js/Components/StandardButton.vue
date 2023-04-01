@@ -20,7 +20,7 @@ defineProps({
 </script>
 
 <template>
-    <button v-if="!isLink" class="btn btn-primary">{{ text }}</button>
+    <button v-if="!isLink" class="btn">{{ text }}</button>
     <Link v-else :href="href" class="bg-primary text-white p-2 rounded-md">{{ text }}</Link>
 </template>
 
@@ -29,7 +29,6 @@ defineProps({
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 60px;
   height: 43px;
   color: var(--text-color);
   background-color: v-bind("bgColor");
@@ -38,19 +37,8 @@ defineProps({
   font-size: 15px;
 }
 
-.btn:hover {
+.btn:hover, a:hover {
   background-color: var(--secondary-color);
   transition:  0.2s;
 }
-
-/* Media queries */
-
-@media only screen and (min-width: 535px) {
-  .btn {
-    min-width: 0; /* reset the default width */
-    width: 65px;
-    height: 40px;
-  }
-}
-
 </style>
