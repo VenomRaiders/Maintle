@@ -66,13 +66,8 @@ import StandardButton from '@/Components/StandardButton.vue';
   gap: 50px;
 }
 
-button:hover {
-  cursor: pointer;
-  background-color: var(--alternate-color);
-  /* transition: 0.3s; */
-}
-
 /* Media queries for the responsive layout */
+
 @media only screen and (min-width: 1050px) {
   .all-scripts .card {
     flex-grow: 0.4;
@@ -81,9 +76,10 @@ button:hover {
 
 /* 1200px -> 1700px */
 @media only screen and (min-width: 1200px) { 
+
   .all-scripts {
     max-height: 590px;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
   .all-scripts .card {
     margin-right: 5px;

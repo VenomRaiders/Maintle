@@ -38,12 +38,19 @@ defineProps({
   font-size: 15px;
 }
 
+.btn:hover {
+  background-color: var(--secondary-color);
+  transition:  0.2s;
+}
+
+/* Media queries */
+
 @media only screen and (min-width: 535px) {
   .btn {
     min-width: 0; /* reset the default width */
     width: 65px;
     height: 40px;
-    font-size: normal;
   }
 }
+
 </style>

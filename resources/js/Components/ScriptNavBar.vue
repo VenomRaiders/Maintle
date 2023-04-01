@@ -20,17 +20,25 @@ window.addEventListener('resize', checkUserAgent);
     <section id="sw-nav" :class="{'hidden': !showSideBar}">
       <div class="sw-nav-items">
         <Link :href="route('home')" class="logo">
-        <img src="/images/maintle-logo.png" alt="maintle logo image">
-      </Link>
+          <img src="/images/maintle-logo.png" alt="maintle logo image">
+        </Link>
       
-      <ul>
-        <Link :href="route('scriptwriter.dashboard')" as="li" :class="{'active': $page.url.startsWith('/scriptwriter/dashboard')}" class="cursor-pointer">
-          My Scripts
-        </Link>
-        <Link :href="route('scriptwriter.statistics')" as="li" :class="{'active': $page.url.startsWith('/scriptwriter/statistics')}" class="cursor-pointer">
-          Statistics
-        </Link>
-      </ul>
+        <ul>
+          <Link :href="route('scriptwriter.dashboard')" as="li" :class="{'active': $page.url.startsWith('/scriptwriter/dashboard')}" class="cursor-pointer">
+            My Scripts
+          </Link>
+          <Link :href="route('scriptwriter.statistics')" as="li" :class="{'active': $page.url.startsWith('/scriptwriter/statistics')}" class="cursor-pointer">
+            Statistics
+          </Link>
+        </ul>
+
+        <div class="sw-nav-footer">
+          <ul>
+            <Link :href="route('scriptwriter.statistics')" as="li" class="cursor-pointer">
+              Logout
+            </Link>
+          </ul>
+        </div> 
       </div>
       
     </section>
@@ -47,9 +55,10 @@ window.addEventListener('resize', checkUserAgent);
 </template>
 
 <style scoped>
+
 /* Mobile view 300px - 1199px */
+
 main {
-  height: 100svh;
   background-color: var(--text-color);
   box-sizing: border-box;
   display: flex;
@@ -81,8 +90,9 @@ main {
 
 .sw-nav-items ul li {
   height: 40px;
-  border-bottom: 1px solid var(--border-color);
-  border-radius: 3px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 4px 0 var(--shadow-color);
+  border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -93,6 +103,7 @@ main {
   background-color: var(--primary-color);
   color: var(--text-color);
 }
+
 #sw-nav li:hover {
   background-color: var(--alternate-color);
   color: var(--text-color);
@@ -100,6 +111,7 @@ main {
 
 #sw-body {
   width: 100%;
+  /* height: 100svh; */
   padding: 30px;
   background-color: var(--alternate-background-color);
 }
@@ -112,7 +124,6 @@ main {
 }
 
 /* Media queries for the responsive layout */
-
 /* 1200px -> */
 @media only screen and (min-width: 1200px) {
   .toggle {
@@ -123,13 +134,13 @@ main {
     flex-direction: row;
   }
 
+  #sw-body {
+    height: 100vh;
+  }
+
   #sw-nav {
     display: block;
     width: 300px;
-  }
-
-  #sw-body {
-    height: auto;
   }
 
   .sw-nav-items {
@@ -146,6 +157,13 @@ main {
     justify-content: center;
     align-items: center;
     font-size: 18px;
+  }
+
+  .sw-nav-footer {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
   }
 }
 </style>
