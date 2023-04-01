@@ -25,6 +25,7 @@ Route::get('/', [GeneralController::class, 'home'])->name('home');
 Route::group(['middleware' => ['guest'], 'prefix' => 'scriptwriter', 'as'=>'scriptwriter.'], function(){
     Route::get("/dashboard", [ScriptWrittersController::class, "dashboard"])->name("dashboard");
     Route::get("/add_script", [ScriptWrittersController::class, "add_script"])->name("add_script");
+    Route::post("/add_script", [ScriptWrittersController::class, "save_script"])->name("add_script.posts");
     Route::get("/statistics", [ScriptWrittersController::class, "statistics"])->name("statistics");
 });
 

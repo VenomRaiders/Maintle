@@ -22,6 +22,7 @@ const form = reactive({
   "subGenre": "",
   "castSize": "",
   "location": "",
+  "leadRoles": []
 })
 
 const leadRoles = reactive({values: []})
@@ -42,6 +43,11 @@ function removeLeadRole(leadrole) {
   leadRoles.values = newLeadRoles
 }
 
+function submitForm(){
+  form.leadRoles.value = leadRoles.value // adds to lead role to the form data
+  console.log("Submiting")
+}
+
 </script>
 
 <template>
@@ -49,7 +55,7 @@ function removeLeadRole(leadrole) {
 
     <div class="">
         <h1 class="text-center text-2xl uppercase font-bold">Create a new script</h1>
-        <form action="" class="mt-4">
+        <form @submit.prevent="submitForm" class="mt-4">
           <div class="flex flex-col space-y-4 md:flex-row justify-between">
             <div class="w-full md:w-3/5 px-2 mb-2">
               <div class="form-group mb-2">
@@ -132,6 +138,10 @@ function removeLeadRole(leadrole) {
                 </div>
               </div>
             </div>
+          </div>
+
+          <div class="my-4">
+            <input type="submit" value="Save" class="px-4 py-2 rounded-md bg-primary text-black, font-bold text-center cursor-pointer">
           </div>
         </form>
     </div>
