@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Validation\Rules\File;
+use Carbon\Carbon;
 
 class RegisteredUserController extends Controller
 {
@@ -34,24 +36,42 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store_scriptwritter(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'profile_picture' => ['required', File::image()->max(1024)],
+            'username' => 'required|string|max:255',
+            'date_of_birth' => 'required|date|before:today',
             'email' => 'required|string|email|max:255|unique:'.User::class,
+            'phone_number' => 'required|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'city' => 'required|string|max:100',
+            'gender' => 'required|string|in:male,female',
+            'bio' => 'required|string'
         ]);
 
+        $profile_image_url = $request->file('profile_picture')->store('images/profiles','public');
+
         $user = User::create([
-            'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'profile_pic_url' => $profile_image_url
+        ]);
+
+        // calculate age from the provided date of birth
+        $age = Carbon::parse($request->date_of_birth)->age;
+
+        $user->scriptWriter()->create([
+            'date_of_birth' => $request->date_of_birth,
+            'age' => $age,
+            'city' => $request->city,
+            'gender' => $request->gender,
+            'bio' => $request->bio
         ]);
 
         event(new Registered($user));
 
-        Auth::login($user);
-
-        return redirect(RouteServiceProvider::HOME); 
+        return redirect()->route('home'); 
     }
 }

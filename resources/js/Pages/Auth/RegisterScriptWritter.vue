@@ -7,8 +7,9 @@ import LoadingComponent from "@/Components/LoadingComponent.vue"
 const form = useForm({
     profile_picture: null,
     username: "",
-    age: "",
+    date_of_birth: "",
     email: "",
+    phone_number: "",
     password: "",
     password_confirmation: "",
     city: "",
@@ -42,9 +43,9 @@ function createAccount(){
                     </div>
                     
                     <div class="flex flex-col space-y-2 md:w-1/2">
-                        <label for="age" class="font-bold text-black text-2xl">Age</label>
-                        <input type="number" name="age" id="age" v-model="form.age" class="p-1 outline-none border-2 border-black focus:border-black focus:ring-0">
-                        <ErrorMessage v-if="form.errors.age">{{ form.errors.age }}</ErrorMessage>
+                        <label for="date_of_birth" class="font-bold text-black text-2xl">Date of birth</label>
+                        <input type="date" name="date_of_birth" id="date_of_birth" v-model="form.date_of_birth" class="p-1 outline-none border-2 border-black focus:border-black focus:ring-0">
+                        <ErrorMessage v-if="form.errors.date_of_birth">{{ form.errors.date_of_birth }}</ErrorMessage>
                     </div>
                 </div>
 
@@ -54,6 +55,12 @@ function createAccount(){
                             <label for="email" class="font-bold text-black text-2xl">Email</label>
                             <input type="email" name="email" id="email" v-model="form.email" class="p-1 outline-none border-2 border-black focus:border-black focus:ring-0">
                             <ErrorMessage v-if="form.errors.email">{{ form.errors.email }}</ErrorMessage>
+                        </div>
+
+                        <div class="flex flex-col space-y-2 mb-2">
+                            <label for="phone_number" class="font-bold text-black text-2xl">Phone number</label>
+                            <input type="text" name="phone_number" id="phone_number" v-model="form.phone_number" class="p-1 outline-none border-2 border-black focus:border-black focus:ring-0">
+                            <ErrorMessage v-if="form.errors.phone_number">{{ form.errors.phone_number }}</ErrorMessage>
                         </div>
 
                         <div class="flex flex-col space-y-2 mb-2">
@@ -85,6 +92,7 @@ function createAccount(){
                                     <label>Female</label>
                                 </div>
                             </div>
+                            <ErrorMessage v-if="form.errors.age">{{ form.errors.age }}</ErrorMessage>
                         </div>
                     </div>
 
