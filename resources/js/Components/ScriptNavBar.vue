@@ -34,7 +34,7 @@ window.addEventListener('resize', checkUserAgent);
 
         <div class="sw-nav-footer">
           <ul>
-            <Link :href="route('scriptwriter.statistics')" as="li" class="cursor-pointer">
+            <Link :href="route('logout')" method="post" as="li" class="cursor-pointer">
               Logout
             </Link>
           </ul>
