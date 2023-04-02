@@ -1,6 +1,8 @@
 <script setup>
 import { Link } from "@inertiajs/vue3"
 import { ref } from "vue"
+import SuccessMessage from "@/Components/SuccessMessage.vue"
+import ErrorMessage from "@/Components/ErrorMessage.vue"
 
 const showSideBar = ref(false)
 function checkUserAgent() {
@@ -42,6 +44,8 @@ window.addEventListener('resize', checkUserAgent);
       </svg>
     </button>
     <section id="sw-body">
+        <SuccessMessage v-if="$page.props.flash.message"> {{$page.props.flash.message}} </SuccessMessage>
+        <ErrorMessage v-if="$page.props.flash.error"> {{$page.props.flash.error}} </ErrorMessage>
         <slot />
     </section>
   </main>
