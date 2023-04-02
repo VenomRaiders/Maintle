@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Role;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -52,7 +53,9 @@ class RegisteredUserController extends Controller
 
         $profile_image_url = $request->file('profile_picture')->store('images/profiles','public');
 
-        $user = User::create([
+        $user_role = Role::where("name", "user")->first();
+
+        $user = $user_role->users()->create([
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -72,6 +75,6 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        return redirect()->route('home'); 
+        return redirect()->route('login')->with("message", "Account created successfully. Please check your email account to verify your account"); 
     }
 }

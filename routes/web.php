@@ -22,7 +22,7 @@ use App\Http\Controllers\ScriptWrittersController;
 
 Route::get('/', [GeneralController::class, 'home'])->name('home');
 
-Route::group(['middleware' => ['guest'], 'prefix' => 'scriptwriter', 'as'=>'scriptwriter.'], function(){
+Route::group(['middleware' => ['auth'], 'prefix' => 'scriptwriter', 'as'=>'scriptwriter.'], function(){
     Route::get("/dashboard", [ScriptWrittersController::class, "dashboard"])->name("dashboard");
     Route::get("/add_script", [ScriptWrittersController::class, "add_script"])->name("add_script");
     Route::post("/add_script", [ScriptWrittersController::class, "save_script"])->name("add_script.posts");
@@ -36,7 +36,13 @@ Route::group(['middleware' => ['guest'], 'prefix' => 'investor', 'as' => 'invest
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    if(auth()->user()->role->name == "admin"){
+        return redirect()->intended('/admin');
+    }else if(auth()->user()->role->name == "investor"){
+        return redirect()->intended("/");
+    }else{
+        return redirect()->intended("/scriptwriter/dashboard");
+    }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Route::middleware('auth')->group(function () {

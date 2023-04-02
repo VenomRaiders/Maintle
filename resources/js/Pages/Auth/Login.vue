@@ -10,6 +10,10 @@ const form = useForm({
     remember_me: false
 })
 
+function submit(){
+    form.post("/login")
+}
+
 </script>
 
 <template>
@@ -26,7 +30,7 @@ const form = useForm({
 
             <p>It's nice to have you back, <br /> Sign in to find the perfect script for you</p>
 
-            <form action="" class="my-10 flex flex-col space-y-4">
+            <form @submit.prevent="submit" class="my-10 flex flex-col space-y-4">
                 <div class="">
                     <label for="email" class="text-xl text-gray-500">Email Address</label> <br />
                     <div class="bg-white p-2 flex space-x-4 items-center border border-gray-400 rounded-md">
@@ -44,7 +48,7 @@ const form = useForm({
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                         </svg>
-                        <input type="password" name="password" id="password" v-model="form.password" placeholder="Password" class="p-0 border-none outline-none focus:ring-0">
+                        <input type="password" name="password" id="password" v-model="form.password" placeholder="Password" class="p-0 border-none outline-none focus:ring-0" required>
                     </div>
                 </div>
 
