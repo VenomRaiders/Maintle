@@ -27,20 +27,20 @@ const form = useForm({
                     <input type="file" name="profilePicture" id="profilePicture" @input="$event.target.files[0]">
                 </div>
 
-                <div class="flex justify-between space-x-2 mb-4">
-                    <div class="flex flex-col space-y-2 w-1/2">
+                <div class="flex flex-col md:flex-row md:justify-between space-y-2 md:space-y-0 md:space-x-2 mb-4">
+                    <div class="flex flex-col space-y-2 md:w-1/2">
                         <label for="username" class="font-bold text-black text-2xl">Username</label>
                         <input type="text" name="username" id="username" v-model="form.username" class="p-1 outline-none border-2 border-black focus:border-black focus:ring-0">
                     </div>
                     
-                    <div class="flex flex-col space-y-2 w-1/2">
+                    <div class="flex flex-col space-y-2 md:w-1/2">
                         <label for="age" class="font-bold text-black text-2xl">Age</label>
                         <input type="number" name="age" id="age" v-model="form.age" class="p-1 outline-none border-2 border-black focus:border-black focus:ring-0">
                     </div>
                 </div>
 
-                <div class="flex space-x-2 h-full">
-                    <div class="w-2/4">
+                <div class="flex flex-col md:flex-row md:space-x-2 h-full">
+                    <div class="md:w-2/4">
                         <div class="flex flex-col space-y-2 mb-2">
                             <label for="email" class="font-bold text-black text-2xl">Email</label>
                             <input type="email" name="email" id="email" v-model="form.email" class="p-1 outline-none border-2 border-black focus:border-black focus:ring-0">
@@ -76,7 +76,7 @@ const form = useForm({
                         </div>
                     </div>
 
-                    <div class="w-2/4 flex flex-col space-y-8">
+                    <div class="md:w-2/4 flex flex-col space-y-8">
                         <div class="flex flex-col space-y-2">
                             <label for="bio" class="font-bold text-black text-2xl">Bio</label>
                             <textarea name="bio" id="bio" v-model="form.bio" rows="10"></textarea>
