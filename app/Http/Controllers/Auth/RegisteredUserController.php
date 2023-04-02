@@ -19,9 +19,14 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function create(): Response
+    public function create_scriptwritter(): Response
     {
-        return Inertia::render('Auth/Register');
+        return Inertia::render('Auth/RegisterScriptWritter');
+    }
+
+    public function create_investor(): Response
+    {
+        return Inertia::render('Auth/RegisterInvestor');
     }
 
     /**
@@ -47,6 +52,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect(RouteServiceProvider::HOME); 
     }
 }
