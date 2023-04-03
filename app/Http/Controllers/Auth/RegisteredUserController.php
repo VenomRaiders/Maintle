@@ -75,6 +75,8 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        return redirect()->route('login')->with("message", "Account created successfully. Please check your email account to verify your account"); 
+        Auth::login($user);
+
+        return redirect()->route('scriptwriter.dashboard')->with("message", "Account created successfully. Please check your email account to verify your account"); 
     }
 }

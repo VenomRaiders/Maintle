@@ -22,14 +22,14 @@ use App\Http\Controllers\ScriptWrittersController;
 
 Route::get('/', [GeneralController::class, 'home'])->name('home');
 
-Route::group(['middleware' => ['auth'], 'prefix' => 'scriptwriter', 'as'=>'scriptwriter.'], function(){
+Route::group(['middleware' => ['auth','verified'], 'prefix' => 'scriptwriter', 'as'=>'scriptwriter.'], function(){
     Route::get("/dashboard", [ScriptWrittersController::class, "dashboard"])->name("dashboard");
     Route::get("/add_script", [ScriptWrittersController::class, "add_script"])->name("add_script");
     Route::post("/add_script", [ScriptWrittersController::class, "save_script"])->name("add_script.posts");
     Route::get("/statistics", [ScriptWrittersController::class, "statistics"])->name("statistics");
 });
 
-Route::group(['middleware' => ['guest'], 'prefix' => 'investor', 'as' => 'investor.'],function () {
+Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'investor', 'as' => 'investor.'],function () {
     Route::get('/dashboard', function(){
         return Inertia::render('Investor/Index');
     })->name('dashboard');
