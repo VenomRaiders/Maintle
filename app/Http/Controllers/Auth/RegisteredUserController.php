@@ -77,6 +77,34 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
+        // TODO: redirect to investor dashboard when done
+        return redirect()->route('scriptwriter.dashboard')->with("message", "Account created successfully. Please check your email account to verify your account"); 
+    }
+
+    public function store_investor(Request $request){
+        $request->validate([
+            'profile_picture' => ['required', File::image()->max(1024)],
+            'username' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:'.User::class,
+            'phone_number' => 'required|unique:'.User::class,
+            'password' => ['required', 'confirmed', Rules\Password::defaults()]
+        ]);
+
+        $profile_image_url = $request->file('profile_picture')->store('images/profiles','public');
+
+        $user_role = Role::where("name", "investor")->first();
+
+        $user = $user_role->users()->create([
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'profile_pic_url' => $profile_image_url
+        ]);
+
+        event(new Registered($user));
+
+        Auth::login($user);
+
         return redirect()->route('scriptwriter.dashboard')->with("message", "Account created successfully. Please check your email account to verify your account"); 
     }
 }
