@@ -12,11 +12,9 @@ class RolesSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    {
-        Role::truncate(); // Delete all records from the roles table
-        
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'investor']);
-        Role::create(['name' => 'user']);
+    {   
+        Role::firstOrCreate(['name' => 'admin']);
+        Role::firstOrCreate(['name' => 'investor']);
+        Role::firstOrCreate(['name' => 'user']);
     }
 }
