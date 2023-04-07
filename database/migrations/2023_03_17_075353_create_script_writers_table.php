@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('gender');
             $table->text('bio')->nullable();
             $table->integer('user_id');
+            $table->boolean('is_verified')->default(false);
             $table->timestamps();
         });
     }

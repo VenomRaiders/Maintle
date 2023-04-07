@@ -11,7 +11,7 @@ class ScriptCollection extends Model
 
     protected $fillable = [
         'script_writer_id',
-        'document_script_name',
+        'document_url',
         'script_title',
         'script_synopsis',
         'script_genre',
