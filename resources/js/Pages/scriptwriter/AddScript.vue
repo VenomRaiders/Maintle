@@ -92,7 +92,7 @@ function submitForm(){
 
               <div class="form-group">
                 <label for="mainGenre" class="font-bold text-2xl">Main Genre</label> <br />
-                <select v-model="form.mainGenre" name="mainGenre" id="mainGenre">
+                <select v-model="form.mainGenre" name="mainGenre" id="mainGenre" multiple>
                   <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{ genre.genre }}</option>
                 </select>
                 <ErrorMessage v-if="form.errors.mainGenre">{{ form.errors.mainGenre }}</ErrorMessage>
@@ -100,7 +100,7 @@ function submitForm(){
 
               <div class="form-group">
                 <label for="subGenre" class="font-bold text-2xl">Sub Genre</label> <br />
-                <select v-model="form.subGenre" name="subGenre" id="subGenre">
+                <select v-model="form.subGenre" name="subGenre" id="subGenre" multiple>
                   <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{ genre.genre }}</option>
                 </select>
                 <ErrorMessage v-if="form.errors.subGenre">{{ form.errors.subGenre }}</ErrorMessage>
