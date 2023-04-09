@@ -16,10 +16,8 @@ return new class extends Migration
             $table->integer('script_writer_id'); // Will contain user id of the person who uploads the script
             $table->text('document_url');
             $table->string('script_title');
-            $table->text('script_synopsis');
-            $table->integer('script_genre'); // Will contain the id of the genre of the script
+            $table->text('script_synopsis'); // Will contain the id of the genre of the script
             $table->string('script_logline');
-            $table->string('script_sub_genre')->nullable();
             $table->integer('script_cast_size'); //cast size
             $table->integer('script_no_locations');
             $table->json('script_lead_roles')->nullable(); // lead 
