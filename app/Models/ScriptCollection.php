@@ -15,11 +15,12 @@ class ScriptCollection extends Model
         'script_title',
         'script_synopsis',
         'script_genre',
-        'script_tagline',
+        'script_logline',
         'script_sub_genre',
         'script_target_audience',
         'script_no_locations',
-        'script_suggested_cast',
+        'script_lead_roles',
+        'script_cast_size',
         'poster_image',
     ];
 

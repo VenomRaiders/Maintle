@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Validation\Rules\File;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Genre;
+use Illuminate\Support\Facades\Log;
 
 class ScriptWrittersController extends Controller
 {
@@ -14,40 +16,48 @@ class ScriptWrittersController extends Controller
     }
 
     public function add_script(){
-        return Inertia::render('scriptwriter/AddScript');
+        $genres = Genre::all();
+        return Inertia::render('scriptwriter/AddScript', ["genres" => $genres]);
     }
 
     public function save_script(Request $request){
         $validated = $request->validate([
             'title' => 'required',
-            'post_image' => ['required', File::image()->max(2 * 1024)], // max image size set to 2mb
+            'posterImage' => ['required', File::image()->max(2 * 1024)], // max image size set to 2mb
             'logline' => 'required',
-            'Synopsis' => 'required',
-            'type' => 'required',
-            'main_genre' => 'required',
-            'sub_genre' => 'required',
-            'cast_size' => 'required',
+            'synopsis' => 'required',
+            'scriptDocument' => ['required', File::types(['pdf', 'doc', 'docx'])->max(10 * 1024)], // max file size set to 10mb
+            'mainGenre' => 'required',
+            'subGenre' => 'required',
+            'castSize' => 'required',
             'location' => 'required',
+            'leadRoles' => 'required',
         ]);
 
         // upload poster image
-        $poster_image = $request->file('post_image');
+        $poster_image = $request->file('posterImage');
         $poster_image_name = date('YmdHi').$poster_image->getClientOriginalName();
-        $poster_image_url = $poster_image->storeAs('poster_images', $poster_image_name, 'public');
+        $poster_image_url = $poster_image->storeAs('script/images', $poster_image_name, 'public');
 
-        // TODO:handle lead roles saving
+        // upload script document
+        $script_document = $request->file('scriptDocument');
+        $script_document_name = date('YmdHi').$script_document->getClientOriginalName();
+        $script_document_url = $script_document->store($script_document_name, 'scripts');
 
-        auth()->user()->scriptCollection()->create([
+        auth()->user()->scripts()->create([
             'script_title' => $validated['title'],
             'poster_image' => $poster_image_url,
-            'script_tagline' => $validated['logline'],
-            'script_synopsis' => $validated['Synopsis'],
-            'script_genre' => $validated['type'],
-            'script_sub_genre' => $validated['main_genre'],
-            'script_target_audience' => $validated['sub_genre'],
-            'script_suggested_cast' => $validated['cast_size'],
+            'script_logline' => $validated['logline'],
+            'script_synopsis' => $validated['synopsis'],
+            'document_url' => $script_document_url,
+            'script_genre' => $validated['mainGenre'],
+            'script_sub_genre' => $validated['subGenre'],
+            'script_cast_size' => $validated['castSize'],
             'script_no_locations' => $validated['location'],
+            'script_lead_roles' => json_encode($validated['leadRoles'])
         ]);
+
+        return redirect()->route('scriptwriter.dashboard')->with('message', 'Script added successfully');
     }
 
     public function statistics(){
