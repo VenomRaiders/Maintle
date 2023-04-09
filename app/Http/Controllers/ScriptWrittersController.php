@@ -7,12 +7,13 @@ use Inertia\Inertia;
 use Illuminate\Validation\Rules\File;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Genre;
-use Illuminate\Support\Facades\Log;
+use App\Models\ScriptCollection;
 
 class ScriptWrittersController extends Controller
 {
     public function dashboard(){
-        return Inertia::render('scriptwriter/Main'); 
+        $scripts = auth()->user()->scripts()->with('genres')->get(); // get all scripts for the logged in user
+        return Inertia::render('scriptwriter/Main', ["scripts" => $scripts]); 
     }
 
     public function add_script(){
@@ -44,18 +45,19 @@ class ScriptWrittersController extends Controller
         $script_document_name = date('YmdHi').$script_document->getClientOriginalName();
         $script_document_url = $script_document->store($script_document_name, 'scripts');
 
-        auth()->user()->scripts()->create([
+        $script =  auth()->user()->scripts()->create([
             'script_title' => $validated['title'],
             'poster_image' => $poster_image_url,
             'script_logline' => $validated['logline'],
             'script_synopsis' => $validated['synopsis'],
             'document_url' => $script_document_url,
-            'script_genre' => $validated['mainGenre'],
-            'script_sub_genre' => $validated['subGenre'],
             'script_cast_size' => $validated['castSize'],
             'script_no_locations' => $validated['location'],
             'script_lead_roles' => json_encode($validated['leadRoles'])
         ]);
+
+        $script->genres()->attach($validated['mainGenre']);
+        $script->subGenres()->attach($validated['subGenre']);
 
         return redirect()->route('scriptwriter.dashboard')->with('message', 'Script added successfully');
     }

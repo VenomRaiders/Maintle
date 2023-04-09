@@ -3,7 +3,7 @@ import StandardButton from './StandardButton.vue';
 import Tags from './Tags.vue';
 
 export default {
-  props: ['stitle','body'],
+  props: ['stitle','body','genres'],
   components: {
     StandardButton,
     Tags
@@ -17,9 +17,7 @@ export default {
   <div class="container">
     <h4><b>{{ stitle }}</b></h4>
     <div class="script-tags">
-        <Tags text="Movies"/>
-        <Tags text="Love"/>
-        <Tags text="Romance"/>
+        <Tags v-for="genre in genres" :key="genre.id" :text="genre.genre"/>
     </div>
     <div class="script-content">
         <p>{{ body }}</p>

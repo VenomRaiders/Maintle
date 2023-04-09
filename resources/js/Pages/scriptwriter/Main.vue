@@ -3,6 +3,8 @@ import ScriptNavBar from '@/Components/ScriptNavBar.vue';
 import ScriptsCard from '@/Components/ScriptsCard.vue';
 import StandardButton from '@/Components/StandardButton.vue';
 
+const props = defineProps(['scripts'])
+
 </script>
 
 <template>
@@ -11,43 +13,14 @@ import StandardButton from '@/Components/StandardButton.vue';
       <StandardButton text="New Script" :isLink=true :href="route('scriptwriter.add_script')"></StandardButton>
     </div>
     <div class="all-scripts">
-      <ScriptsCard
-      stitle="The Ducklin Mass"
-      body="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus quae enim aliquid culpa, 
-        autem ut optio harum dolorum fugiat laudantium. 
-        Unde eius reprehenderit sed illo earum vero dolores mollitia 
-        excepturi!"
+      <ScriptsCard v-for="script in scripts" :key="script.id" 
+        :stitle= "script.script_title"
+        :body="script.script_synopsis"
+        :genres="script.genres"
       >
-      <img src="/images/image.jpg" alt="Script offical blopper image" style="width:100%">
+      <img :src="'/storage/'+script.poster_image" alt="Script offical blopper image" style="width:100%">
       </ScriptsCard>
-      <ScriptsCard
-      stitle="The Ducklin Mass"
-      body="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus quae enim aliquid culpa, 
-        autem ut optio harum dolorum fugiat laudantium. 
-        Unde eius reprehenderit sed illo earum vero dolores mollitia 
-        excepturi!"
-      >
-      <img src="/images/image.jpg" alt="Script offical blopper image" style="width:100%">
-      </ScriptsCard>
-      <ScriptsCard
-      stitle="The Ducklin Mass"
-      body="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus quae enim aliquid culpa, 
-        autem ut optio harum dolorum fugiat laudantium. 
-        Unde eius reprehenderit sed illo earum vero dolores mollitia 
-        excepturi!"
-      >
-      <img src="/images/image.jpg" alt="Script offical blopper image" style="width:100%">
-      </ScriptsCard>
-
-      <ScriptsCard
-      stitle="The Ducklin Mass"
-      body="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus quae enim aliquid culpa, 
-        autem ut optio harum dolorum fugiat laudantium. 
-        Unde eius reprehenderit sed illo earum vero dolores mollitia 
-        excepturi!"
-      >
-      <img src="/images/image.jpg" alt="Script offical blopper image" style="width:100%">
-      </ScriptsCard>
+      
       
     </div>
   </ScriptNavBar>
