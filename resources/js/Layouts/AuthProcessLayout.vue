@@ -25,22 +25,15 @@ window.addEventListener('resize', checkUserAgent);
           <img src="/images/maintle-logo.png" alt="maintle logo image">
         </Link>
       
-        <ul>
-          <Link :href="route('scriptwriter.dashboard')" as="li" :class="{'active': $page.url.startsWith('/scriptwriter/dashboard')}" class="cursor-pointer">
-            My Scripts
+        <ul v-if="$page.url.startsWith('/register')">
+          <Link :href="route('register.scriptwritter')" as="li" :class="{'active': $page.url.startsWith('/register/scriptwritter')}" class="cursor-pointer text-white font-bold uppercase">
+            Scriptwritter
           </Link>
-          <Link :href="route('scriptwriter.statistics')" as="li" :class="{'active': $page.url.startsWith('/scriptwriter/statistics')}" class="cursor-pointer">
-            Statistics
+          <Link :href="route('register.investor')" as="li" :class="{'active': $page.url.startsWith('/register/investor')}" class="cursor-pointer text-white font-bold uppercase">
+            Investor
           </Link>
         </ul>
 
-        <div class="sw-nav-footer">
-          <ul>
-            <Link :href="route('logout')" method="post" as="li" class="cursor-pointer">
-              Logout
-            </Link>
-          </ul>
-        </div> 
       </div>
       
     </section>
@@ -63,7 +56,7 @@ window.addEventListener('resize', checkUserAgent);
 /* Mobile view 300px - 1199px */
 
 main {
-  background-color: var(--text-color);
+  background-color: var(--primary-color);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -94,8 +87,6 @@ main {
 
 .sw-nav-items ul li {
   height: 40px;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 2px 4px 0 var(--shadow-color);
   border-radius: 5px;
   display: flex;
   justify-content: center;
@@ -104,7 +95,7 @@ main {
 }
 
 .active {
-  background-color: var(--primary-color);
+  background-color: var(--alternate-color);
   color: var(--text-color);
 }
 

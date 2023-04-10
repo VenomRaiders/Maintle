@@ -7,6 +7,7 @@ use Inertia\Inertia;
 
 // Controllers
 use App\Http\Controllers\GeneralController;
+use App\Http\Controllers\ScriptWrittersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,18 +22,27 @@ use App\Http\Controllers\GeneralController;
 
 Route::get('/', [GeneralController::class, 'home'])->name('home');
 
-Route::get("/scriptwriter/dashboard", function () {
-    return Inertia::render('scriptwriter/Main');
+Route::group(['middleware' => ['auth','verified'], 'prefix' => 'scriptwriter', 'as'=>'scriptwriter.'], function(){
+    Route::get("/dashboard", [ScriptWrittersController::class, "dashboard"])->name("dashboard");
+    Route::get("/add_script", [ScriptWrittersController::class, "add_script"])->name("add_script");
+    Route::post("/add_script", [ScriptWrittersController::class, "save_script"])->name("add_script.posts");
+    Route::get("/statistics", [ScriptWrittersController::class, "statistics"])->name("statistics");
 });
 
-Route::group(['middleware' => ['auth', 'is_investor'], 'prefix' => 'investor', 'as' => 'investor.'],function () {
+Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'investor', 'as' => 'investor.'],function () {
     Route::get('/dashboard', function(){
         return Inertia::render('Investor/Index');
     })->name('dashboard');
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    if(auth()->user()->role->name == "admin"){
+        return redirect()->intended('/admin');
+    }else if(auth()->user()->role->name == "investor"){
+        return redirect()->intended("/");
+    }else{
+        return redirect()->intended("/scriptwriter/dashboard");
+    }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Route::middleware('auth')->group(function () {

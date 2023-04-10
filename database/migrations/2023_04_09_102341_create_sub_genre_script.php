@@ -11,15 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('script_writers', function (Blueprint $table) {
+        Schema::create('sub_genre_script', function (Blueprint $table) {
             $table->id();
-            $table->Date('date_of_birth');
-            $table->integer('age');
-            $table->string('City');
-            $table->string('gender');
-            $table->text('bio')->nullable();
-            $table->integer('user_id');
-            $table->boolean('is_verified')->default(false);
+            $table->integer('genre_id');
+            $table->integer('script_id');
             $table->timestamps();
         });
     }
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('script_writers');
+        Schema::dropIfExists('sub_genre_script');
     }
 };

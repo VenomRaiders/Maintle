@@ -1,5 +1,7 @@
 <script setup>
 import { ref } from 'vue';
+import SuccessMessage from "@/Components/SuccessMessage.vue"
+import ErrorMessage from "@/Components/ErrorMessage.vue"
 
 const showSideBar = ref(true);
 function checkUserAgent() {
@@ -28,6 +30,8 @@ window.addEventListener('resize', checkUserAgent);
                 </button>
             </nav>
             <main class="w-full h-sceen rounded-tr-lg">
+                <SuccessMessage v-if="$page.props.flash.message"> {{$page.props.flash.message}} </SuccessMessage>
+                <ErrorMessage v-if="$page.props.flash.error"> {{$page.props.flash.error}} </ErrorMessage>
                 <slot />
             </main>
         </div>

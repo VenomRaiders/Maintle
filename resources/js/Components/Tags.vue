@@ -17,4 +17,10 @@ export default {
     font-weight: bold;
     border-radius: 5px;
 }
+
+@media only screen and (min-width: 535px) {
+  .tag-text {
+      font-size: 16px;
+    }
+}
 </style>

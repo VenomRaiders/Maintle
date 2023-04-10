@@ -21,7 +21,6 @@ class AuthenticatedSessionController extends Controller
     {
         return Inertia::render('Auth/Login', [
             'canResetPassword' => Route::has('password.request'),
-            'status' => session('status'),
         ]);
     }
 
@@ -32,9 +31,13 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
-        $request->session()->regenerate();
-
-        return redirect()->intended(RouteServiceProvider::HOME);
+        if(auth()->user()->role->name == "admin"){
+            return redirect()->intended('/admin');
+        }else if(auth()->user()->role->name == "investor"){
+            return redirect()->intended("/");
+        }else{
+            return redirect()->intended("/scriptwriter/dashboard");
+        }
     }
 
     /**
