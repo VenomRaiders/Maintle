@@ -11,3 +11,4 @@ import AccountBadge from '@/Components/AccountBadge.vue';
 <style>
 
 </style>
+

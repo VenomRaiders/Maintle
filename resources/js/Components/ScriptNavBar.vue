@@ -18,7 +18,6 @@ window.addEventListener('resize', checkUserAgent);
 
 <template>
   <main>
-    
     <section id="sw-nav" :class="{'hidden': !showSideBar}">
       <div class="sw-nav-items">
         <Link :href="route('home')" class="logo">
