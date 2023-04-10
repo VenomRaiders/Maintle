@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,8 @@ use App\Http\Controllers\ScriptWrittersController;
 */
 
 Route::get('/', [GeneralController::class, 'home'])->name('home');
+
+Route::get('/admin/dashboard', [AdminController::class, 'admin'])->name('admin');
 
 Route::group(['middleware' => ['auth','verified'], 'prefix' => 'scriptwriter', 'as'=>'scriptwriter.'], function(){
     Route::get("/dashboard", [ScriptWrittersController::class, "dashboard"])->name("dashboard");

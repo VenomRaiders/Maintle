@@ -85,9 +85,11 @@ export default {
 }
 
 .card .script-content {
+    width: inherit;
     max-height: 125px;
     text-overflow: ellipsis;
     overflow: hidden;
+    white-space: wrap;
 }
 
 /* Media queries for large screens */
