@@ -6,14 +6,14 @@ import AdminDashboardLayout from '@/Layouts/AdminDashboardLayout.vue';
 <template>
     <AdminDashboardLayout>
         <div class="body-wrapper">
-            Hello world this is some text
+            <h1>Admin Dashboard</h1>
         </div>
         
     </AdminDashboardLayout>
 </template>
 
 <style>
-.body-wrapper {
-    margin-top: 50px;
+h1 {
+    font-size: 20px;
 }
 </style>

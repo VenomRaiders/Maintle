@@ -1,7 +1,12 @@
 <script setup>
+
+function toggleNavBar() {
+    console.log('clicked')
+}
 </script>
 
 <template>
+    
     <div class="account-container">
         <div class="account-pic">
             <img src="/images/image.jpg" alt="profile picture">
@@ -19,18 +24,18 @@
 
 <style scoped>
 .account-container {
-    border: 1px solid red;
+    /* border: 1px solid red; */
     background-color: var(--primary-color);
-    border-radius: 7px;
+    border-radius: 5px;
     display: flex;
     align-items: center;
     width: fit-content;
-    padding: 5px;
+    padding: 12px 10px;
     color: white;
 }
 
 .account-container .account-info {
-    margin-left: 5px;
+    margin-left: 10px;
 }
 
 img {

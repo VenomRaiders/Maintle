@@ -84,12 +84,15 @@ export default {
     gap: 10px;
 }
 
-.card .script-content {
+.script-content {
     width: inherit;
     max-height: 125px;
+}
+
+.script-content p {
     text-overflow: ellipsis;
     overflow: hidden;
-    white-space: wrap;
+    white-space: nowrap;
 }
 
 /* Media queries for large screens */
