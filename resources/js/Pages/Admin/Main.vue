@@ -7,13 +7,21 @@ import AdminDashboardLayout from '@/Layouts/AdminDashboardLayout.vue';
     <AdminDashboardLayout>
         <div class="body-wrapper">
             <h1>Admin Dashboard</h1>
+            <hr class="st">
         </div>
         
     </AdminDashboardLayout>
 </template>
 
-<style>
-h1 {
-    font-size: 20px;
+<style scoped>
+
+.body-wrapper {
+    padding-top: 10px;
+}
+
+.st {
+    /* border-top: 3px solid linear-gradient(90deg, red); */
+    height: 5px;
+    background: linear-gradient(120deg, var(--primary-color), var(--alternate-color));
 }
 </style>

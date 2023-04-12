@@ -46,7 +46,7 @@ main {
 }
 #nav {
     height: 100%;
-    width: 250px;
+    width: 0;
     position: fixed;
     overflow-x: hidden;
     z-index: 1;
@@ -91,8 +91,8 @@ main {
 #nav-body {
     width: 100%;
     height: 100svh;
-    border: 1px solid orange;
     padding: 20px 20px;
+    background-color: var(--alternate-background-color);
 }
 
 .nav-top {
