@@ -23,7 +23,14 @@ use App\Http\Controllers\ScriptWrittersController;
 
 Route::get('/', [GeneralController::class, 'home'])->name('home');
 
-Route::get('/admin/dashboard', [AdminController::class, 'admin'])->name('admin');
+
+Route::group(['middleware', 'prefix' => 'admin', 'as'=>'admin.'], function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/scriptwriters', [AdminController::class, 'scriptwriters'])->name('scriptwriters');
+    Route::get('/projects', [AdminController::class, 'projects'])->name('projects');
+    Route::get('/catalog', [AdminController::class, 'catalog'])->name('catalog');
+    Route::get('/profile', [AdminController::class, 'admin_profile'])->name('admin_profile');
+});
 
 Route::group(['middleware' => ['auth','verified'], 'prefix' => 'scriptwriter', 'as'=>'scriptwriter.'], function(){
     Route::get("/dashboard", [ScriptWrittersController::class, "dashboard"])->name("dashboard");

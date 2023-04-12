@@ -1,6 +1,7 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
 import AccountBadge from "@/Components/AccountBadge.vue";
+import SuccessMessage from "@/Components/SuccessMessage.vue";
 
 function toggleNavBarOn() {
     document.getElementById("nav").style.width = "250px"
@@ -14,17 +15,26 @@ function toggleNavBarOff() {
 <template>
     <main>
         <section id="nav">
+            <div class="nav-image">
+                <Link :href="route('home')" class="logo">
+                    <img src="/images/maintle-logo.png" alt="maintle logo image"/>
+                </Link>
+            </div>
+            <!-- <Link :href="route('home')" class="logo"> -->
+            <!-- </Link> -->
             <a class="closebtn" @click="toggleNavBarOff()">&times;</a>
             <div class="nav-links">
-                <Link href="">Home</Link>
-                <Link href="">Projects</Link>
-                <Link href="">ScriptWriters</Link>
-                <Link href="">Catalog</Link>
-                <Link href="">My Profile</Link>
-                <Link href="">Logout</Link>
+                <Link :href="route('admin.dashboard')" :class="{'active': $page.url.startsWith('/admin/dashboard')}">Home</Link>
+                <Link :href="route('admin.projects')" :class="{'active': $page.url.startsWith('/admin/projects')}">Projects</Link>
+                <Link :href="route('admin.scriptwriters')" :class="{'active': $page.url.startsWith('/admin/scriptwriters')}">ScriptWriters</Link>
+                <Link :href="route('admin.catalog')" :class="{'active': $page.url.startsWith('/admin/catalog')}">Catalog</Link>
+                <Link :href="route('admin.admin_profile')" :class="{'active': $page.url.startsWith('/admin/profile')}">My Profile</Link>
+                <Link :href="route('logout')" method="post">Logout</Link>
             </div>
         </section>
         <section id="nav-body">
+            <SuccessMessage v-if="$page.props.flash.message"> {{$page.props.flash.message}} </SuccessMessage>
+            <ErrorMessage v-if="$page.props.flash.error"> {{$page.props.flash.error}} </ErrorMessage>
             <div class="nav-top">
                 <button class="toggle" @click="toggleNavBarOn()">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 25 24" stroke-width="1.5" stroke="currentColor" class="w-9 h-9">
@@ -35,7 +45,11 @@ function toggleNavBarOff() {
                     <img src="/images/maintle-logo.png" alt="maintle logo image"/>
                 </Link>
             </div>
-            <slot/>
+            <div class="body-wrapper">
+                <h1>Admin Dashboard</h1>
+                <hr class="st">
+                <slot/>
+            </div>
         </section>
     </main>
 </template>
@@ -44,6 +58,7 @@ function toggleNavBarOff() {
 main {
     display: flex;
 }
+
 #nav {
     height: 100%;
     width: 0;
@@ -52,10 +67,19 @@ main {
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: var(--primary-color);
+    background: linear-gradient(120deg, var(--primary-color), var(--alternate-color));
     color: var(--text-color);
     transition: 0.5s;
     padding-top: 70px;
+}
+
+.active {
+    background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+    font-size: 25px;
+}
+
+#nav .nav-image {
+    display: none;
 }
 
 #nav > .closebtn {
@@ -83,15 +107,17 @@ main {
     display: flex;
     width: 100%;
     padding: 15px 27px;
+    transition: 0.3s;
 }
 .nav-links a:hover {
-    background-color: var(--secondary-color);
+    background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+    font-size: 25px;
 }
 
 #nav-body {
     width: 100%;
-    height: 100svh;
-    padding: 20px 20px;
+    min-height: 100svh;
+    padding: 10px 20px;
     background-color: var(--alternate-background-color);
 }
 
@@ -112,4 +138,53 @@ main {
     height: inherit;
 }
 
+.body-wrapper {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.body-wrapper h1 {
+    line-height: 35px;
+}
+.st {
+    height: 5px;
+    background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+}
+
+/* Responsive media queries to scale to desktop size */
+
+@media only screen and (min-width: 690px) {
+    .body-wrapper h1 {
+        font-size: 18px;
+    }
+}
+
+
+@media only screen and (min-width: 1100px) {
+    #nav-body .nav-top {
+        display: none;
+    }
+    #nav {
+        min-width: 250px;
+        height: 100svh;
+        position: relative;
+        padding-top: 0;
+    }
+
+    #nav .closebtn {
+        display: none;
+    }
+
+    #nav .nav-image {
+        width: 100%;
+        display: flex;
+    }
+
+}
+
+@media only screen and (min-width: 1200px) {
+    .body-wrapper {
+        padding: 25px 30px;
+    }
+}
 </style>
