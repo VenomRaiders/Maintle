@@ -35,7 +35,7 @@ defineProps({
     border: 1px solid var(--primary-color);
     border-radius: 5px;
     padding: 18px 15px;
-    background: var(--secondary-color);
+    background: var(--primary-color);
     display: flex;
     justify-content: space-between;
 }
@@ -63,6 +63,7 @@ defineProps({
 @media only screen and (min-width: 1200px) {
     .card {
         line-height: 30px;
+        background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
     }
     .card > .card-details > h1 {
         font-size: 16px;
