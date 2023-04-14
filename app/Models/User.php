@@ -58,4 +58,19 @@ class User extends Authenticatable implements MustVerifyEmail
     public function scripts(): HasMany {
         return $this->hasMany(ScriptCollection::class, 'script_writer_id');
     }
+
+    public function is_admin(): bool {
+        return $this->role->name === "admin";
+    }
+    
+    public function is_investor(): bool {
+        return $this->role->name === "investor";
+    }
+
+    static public function allVerifiedScriptWriters() {
+        $script_writers_role_id = Role::where('name', 'user')->first()->id;
+        $script_writers = User::where('role_id', $script_writers_role_id)->with('scriptWriter')->get();
+
+        return $script_writers;
+    }
 }
