@@ -9,6 +9,8 @@ use Inertia\Inertia;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\ScriptWrittersController;
 
+use App\Models\User;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,6 +23,7 @@ use App\Http\Controllers\ScriptWrittersController;
 */
 
 Route::get('/', [GeneralController::class, 'home'])->name('home');
+Route::get('/scriptwriters', [GeneralController::class, 'script_writers'])->name('script_writters')->middleware(['auth', 'verified']);
 
 Route::group(['middleware' => ['auth','verified'], 'prefix' => 'scriptwriter', 'as'=>'scriptwriter.'], function(){
     Route::get("/dashboard", [ScriptWrittersController::class, "dashboard"])->name("dashboard");
@@ -37,10 +40,9 @@ Route::group(['middleware' => ['auth', 'verified','is_investor'], 'prefix' => 'i
 });
 
 Route::get('/dashboard', function () {
-    error_log(auth()->user()->role->name);
-    if(auth()->user()->role->name == "admin"){
+    if(auth()->user()->is_admin()){
         return redirect()->intended('/admin');
-    }else if(auth()->user()->role->name == "investor"){
+    }else if(auth()->user()->is_investor()){
         return redirect()->intended("/investor/dashboard");
     }else{
         return redirect()->intended("/scriptwriter/dashboard");
