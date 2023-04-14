@@ -29,17 +29,19 @@ Route::group(['middleware' => ['auth','verified'], 'prefix' => 'scriptwriter', '
     Route::get("/statistics", [ScriptWrittersController::class, "statistics"])->name("statistics");
 });
 
-Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'investor', 'as' => 'investor.'],function () {
+// Investors only routes
+Route::group(['middleware' => ['auth', 'verified','is_investor'], 'prefix' => 'investor', 'as' => 'investor.'],function () {
     Route::get('/dashboard', function(){
         return Inertia::render('Investor/Index');
     })->name('dashboard');
 });
 
 Route::get('/dashboard', function () {
+    error_log(auth()->user()->role->name);
     if(auth()->user()->role->name == "admin"){
         return redirect()->intended('/admin');
     }else if(auth()->user()->role->name == "investor"){
-        return redirect()->intended("/");
+        return redirect()->intended("/investor/dashboard");
     }else{
         return redirect()->intended("/scriptwriter/dashboard");
     }
