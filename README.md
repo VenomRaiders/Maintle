@@ -1,7 +1,7 @@
 ![Getting Started](./blobs/maintle-logo.png)
 
 
-## MAINTLE PROJECT Description
+## Description
 Maintle is an online movie script business where potential buyers can visit this site and purchase high quality movie scripts. It also comes packaged with an admin dashboard fully equiped to assist the Maintle team in getting the best possible results
 
 
@@ -155,11 +155,63 @@ Maintle is an online movie script business where potential buyers can visit this
     2. `storage/framework`<br>
         Stores the cache, sessions, tests results, and views of the Maintle application in development and production as well
 
-- This serves the application.
-'''cmd
-php artisan serve
-'''
+- `tests` <br>
+    Contains Unit tests and integrations test for Maintle application. [Check here](#testing) on how to run tests coverages for Maintle
 
-## Structure
-- Coming soon
- 
+## Running Maintle Locally (**On Windows**)
+There are a few things you have to do to be able to run maintle locally on your machine. This guide will give you a step by step proceedure on how to run this setup Maintle locally! 
+
+### Requirements
++ [Node.js](https://nodejs.org/en)
++ [Xampp](https://www.apachefriends.org/) <br>
+Once you have Node and Xampp installed, follow the Guide from the laravel official docs on how to install **Composer** and **Laravel** <br>
+    - [Composer + Laravel Installation Guide](https://laravel.com/docs/4.2#install-composer)
+
+
+1. ### Clone this repository <br>
+    `Create a new folder and open a terminal window in the new folder`
+    ```cmd
+    git clone https://github.com/VenomRaiders/Maintle.git
+    cd Maintle
+    ```
+
+2. Copy the contents of `.env.dev` file and paste it in `.env` to add all
+    default Maintle configurations. Or simply rename `.env.dev` too `.env`.
+
+3. ### Install required packages using npm
+    ```cmd
+    npm install
+    ```
+4. ### Setup local database server
+    Open **Xampp** and make sure the following options are toggled as show in the image below
+
+    ![Xampp Off](./blobs/xampp-off.png) 
+    ![Xampp Off](./blobs/xampp-on.png)
+
+5. ### Configure php artisan
+    ```cmd
+    php artisan migrate
+    php artisan db:seed
+    php artisan storage:link
+    ```
+    In case of a new table changes, in place of `php artisan migrate`, enter `php artisan migrate:fresh` to pull most recent table changes
+    and then proceed to the rest of the commands
+
+6. ### Start server
+    Open up two terminal windows in the same directory and type the follo wing in:
+    - `Terminal 1`
+        ```cmd
+        php artisan serve
+        ```
+    - `Terminal 2`
+        ```cmd
+        npm run dev
+        ```
+    Server will be running on https://localhost:8000/
+
+
+## Testing
+This section will be updated once the test cases are written and properly handled. Until then, we just Inshallah the code base! Haha!!!
+
+
+[Back to Top](#description)
