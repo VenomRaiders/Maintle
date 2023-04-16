@@ -24,6 +24,7 @@ use App\Models\User;
 */
 
 Route::get('/', [GeneralController::class, 'home'])->name('home');
+Route::get('/scripts', [GeneralController::class, 'scripts'])->name('scripts');
 Route::get('/scriptwriters', [GeneralController::class, 'script_writers'])->name('script_writters')->middleware(['auth', 'verified']);
 
 

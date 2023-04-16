@@ -19,8 +19,8 @@ const role = computed(() => usePage().props.auth.role)
                 </svg>
             </button>
             <div id="links" :class="{'hidden md:flex': !showMobileNav}" class="flex flex-col md:flex-row md:space-x-8 items-center py-2 text-md">
-                <Link href="" class="text-white uppercase">Home</Link>
-                <Link href="" class="text-white uppercase">Scripts</Link>
+                <Link :href="route('home')" class="text-white uppercase">Home</Link>
+                <Link :href="route('scripts')" class="text-white uppercase">Scripts</Link>
                 <Link href="" class="text-white uppercase">Projects</Link>
                 <Link href="" class="text-white uppercase">About us</Link>
                 <Link href="" class="text-white uppercase">Blog</Link>
