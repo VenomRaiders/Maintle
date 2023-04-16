@@ -18,7 +18,6 @@ window.addEventListener('resize', checkUserAgent);
 
 <template>
   <main>
-    
     <section id="sw-nav" :class="{'hidden': !showSideBar}">
       <div class="sw-nav-items">
         <Link :href="route('home')" class="logo">
@@ -63,7 +62,7 @@ window.addEventListener('resize', checkUserAgent);
 /* Mobile view 300px - 1199px */
 
 main {
-  background-color: var(--text-color);
+  background-color: var(--primary-color);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -76,6 +75,7 @@ main {
   border-radius: 3px;
   font-size: 20px;
   transition: ease-in 0.5s ease;
+  color: var(--text-color);
 }
 
 .sw-nav-items a {
@@ -104,13 +104,12 @@ main {
 }
 
 .active {
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
   color: var(--text-color);
 }
 
 #sw-nav li:hover {
   background-color: var(--alternate-color);
-  color: var(--text-color);
 }
 
 #sw-body {
@@ -140,6 +139,7 @@ main {
 
   #sw-body {
     height: 100vh;
+    overflow-y: auto;
   }
 
   #sw-nav {
