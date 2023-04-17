@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Rave\Rave;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -72,5 +73,52 @@ class User extends Authenticatable implements MustVerifyEmail
         $script_writers = User::where('role_id', $script_writers_role_id)->with('scriptWriter')->get();
 
         return $script_writers;
+    }
+
+    public function makePayment($amount, $script_id) {
+        $reference = Rave::generateReference();
+        $script = ScriptCollection::find($script_id);
+
+        $payment_ref = ProcessingPayment::create([
+            'reference' => $reference,
+            'user_id' => $this->id,
+            'script_id' => $script_id,
+            'amount' => $amount
+        ]);
+
+        $rave = new Rave();
+
+        $data = [
+            'amount' => $amount,
+            'email' => $this->email,
+            'tx_ref' => $reference,
+            'currency' => "XAF",
+            'redirect_url' => route('payment_callback'),
+            'customer' => [
+                'email' => $this->email,
+                "phone_number" => $this->phonenumber,
+                "name" => $this->username
+            ],
+
+            "customizations" => [
+                "title" => "Script Payment",
+                "description" => "Payment for ". $script->script_title,
+            ]
+        ];
+
+        $payment = $rave->initializePayment($data);
+
+        return $payment;
+    }
+
+    // called when payment processed sucqcessfully
+    public function buyScript($script_id, $amount) {
+        $script = ScriptCollection::find($script_id);
+        ScriptsBought::create([
+            'script_id' => $script_id,
+            'user_id' => $this->id,
+            'amount' => $amount
+        ]);
+        $script->update(['is_bought' => true]);
     }
 }

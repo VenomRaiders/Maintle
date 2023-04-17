@@ -1,13 +1,14 @@
 <script setup>
-import { Head, Link } from "@inertiajs/vue3"
+import { Head, Link, usePage, router } from "@inertiajs/vue3"
+import { computed } from "vue"
 import NavBar from "@/Components/NavBar.vue"
-import ScriptsCard from '@/Components/ScriptsCard.vue';
 import StandardButton from '@/Components/StandardButton.vue';
 
 const props = defineProps(['scripts'])
+const user = computed(() => usePage().props.auth.user)
 
 function buyScript(id){
-    console.log(id)
+    router.post('/scripts/buy', {script_id: id})
 }
 
 </script>
@@ -26,8 +27,9 @@ function buyScript(id){
                         <img :src="'/storage/'+script.poster_image" alt="Script offical blopper image" style="width:100%">
                         <Link href="#" as="div" class="shadow-md cursor-pointer p-2">
                             <h1 class="my-2 font-bold text-2xl">{{ script.script_title }}</h1>
-                            <p>{{ script.script_synopsis }}</p>
-                            <StandardButton text="Buy" @click.prevent="buyScript(script.id)" />
+                            <p class="mb-2">{{ script.script_synopsis }}</p>
+                            <StandardButton v-if="1" text="Buy" @click.prevent="buyScript(script.id)" />
+                            <Link href="/login?next=/scripts" v-else class="bg-primary p-2 rounded-md text-white">Login to buy</Link>
                         </Link>
                     </div>
                 </div>
