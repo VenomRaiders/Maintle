@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Rave\Rave;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PaymentConfirmationMail;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -120,5 +122,7 @@ class User extends Authenticatable implements MustVerifyEmail
             'amount' => $amount
         ]);
         $script->update(['is_bought' => true]);
+
+        Mail::to($this->email)->send(new PaymentConfirmationMail($script));
     }
 }
