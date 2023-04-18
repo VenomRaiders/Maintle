@@ -21,7 +21,7 @@ defineProps({
 
 <template>
     <button v-if="!isLink" class="btn">{{ text }}</button>
-    <Link v-else :href="href" class="soms">{{ text }}</Link>
+    <Link v-else :href="href" class="btn">{{ text }}</Link>
 </template>
 
 <style scoped>

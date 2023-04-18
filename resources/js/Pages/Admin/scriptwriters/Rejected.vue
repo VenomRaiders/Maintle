@@ -4,6 +4,6 @@ import ScriptwritersAdmin from "@/Components/ScriptwritersAdmin.vue";
 
 <template>
 <ScriptwritersAdmin>
-    Click any tab above to view the scripts
+    Rejected Page
 </ScriptwritersAdmin>
 </template>

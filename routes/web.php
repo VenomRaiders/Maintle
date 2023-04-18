@@ -30,6 +30,10 @@ Route::group(['middleware', 'prefix' => 'admin', 'as'=>'admin.'], function () {
     Route::get('/projects', [AdminController::class, 'projects'])->name('projects');
     Route::get('/catalog', [AdminController::class, 'catalog'])->name('catalog');
     Route::get('/profile', [AdminController::class, 'admin_profile'])->name('admin_profile');
+    Route::get('/scriptwriters/all_scripts', [AdminController::class, 'all_scripts'])->name('all_scripts');
+    Route::get('/scriptwriters/pending', [AdminController::class, 'scripts_pending'])->name('scripts_pending');
+    Route::get('/scriptwriters/approved', [AdminController::class, 'scripts_approved'])->name('scripts_approved');
+    Route::get('/scriptwriters/rejected', [AdminController::class, 'scripts_rejected'])->name('scripts_rejected');
 });
 
 Route::group(['middleware' => ['auth','verified'], 'prefix' => 'scriptwriter', 'as'=>'scriptwriter.'], function(){

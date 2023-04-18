@@ -2,6 +2,7 @@
 import { Link } from "@inertiajs/vue3";
 import AccountBadge from "@/Components/AccountBadge.vue";
 import SuccessMessage from "@/Components/SuccessMessage.vue";
+import ErrorMessage from "@/Components/ErrorMessage.vue";
 
 const props = defineProps(['tab'])
 
@@ -58,7 +59,7 @@ function toggleNavBarOff() {
                     :class="{ active: $page.url.startsWith('/admin/profile') }"
                     ><i class="fa-solid fa-user"></i> My Profile</Link
                 >
-                <Link :href="route('logout')" method="post">
+                <Link :href="route('logout')" method="post" as="button">
                     <i class="fa-sharp fa-solid fa-door-open"></i> Logout
                 </Link>
             </div>
@@ -160,7 +161,7 @@ main {
     align-items: center;
 }
 
-.nav-links a {
+.nav-links a, .nav-links button {
     display: flex;
     align-items: center;
     width: 100%;
@@ -168,12 +169,12 @@ main {
     transition: 0.3s;
 }
 
-.nav-links a > i {
+.nav-links a > i, .nav-links button > i {
     font-size: 15px;
     margin-right: 10px;
 }
 
-.nav-links a:hover, .nav-links a > i:hover {
+.nav-links a:hover, .nav-links button:hover {
     background: linear-gradient(
         120deg,
         var(--primary-color),
