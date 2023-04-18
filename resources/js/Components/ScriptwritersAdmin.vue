@@ -71,6 +71,7 @@ import { Link } from "@inertiajs/vue3";
   width: 100%;
   border-radius: 0px;
   transition: 0.3s;
+  font-size: 13px;
 }
 
 .tab-buttons .btn:hover {
@@ -93,7 +94,8 @@ import { Link } from "@inertiajs/vue3";
     margin-top: 40px;
     /* border: 1px solid red; */
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    gap: 20px;
     flex-wrap: wrap;
 }
 
