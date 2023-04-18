@@ -1,147 +1,118 @@
 <script setup>
-import StandardButton from './StandardButton.vue';
-import Tags from './Tags.vue';
+import StandardButton from "./StandardButton.vue";
+import Tags from "./Tags.vue";
 
-defineProps({
-    stitle: {
-        type: String,
-    },
-    body: {
-        type: String,
-    }
-}) 
+// defineProps({
+//     stitle: {
+//         type: String,
+//     },
+//     body: {
+//         type: String,
+//     },
+// });
 </script>
 
 <template>
-<div class="card">
-    <slot/>
-  <div class="container">
-    <h4><b>{{ stitle }}</b></h4>
-    <div class="script-tags">
-        <Tags v-for="genre in genres" :key="genre.id" :text="genre.genre"/>
+    <div class="card">
+        <div class="col-1">
+            <img src="/images/image.jpg" alt="script image" />
+        </div>
+        <div class="col-2">
+            <div class="card-body">
+                <h1>The Uncharted sea</h1>
+                <Tags text="Funk" />
+                <Tags text="Funk" />
+                <p>
+                    This is some data that was added in here to test the script
+                </p>
+            </div>
+            <div class="card-buttons">
+                <StandardButton class="reject" text="Reject" />
+                <StandardButton text="View" />
+            </div>
+        </div>
     </div>
-    <div class="script-content">
-        <p>{{ body }}</p>
-    </div>
-    <div class="buttons">
-        <StandardButton text="View"/>
-        <StandardButton text="Edit"/>
-    </div>
-  </div>
-</div>
 </template>
 
-<style>
+<style scoped>
 /* default mobile styling */
 
-.card img {
-    height: 200px;
-    object-fit: fill;
+.reject {
+    background-color: transparent;
+    color: black;
+    border: 1px solid var(--border-color)
 }
 
+.reject:hover {
+    background-color: var(--danger-color);
+    color: var(--text-color);
+}
 .card {
-    flex: 1;
-    background-color: var(--text-color);
-    box-shadow: 0 4px 8px 0 var(--shadow-color);
-    transition: 0.5s;
-    border-radius: 10px;
-    width: 290px;
-}
-
-.card:hover {
-    box-shadow: 0 8px 16px 0 var(--shadow-color);
-}
-
-.card .container {
-    padding: 7px 16px;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    height: 150px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    background-color: white;
+    border-radius: 5px;
 }
 
-.buttons {
-    display: flex;
-    gap: 10px;
-    font-size: 14px;
-}
-
-.buttons .btn {
-    min-width: 0; /* reset the default width */
-    width: 50px;
-    height: 40px;
-}
-
-.container div {
-    margin-bottom: 7px;
-}
-
-.card h4 {
+.card h1 {
     font-weight: bold;
-    font-size: 18px;
 }
 
-.card .script-tags {
-    display: flex;
-    gap: 10px;
+.col-1 {
+    min-width: 30%;
+    width: 40%;
 }
 
-.script-content {
-    width: inherit;
-    max-height: 125px;
+.col-1 img {
+    width: 100%;
+    background-size: contain;
+    height: 100%;
 }
 
-.script-content p {
+.col-2 {
+    width: 100%;
+    position: relative;
+}
+.card-body {
+    padding: 7px 12px;
+}
+
+.card-body p {
+    margin-top: 5px;
+    font-size: 14px;
+    width: 300px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
 }
 
-/* Media queries for large screens */
-
-/*  450px */
-@media only screen and (min-width: 450px) {
-  .card img {
-    height: 320px;
-  }
+.card-buttons {
+    width: 100%;
+    padding: 9px 12px;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: flex-end;
 }
 
-/*  450px */
+.card-buttons .btn {
+    font-size: 13px;
+    height: 35px;
+    margin-right: 10px;
+}
+
+.tag-text {
+    font-size: 13px;
+}
+
+/* Scaling for desktop versions */
+
+/* overide the default growth size on this screen size */
 @media only screen and (min-width: 535px) {
-    p {
-        font-size: 16px;
+  .tag-text {
+      font-size: 13px;
     }
-
-    .card img {
-        height: 400px;
-    }
-    .card h4 {
-        font-size: 22px;
-    }
-}
-
-/* 1200px -> 1700px */
-@media only screen and (min-width: 1200px) { 
-  .all-scripts {
-    max-height: 590px;
-    overflow-y: clip;
-  }
-  .all-scripts .card {
-    margin-right: 5px;
-    margin-bottom: 5px;
-  }
-
-  .card img {
-    height: 300px;
-  }
-  
-  .all-scripts .card {
-    flex-grow: 0.5;
-  }
-
-  .buttons .btn {
-    width: 60px;
-    height: 45px;
-    font-size: 17px;
-  }
 }
 </style>
