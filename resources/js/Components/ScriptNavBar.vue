@@ -28,9 +28,6 @@ window.addEventListener('resize', checkUserAgent);
           <Link :href="route('scriptwriter.dashboard')" as="li" :class="{'active': $page.url.startsWith('/scriptwriter/dashboard')}" class="cursor-pointer">
             My Scripts
           </Link>
-          <Link :href="route('scriptwriter.statistics')" as="li" :class="{'active': $page.url.startsWith('/scriptwriter/statistics')}" class="cursor-pointer">
-            Statistics
-          </Link>
         </ul>
 
         <div class="sw-nav-footer">
@@ -104,8 +101,12 @@ main {
 }
 
 .active {
-  background-color: var(--secondary-color);
-  color: var(--text-color);
+    background: linear-gradient(
+        120deg,
+        var(--primary-color),
+        var(--secondary-color)
+    );
+    font-size: 25px;
 }
 
 #sw-nav li:hover {
@@ -135,6 +136,11 @@ main {
 
   main {
     flex-direction: row;
+    background: linear-gradient(
+        390deg,
+        var(--primary-color),
+        var(--alternate-color)
+    );
   }
 
   #sw-body {

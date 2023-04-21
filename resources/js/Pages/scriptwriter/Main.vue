@@ -14,20 +14,25 @@ const props = defineProps(['scripts'])
     </div>
     <div class="all-scripts">
       <ScriptsCard v-for="script in scripts" :key="script.id" 
-        :stitle= "script.script_title"
-        :body="script.script_synopsis"
-        :genres="script.genres"
+      :stitle= "script.script_title"
+      :body="script.script_synopsis"
+      :genres="script.genres"
       >
       <img :src="'/storage/'+script.poster_image" alt="Script offical blopper image" style="width:100%">
-      </ScriptsCard>
-      
-      
+    </ScriptsCard>
+    
+    <p v-if="scripts">No Scripts Have been Added</p>
+    
     </div>
   </ScriptNavBar>
 
 </template>
 
 <style scoped>
+
+.btn {
+  width: fit-content;
+}
 .all-scripts {
   margin-top: 30px;
   width: 100%;

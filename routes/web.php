@@ -39,7 +39,6 @@ Route::group(['middleware' => ['auth','verified'], 'prefix' => 'scriptwriter', '
     Route::get("/dashboard", [ScriptWrittersController::class, "dashboard"])->name("dashboard");
     Route::get("/add_script", [ScriptWrittersController::class, "add_script"])->name("add_script");
     Route::post("/add_script", [ScriptWrittersController::class, "save_script"])->name("add_script.posts");
-    Route::get("/statistics", [ScriptWrittersController::class, "statistics"])->name("statistics");
 });
 
 Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'investor', 'as' => 'investor.'],function () {

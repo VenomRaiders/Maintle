@@ -15,17 +15,12 @@ defineProps({
   href: {
     type: String,
     default: "#"
-  },
-  xyz: {
-    type: Boolean,
-    default: false
   }
 });
 </script>
 
 <template>
     <button v-if="!isLink" class="btn">{{ text }}</button>
-    <a v-else-if="!xyz">{{ text }}</a>
     <Link v-else :href="href" class="btn">{{ text }}</Link>
 </template>
 
