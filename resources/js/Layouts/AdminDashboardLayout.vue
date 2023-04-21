@@ -50,11 +50,6 @@ function toggleNavBarOff() {
                     ><i class="fa-solid fa-scroll"></i> ScriptWriters</Link
                 >
                 <Link
-                    :href="route('admin.catalog')"
-                    :class="{ active: $page.url.startsWith('/admin/catalog') }"
-                    ><i class="fa-solid fa-layer-group"></i> Catalog</Link
-                >
-                <Link
                     :href="route('admin.admin_profile')"
                     :class="{ active: $page.url.startsWith('/admin/profile') }"
                     ><i class="fa-solid fa-user"></i> My Profile</Link
