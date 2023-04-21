@@ -28,15 +28,17 @@ Route::group(['middleware', 'prefix' => 'admin', 'as'=>'admin.'], function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/scriptwriters', [AdminController::class, 'scriptwriters'])->name('scriptwriters');
     Route::get('/projects', [AdminController::class, 'projects'])->name('projects');
-    Route::get('/catalog', [AdminController::class, 'catalog'])->name('catalog');
     Route::get('/profile', [AdminController::class, 'admin_profile'])->name('admin_profile');
+    Route::get('/scriptwriters/all_scripts', [AdminController::class, 'all_scripts'])->name('all_scripts');
+    Route::get('/scriptwriters/pending', [AdminController::class, 'scripts_pending'])->name('scripts_pending');
+    Route::get('/scriptwriters/approved', [AdminController::class, 'scripts_approved'])->name('scripts_approved');
+    Route::get('/scriptwriters/rejected', [AdminController::class, 'scripts_rejected'])->name('scripts_rejected');
 });
 
 Route::group(['middleware' => ['auth','verified'], 'prefix' => 'scriptwriter', 'as'=>'scriptwriter.'], function(){
     Route::get("/dashboard", [ScriptWrittersController::class, "dashboard"])->name("dashboard");
     Route::get("/add_script", [ScriptWrittersController::class, "add_script"])->name("add_script");
     Route::post("/add_script", [ScriptWrittersController::class, "save_script"])->name("add_script.posts");
-    Route::get("/statistics", [ScriptWrittersController::class, "statistics"])->name("statistics");
 });
 
 Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'investor', 'as' => 'investor.'],function () {

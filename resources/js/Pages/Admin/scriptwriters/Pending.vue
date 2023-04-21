@@ -1,9 +1,11 @@
 <script setup>
 import ScriptwritersAdmin from "@/Components/ScriptwritersAdmin.vue";
+import AdminScriptsCard from "@/Components/AdminScriptsCard.vue";
+
 </script>
 
 <template>
 <ScriptwritersAdmin>
-    <p>Click any tab above to view the scripts</p>
+    <AdminScriptsCard></AdminScriptsCard>
 </ScriptwritersAdmin>
 </template>

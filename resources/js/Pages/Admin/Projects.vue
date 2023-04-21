@@ -6,7 +6,7 @@ import StatsCard from "@/Components/StatsCard.vue";
 <template>
     <AdminDashboardLayout>
         <div class="content">
-         
+               
         </div>
     </AdminDashboardLayout>
 </template>
