@@ -22,4 +22,12 @@ class GeneralController extends Controller
         $script_writers = User::allVerifiedScriptWriters();
         return Inertia::render('ScriptWriters', ['scriptWriters' => $script_writers, 'okay'=> 'okay']);
     }
+
+    public function script_details($id){
+        $admin_contact = env('ADMIN_CONTACT');
+        $script = ScriptCollection::find($id);
+        $genres = $script->genres;
+        $sub_genres = $script->subGenres;
+        return Inertia::render('ScriptDetails', ['script' => $script,'admin_contact' => $admin_contact]);
+    }
 }

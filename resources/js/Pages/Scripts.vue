@@ -25,11 +25,13 @@ function buyScript(id){
                 <div class="flex space-x-4 flex-wrap">
                     <div v-for="script in scripts" :key="script.id" class="w-96">
                         <img :src="'/storage/'+script.poster_image" alt="Script offical blopper image" style="width:100%">
-                        <Link href="#" as="div" class="shadow-md cursor-pointer p-2">
+                        <Link :href="route('script_details', script.id)" as="div" class="shadow-md cursor-pointer p-2">
                             <h1 class="my-2 font-bold text-2xl">{{ script.script_title }}</h1>
                             <p class="mb-2">{{ script.script_synopsis }}</p>
-                            <StandardButton v-if="1" text="Buy" @click.prevent="buyScript(script.id)" />
-                            <Link href="/login?next=/scripts" v-else class="bg-primary p-2 rounded-md text-white">Login to buy</Link>
+                            <div class="flex space-x-2">
+                                <StandardButton text="View"/>
+                                <StandardButton text="Buy" @click.prevent="buyScript(script.id)" />
+                            </div>
                         </Link>
                     </div>
                 </div>
