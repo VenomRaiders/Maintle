@@ -98,7 +98,8 @@ function submitForm(){
   <ScriptNavBar>
 
     <div class="">
-        <h1 class="text-center text-2xl uppercase font-bold">Create a new script</h1>
+        <h1 v-if="$page.url == '/scriptwriter/first_script'" class="text-center text-2xl uppercase font-bold">Upload your first script for review</h1>
+        <h1 v-else class="text-center text-2xl uppercase font-bold">Create a new script</h1>
         <form @submit.prevent="submitForm" class="mt-4">
           <div class="flex flex-col space-y-4 md:flex-row justify-between">
             <div class="w-full md:w-2/4 px-2 mb-2">

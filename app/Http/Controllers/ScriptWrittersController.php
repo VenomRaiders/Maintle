@@ -82,4 +82,16 @@ class ScriptWrittersController extends Controller
     public function statistics(){
         return Inertia::render('scriptwriter/Statistics');
     }
+
+    public function first_script(){
+        $user = auth()->user();
+        $user_script_count = $user->scripts->count();
+
+        if($user_script_count < 1){
+            $genres = Genre::all();
+            return Inertia::render('scriptwriter/AddScript', ["genres" => $genres]);
+        }
+
+        return Inertia::render('scriptwriter/AccountInReview');
+    }
 }

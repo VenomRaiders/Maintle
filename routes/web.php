@@ -44,11 +44,13 @@ Route::group(['middleware', 'prefix' => 'admin', 'as'=>'admin.'], function () {
     Route::get('/scriptwriters/rejected', [AdminController::class, 'scripts_rejected'])->name('scripts_rejected');
 });
 
-Route::group(['middleware' => ['auth','verified'], 'prefix' => 'scriptwriter', 'as'=>'scriptwriter.'], function(){
+Route::group(['middleware' => ['auth','verified','is_verified_script_writter'], 'prefix' => 'scriptwriter', 'as'=>'scriptwriter.'], function(){
     Route::get("/dashboard", [ScriptWrittersController::class, "dashboard"])->name("dashboard");
     Route::get("/add_script", [ScriptWrittersController::class, "add_script"])->name("add_script");
     Route::post("/add_script", [ScriptWrittersController::class, "save_script"])->name("add_script.posts");
 });
+
+Route::get("/scriptwriter/first_script", [ScriptWrittersController::class, "first_script"])->middleware(['auth','verified'])->name("first_script");
 
 // Investors only routes
 Route::group(['middleware' => ['auth', 'verified','is_investor'], 'prefix' => 'investor', 'as' => 'investor.'],function () {
