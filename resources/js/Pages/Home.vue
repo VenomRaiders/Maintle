@@ -16,13 +16,19 @@ import NavBar from "@/Components/NavBar.vue"
             </div>
         </div>
 
-        <section class="container mx-auto py-8 pr-2 md:pr-0 flex flex-col items-end space-y-4">
+        <section id="utils" class="container mx-auto py-8 pr-2 md:pr-0 flex flex-col items-end space-y-4">
             <Link href="#" class="bg-green-300 text-white font-bold rounded-md py-2 text-center w-60">become an investor</Link>
             <Link href="#" class="bg-green-300 text-white font-bold rounded-md py-2 text-center w-60">become a scriptwriter</Link>
         </section>
 
-        <section class="w-3/5 md:w-2/5 py-10 md:py-16 bg-black bg-opacity-70 flex flex-col items-center justify-center">
+        <section id="utils-2" class="w-3/5 md:w-2/5 py-10 md:py-16 bg-black bg-opacity-70 flex flex-col items-center justify-center">
             <Link href="#" class="bg-green-300 text-white font-bold rounded-md py-2 px-4 text-center">browse scripts & projects</Link>
         </section>
     </div>
 </template>
+
+<style scoped>
+#utils a, #utils-2 a {
+    background-color: var(--primary-color);
+}
+</style>
