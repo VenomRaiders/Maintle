@@ -32,7 +32,7 @@ class ScriptWrittersController extends Controller
             'subGenre' => 'required',
             'castSize' => 'required',
             'location' => 'required',
-            'copyright' => 'any|json',
+            'copyright' => 'nullable',
             'movie_format' => 'required',
             'target_audience' => 'required',
             'motivation' => 'required',
