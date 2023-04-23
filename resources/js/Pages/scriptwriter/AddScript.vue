@@ -35,8 +35,8 @@ const form = useForm({
   "relevance": "",
   "origin": "",
   "scriptDocument": null,
-  "mainGenre": "",
-  "subGenre": "",
+  "mainGenre": [],
+  "subGenre": [],
   "movieFormat": "",
   "castSize": "",
   "location": "",
@@ -51,16 +51,20 @@ const form = useForm({
 
 function addLeadRole() {
   leadRoles.values.push({
-    name: singleLeadRole.name,
+    realName: singleLeadRole.realName,
+    characterName: singleLeadRole.characterName,
+    gender: singleLeadRole.gender,
     socialMediaHandle: singleLeadRole.socialMediaHandle
   })
-  singleLeadRole.name = ""
+  singleLeadRole.realName = ""
+  singleLeadRole.characterName = ""
+  singleLeadRole.gender = ""
   singleLeadRole.socialMediaHandle = ""
 }
 
 function removeLeadRole(leadrole) {
   let newLeadRoles = leadRoles.values.filter((role) => {
-    return role.name != leadrole.name
+    return role.realName != leadrole.realName
   })
   leadRoles.values = newLeadRoles
 }
@@ -136,8 +140,8 @@ function submitForm(){
 
               <div class="form-group mb-2">
                 <label for="origin" class="font-bold text-2xl">Origin of the idea</label> <br />
-                <textarea name="" v-model="form.origin" id="origin" class="w-full bg-[#7dd1b8] rounded-md text-white"></textarea>
-                <ErrorMessage v-if="form.errors.origin">{{ form.errors.origin }}</ErrorMessage>
+                <textarea name="" v-model="form.story_origin" id="origin" class="w-full bg-[#7dd1b8] rounded-md text-white"></textarea>
+                <ErrorMessage v-if="form.errors.story_origin">{{ form.errors.story_origin }}</ErrorMessage>
               </div>
 
               <div class="form-group">
@@ -148,7 +152,7 @@ function submitForm(){
 
               <div class="form-group">
                 <label for="mainGenre" class="font-bold text-2xl">Main Genre</label> <br />
-                <select v-model="form.mainGenre" name="mainGenre" id="mainGenre" multiple>
+                <select v-model="form.mainGenre" name="mainGenre" id="mainGenre" class="w-full" multiple>
                   <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{ genre.genre }}</option>
                 </select>
                 <ErrorMessage v-if="form.errors.mainGenre">{{ form.errors.mainGenre }}</ErrorMessage>
@@ -156,7 +160,7 @@ function submitForm(){
 
               <div class="form-group">
                 <label for="subGenre" class="font-bold text-2xl">Sub Genre</label> <br />
-                <select v-model="form.subGenre" name="subGenre" id="subGenre" multiple>
+                <select v-model="form.subGenre" name="subGenre" id="subGenre" class="w-full" multiple>
                   <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{ genre.genre }}</option>
                 </select>
                 <ErrorMessage v-if="form.errors.subGenre">{{ form.errors.subGenre }}</ErrorMessage>
@@ -164,13 +168,14 @@ function submitForm(){
 
               <div class="form-group">
                 <label for="movieFormat" class="font-bold text-2xl">Movie Format</label> <br />
-                <select v-model="form.movieFormat" name="movieFormat" id="movieFormat">
+                <select v-model="form.movie_format" name="movie_format" id="movie_format" class="w-full" required>
+                  <option value="" selected disabled>- Select movie format -</option>
                   <option value="Feature Movie">Feature Movie</option>
                   <option value="Short Film">Short Film</option>
                   <option value="Documentary">Documentary</option>
                   <option value="Series">Series</option>
                 </select>
-                <ErrorMessage v-if="form.errors.movieFormat">{{ form.errors.movieFormat }}</ErrorMessage>
+                <ErrorMessage v-if="form.errors.movie_format">{{ form.errors.movie_format }}</ErrorMessage>
               </div>
 
               <div class="form-group">
@@ -181,28 +186,39 @@ function submitForm(){
 
               <div class="form-group">
                 <label for="location" class="font-bold text-2xl">Cast location</label> <br />
-                <input type="number" v-model="form.location" placeholder="- select a value size -" class="w-full bg-white border-1 border-gray-400 rounded-md text-black" name="location" id="location">
+                <input type="number" v-model="form.location" placeholder="- select a value size -" class="w-full bg-white border-1 border-gray-400 rounded-md text-black" name="location" id="location" required>
                 <ErrorMessage v-if="form.errors.location">{{ form.errors.location }}</ErrorMessage>
               </div>
 
               <div class="form-group">
                 <label for="targetAudience" class="font-bold text-2xl">Target Audience</label> <br />
-                <select v-model="form.targetAudience" name="targetAudience" id="targetAudience">
+                <select v-model="form.target_audience" name="target_audience" id="target_audience" class="w-full" required>
+                  <option value="" selected disabled>- Select target audience -</option>
                   <option value="Children">Children</option>
                   <option value="Adolescent">Adolescent</option>
                   <option value="Adult">Adult</option>
                   <option value="Aged">Aged</option>
                 </select>
-                <ErrorMessage v-if="form.errors.mainGenre">{{ form.errors.mainGenre }}</ErrorMessage>
+                <ErrorMessage v-if="form.errors.target_audience">{{ form.errors.target_audience }}</ErrorMessage>
               </div>
             </div>
             <div class="w-full md:w-2/4">
-              <div class="form-group mb-2">
+              <div class="form-group mb-8">
+                <ErrorMessage v-if="form.errors.copyright">{{ form.errors.copyright }}</ErrorMessage>
                 <div class="flex justify-between items-center">
                   <label for="copyright" class="font-bold text-2xl">Has copyright?</label>
-                  <input type="checkbox" name="copyright" id="copyright">
+                  <input type="checkbox" name="copyright" id="copyright" :value=hasCopyRight v-model="hasCopyRight">
                 </div>
-                <div class="">
+                <div v-if="hasCopyRight" class="">
+                  <div class="my-2 p-1 border">
+                    <ul v-if="copyright.values.length != 0" class="h-48 overflow-y-scroll cursor-pointer">
+                      <li v-for="cp in copyright.values" :key="cp" @click.prevent="removeCopyRight(cp)" class="text-sm bg-slate-300 my-1">
+                        <span><strong>Name</strong>: {{ cp.name }}</span> <br />
+                        <span><strong>Number</strong>: {{ cp.number }}</span>
+                      </li>
+                    </ul>
+                    <h6 v-else class="font-bold">No copyright</h6>
+                  </div>
                   <div class="form-group">
                     <label for="name">Name</label> <br />
                     <input type="text" v-model="singleCopyright.name" name="name" id="name" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
@@ -210,19 +226,22 @@ function submitForm(){
 
                   <div class="form-group">
                     <label for="number">Number</label> <br />
-                    <input type="number" v-model="singleCopyright.number" name="number" id="name" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                    <input type="text" v-model="singleCopyright.number" name="number" id="name" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
                   </div>
                   <StandardButton @click.prevent="addCopyRight" text="add" class="mt-4"/>
                 </div>
               </div>
-              <StandardButton @click.prevent="showLeadRoles = !showLeadRoles" text="UPLOAD LEAD ROLES" />
+
+              <StandardButton @click.prevent="showLeadRoles = !showLeadRoles" text="ADD LEAD ROLES" class="mb-2"/>
               <ErrorMessage v-if="form.errors.leadRoles">{{ form.errors.leadRoles }}</ErrorMessage>
               <div v-if="showLeadRoles">
                 <div class="my-2 p-1 border">
                   <ul v-if="leadRoles.values.length != 0" class="h-48 overflow-y-scroll cursor-pointer">
                     <li v-for="leadrole in leadRoles.values" :key="leadrole" @click.prevent="removeLeadRole(leadrole)" class="text-sm bg-slate-300 my-1">
-                      <span><strong>Name</strong>: {{ leadrole.name }}</span> <br />
-                      <span><strong>Handle</strong>: {{ leadrole.socialMediaHandle }}</span>
+                      <span><strong>Real Name</strong>: {{ leadrole.realName }}</span> <br />
+                      <span><strong>Character Name</strong>: {{ leadrole.characterName }}</span> <br />
+                      <span><strong>Gender</strong>: {{ leadrole.gender }}</span> <br />
+                      <span><strong>Social Handle</strong>: {{ leadrole.socialMediaHandle }}</span>
                     </li>
                   </ul>
                   <h6 v-else class="font-bold">No lead roles added yet</h6>
@@ -239,11 +258,11 @@ function submitForm(){
                   </div>
 
                   <div class="form-group">
-                    <label for="name" class="font-bold">Gender</label> <br />
+                    <label class="font-bold">Gender</label> <br />
                     Male
-                    <input type="radio" name="gender" id="gender">
+                    <input type="radio" name="male" id="maleGender" value="male" v-model="singleLeadRole.gender">
                     Female
-                    <input type="radio" name="gender" id="gender">
+                    <input type="radio" name="female" id="femaleGender" value="female" v-model="singleLeadRole.gender">
                   </div>
 
                   <div class="form-group">
