@@ -9,6 +9,9 @@ use Inertia\Inertia;
 // Controllers
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\ScriptWrittersController;
+use App\Http\Controllers\TransactionsController;
+
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +25,12 @@ use App\Http\Controllers\ScriptWrittersController;
 */
 
 Route::get('/', [GeneralController::class, 'home'])->name('home');
+Route::get('/scripts', [GeneralController::class, 'scripts'])->name('scripts');
+Route::get('/scripts/{id}', [GeneralController::class, 'script_details'])->name('script_details');
+Route::get('/scriptwriters', [GeneralController::class, 'script_writers'])->name('script_writters')->middleware(['auth', 'verified']);
+
+Route::post('/scripts/buy', [TransactionsController::class, 'buy_Script'])->name('buy_script')->middleware(['auth', 'verified']);
+Route::get('/payment/callback', [TransactionsController::class, 'payment_callback'])->name('payment_callback')->middleware(['auth', 'verified']);
 
 
 Route::group(['middleware', 'prefix' => 'admin', 'as'=>'admin.'], function () {
@@ -41,17 +50,18 @@ Route::group(['middleware' => ['auth','verified'], 'prefix' => 'scriptwriter', '
     Route::post("/add_script", [ScriptWrittersController::class, "save_script"])->name("add_script.posts");
 });
 
-Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'investor', 'as' => 'investor.'],function () {
+// Investors only routes
+Route::group(['middleware' => ['auth', 'verified','is_investor'], 'prefix' => 'investor', 'as' => 'investor.'],function () {
     Route::get('/dashboard', function(){
         return Inertia::render('Investor/Index');
     })->name('dashboard');
 });
 
 Route::get('/dashboard', function () {
-    if(auth()->user()->role->name == "admin"){
+    if(auth()->user()->is_admin()){
         return redirect()->intended('/admin');
-    }else if(auth()->user()->role->name == "investor"){
-        return redirect()->intended("/");
+    }else if(auth()->user()->is_investor()){
+        return redirect()->intended("/investor/dashboard");
     }else{
         return redirect()->intended("/scriptwriter/dashboard");
     }

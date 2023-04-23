@@ -20,6 +20,12 @@ return new class extends Migration
             $table->string('script_logline');
             $table->integer('script_cast_size'); //cast size
             $table->integer('script_no_locations');
+            $table->json('copyright')->nullable();
+            $table->string('movie_format');
+            $table->string('target_audience');
+            $table->text('motivation');
+            $table->text('relevance');
+            $table->text('story_origin');
             $table->json('script_lead_roles')->nullable(); // lead 
             $table->text('poster_image')->nullable();
             $table->boolean('is_bought')->default(false);

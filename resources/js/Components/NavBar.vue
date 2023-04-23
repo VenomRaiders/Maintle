@@ -6,6 +6,7 @@ import MaintleLogo from "@/Components/MaintleLogo.vue"
 const showMobileNav = ref(false)
 const showDropDown = ref(false)
 const user = computed(() => usePage().props.auth.user)
+const role = computed(() => usePage().props.auth.role)
 </script>
 
 <template>
@@ -18,8 +19,8 @@ const user = computed(() => usePage().props.auth.user)
                 </svg>
             </button>
             <div id="links" :class="{'hidden md:flex': !showMobileNav}" class="flex flex-col md:flex-row md:space-x-8 items-center py-2 text-md">
-                <Link href="" class="text-white uppercase">Home</Link>
-                <Link href="" class="text-white uppercase">Scripts</Link>
+                <Link :href="route('home')" class="text-white uppercase">Home</Link>
+                <Link :href="route('scripts')" class="text-white uppercase">Scripts</Link>
                 <Link href="" class="text-white uppercase">Projects</Link>
                 <Link href="" class="text-white uppercase">About us</Link>
                 <Link href="" class="text-white uppercase">Blog</Link>
@@ -36,7 +37,12 @@ const user = computed(() => usePage().props.auth.user)
                     </div>
                 </div>
 
+                <div v-if="role == 'investor'" class="flex flex-col md:flex-row md:space-x-8 items-center">
+                    <Link href="#" class="text-white uppercase">Catalog</Link>
+                </div>
+
                 <div v-if="user" class="flex flex-col md:flex-row md:space-x-8 items-center">
+                    <Link :href="route('script_writters')" class="text-white uppercase">scriptWriters</Link>
                     <Link :href="route('dashboard')" class="text-white uppercase">Dashboard</Link>
                     <Link :href="route('logout')" as="button" method="POST" class="text-white uppercase bg-primary p-2 rounded-md">Logout</Link>
                 </div>

@@ -19,6 +19,13 @@ const singleLeadRole = reactive({
 
 const leadRoles = reactive({values: []})
 
+const hasCopyRight = ref(false)
+const singleCopyright = reactive({
+  "name": "",
+  "number": ""
+})
+const copyright = reactive({values: []})
+
 const form = useForm({
   "title": "",
   "posterImage": null,
@@ -33,8 +40,13 @@ const form = useForm({
   "movieFormat": "",
   "castSize": "",
   "location": "",
-  "targetAudience": "",
-  "leadRoles": leadRoles.values
+  "leadRoles": leadRoles.values,
+  "copyright": copyright.values,
+  "movie_format": "",
+  "target_audience": "",
+  "motivation": "",
+  "relevance": "",
+  "story_origin": ""
 })
 
 function addLeadRole() {
@@ -53,6 +65,25 @@ function removeLeadRole(leadrole) {
   leadRoles.values = newLeadRoles
 }
 
+function addCopyRight(){
+  copyright.values.push({
+    name: singleCopyright.name,
+    number: singleCopyright.number
+  })
+
+  singleCopyright.name = ""
+  singleCopyright.number = ""
+
+  console.log(copyright)
+}
+
+function removeCopyRight(cr) {
+  let newCopyright = copyright.values.filter((crr) => {
+    return crr.name != crr.name
+  })
+  copyright.values = newCopyright
+}
+
 function submitForm(){
   form.post("/scriptwriter/add_script")
 }
@@ -66,7 +97,7 @@ function submitForm(){
         <h1 class="text-center text-2xl uppercase font-bold">Create a new script</h1>
         <form @submit.prevent="submitForm" class="mt-4">
           <div class="flex flex-col space-y-4 md:flex-row justify-between">
-            <div class="w-full md:w-3/5 px-2 mb-2">
+            <div class="w-full md:w-2/4 px-2 mb-2">
               <div class="form-group mb-2">
                 <label for="title" class="font-bold text-2xl">Title</label> <br />
                 <input type="text" v-model="form.title" class="w-full bg-[#7dd1b8] rounded-md text-white" name="" id="title">
@@ -165,7 +196,25 @@ function submitForm(){
                 <ErrorMessage v-if="form.errors.mainGenre">{{ form.errors.mainGenre }}</ErrorMessage>
               </div>
             </div>
-            <div class="w-full md:w-1/5">
+            <div class="w-full md:w-2/4">
+              <div class="form-group mb-2">
+                <div class="flex justify-between items-center">
+                  <label for="copyright" class="font-bold text-2xl">Has copyright?</label>
+                  <input type="checkbox" name="copyright" id="copyright">
+                </div>
+                <div class="">
+                  <div class="form-group">
+                    <label for="name">Name</label> <br />
+                    <input type="text" v-model="singleCopyright.name" name="name" id="name" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="number">Number</label> <br />
+                    <input type="number" v-model="singleCopyright.number" name="number" id="name" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                  </div>
+                  <StandardButton @click.prevent="addCopyRight" text="add" class="mt-4"/>
+                </div>
+              </div>
               <StandardButton @click.prevent="showLeadRoles = !showLeadRoles" text="UPLOAD LEAD ROLES" />
               <ErrorMessage v-if="form.errors.leadRoles">{{ form.errors.leadRoles }}</ErrorMessage>
               <div v-if="showLeadRoles">
