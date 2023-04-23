@@ -11,7 +11,9 @@ const props = defineProps(['genres'])
 const showLeadRoles = ref(false)
 
 const singleLeadRole = reactive({
-  "name": "",
+  "realName": "",
+  "characterName": "",
+  "gender": "",
   "socialMediaHandle": ""
 })
 
@@ -29,9 +31,13 @@ const form = useForm({
   "posterImage": null,
   "logline": "",
   "synopsis": "",
+  "motivation": "",
+  "relevance": "",
+  "origin": "",
   "scriptDocument": null,
   "mainGenre": "",
   "subGenre": "",
+  "movieFormat": "",
   "castSize": "",
   "location": "",
   "leadRoles": leadRoles.values,
@@ -116,6 +122,24 @@ function submitForm(){
                 <ErrorMessage v-if="form.errors.synopsis">{{ form.errors.synopsis }}</ErrorMessage>
               </div>
 
+              <div class="form-group mb-2">
+                <label for="motivation" class="font-bold text-2xl">Motivation for the story</label> <br />
+                <textarea name="" v-model="form.motivation" id="motivation" class="w-full bg-[#7dd1b8] rounded-md text-white"></textarea>
+                <ErrorMessage v-if="form.errors.motivation">{{ form.errors.motivation }}</ErrorMessage>
+              </div>
+
+              <div class="form-group mb-2">
+                <label for="relevance" class="font-bold text-2xl">Relevance of the story</label> <br />
+                <textarea name="" v-model="form.relevance" id="relevance" class="w-full bg-[#7dd1b8] rounded-md text-white"></textarea>
+                <ErrorMessage v-if="form.errors.relevance">{{ form.errors.relevance }}</ErrorMessage>
+              </div>
+
+              <div class="form-group mb-2">
+                <label for="origin" class="font-bold text-2xl">Origin of the idea</label> <br />
+                <textarea name="" v-model="form.origin" id="origin" class="w-full bg-[#7dd1b8] rounded-md text-white"></textarea>
+                <ErrorMessage v-if="form.errors.origin">{{ form.errors.origin }}</ErrorMessage>
+              </div>
+
               <div class="form-group">
                 <label for="script" class="font-bold text-2xl">Script Document</label> <br />
                 <input type="file" name="" id="scriptDocument" @change="form.scriptDocument = $event.target.files[0]" class="w-full rounded-md text-black">
@@ -139,6 +163,17 @@ function submitForm(){
               </div>
 
               <div class="form-group">
+                <label for="movieFormat" class="font-bold text-2xl">Movie Format</label> <br />
+                <select v-model="form.movieFormat" name="movieFormat" id="movieFormat">
+                  <option value="Feature Movie">Feature Movie</option>
+                  <option value="Short Film">Short Film</option>
+                  <option value="Documentary">Documentary</option>
+                  <option value="Series">Series</option>
+                </select>
+                <ErrorMessage v-if="form.errors.movieFormat">{{ form.errors.movieFormat }}</ErrorMessage>
+              </div>
+
+              <div class="form-group">
                 <label for="castSize" class="font-bold text-2xl">Cast size</label> <br />
                 <input type="number" v-model="form.castSize" placeholder="- select a value size -" class="w-full bg-white border-1 border-gray-400 rounded-md text-black" name="" id="castSize">
                 <ErrorMessage v-if="form.errors.castSize">{{ form.errors.castSize }}</ErrorMessage>
@@ -150,6 +185,16 @@ function submitForm(){
                 <ErrorMessage v-if="form.errors.location">{{ form.errors.location }}</ErrorMessage>
               </div>
 
+              <div class="form-group">
+                <label for="targetAudience" class="font-bold text-2xl">Target Audience</label> <br />
+                <select v-model="form.targetAudience" name="targetAudience" id="targetAudience">
+                  <option value="Children">Children</option>
+                  <option value="Adolescent">Adolescent</option>
+                  <option value="Adult">Adult</option>
+                  <option value="Aged">Aged</option>
+                </select>
+                <ErrorMessage v-if="form.errors.mainGenre">{{ form.errors.mainGenre }}</ErrorMessage>
+              </div>
             </div>
             <div class="w-full md:w-2/4">
               <div class="form-group mb-2">
@@ -184,12 +229,25 @@ function submitForm(){
                 </div>
                 <div class="border my-2 p-1">
                   <div class="form-group">
-                    <label for="name">Name</label> <br />
-                    <input type="text" v-model="singleLeadRole.name" name="name" id="name" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                    <label for="realName" class="font-bold">Real Name</label> <br />
+                    <input type="text" v-model="singleLeadRole.realName" name="realName" id="realName" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
                   </div>
 
                   <div class="form-group">
-                    <label for="name">Social media handle</label> <br />
+                    <label for="characterName" class="font-bold">Character Name</label> <br />
+                    <input type="text" v-model="singleLeadRole.characterName" name="characterName" id="characterName" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="name" class="font-bold">Gender</label> <br />
+                    Male
+                    <input type="radio" name="gender" id="gender">
+                    Female
+                    <input type="radio" name="gender" id="gender">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="name" class="font-bold">Social media handle</label> <br />
                     <input type="text" v-model="singleLeadRole.socialMediaHandle" name="name" id="name" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
                   </div>
                   <StandardButton @click.prevent="addLeadRole" text="add" class="mt-4"/>
