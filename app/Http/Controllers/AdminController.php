@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+use App\Models\ScriptCollection;
+
 class AdminController extends Controller
 {
     public function dashboard() {
@@ -37,5 +39,11 @@ class AdminController extends Controller
 
     public function admin_profile() {
         return Inertia::render('Admin/Profile', ["tab" => "My Profile"]);
+    }
+
+    public function unverified_users_scripts() {
+        $scripts = ScriptCollection::unverifiedScripts();
+
+        dd($scripts);
     }
 }

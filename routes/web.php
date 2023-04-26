@@ -32,6 +32,7 @@ Route::get('/scriptwriters', [GeneralController::class, 'script_writers'])->name
 Route::post('/scripts/buy', [TransactionsController::class, 'buy_Script'])->name('buy_script')->middleware(['auth', 'verified']);
 Route::get('/payment/callback', [TransactionsController::class, 'payment_callback'])->name('payment_callback')->middleware(['auth', 'verified']);
 
+Route::get('/un', [AdminController::class, 'unverified_users_scripts'])->name('unverified_users_scripts');
 
 Route::group(['middleware', 'prefix' => 'admin', 'as'=>'admin.'], function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
