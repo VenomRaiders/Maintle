@@ -29,9 +29,9 @@ window.addEventListener('resize', checkUserAgent);
           <Link :href="route('scriptwriter.dashboard')" as="li" :class="{'active': $page.url.startsWith('/scriptwriter/dashboard')}" class="cursor-pointer">
             My purchases
           </Link>
-          <Link :href="route('scriptwriter.statistics')" as="li" :class="{'active': $page.url.startsWith('/scriptwriter/statistics')}" class="cursor-pointer">
+          <!-- <Link :href="route('scriptwriter.statistics')" as="li" :class="{'active': $page.url.startsWith('/scriptwriter/statistics')}" class="cursor-pointer">
             Transaction history
-          </Link>
+          </Link> -->
         </ul>
 
         <div class="sw-nav-footer">

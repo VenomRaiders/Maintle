@@ -32,8 +32,9 @@ Route::get('/scriptwriters', [GeneralController::class, 'script_writers'])->name
 Route::post('/scripts/buy', [TransactionsController::class, 'buy_Script'])->name('buy_script')->middleware(['auth', 'verified']);
 Route::get('/payment/callback', [TransactionsController::class, 'payment_callback'])->name('payment_callback')->middleware(['auth', 'verified']);
 
+Route::get('/un', [AdminController::class, 'unverified_users_scripts'])->name('unverified_users_scripts');
 
-Route::group(['middleware', 'prefix' => 'admin', 'as'=>'admin.'], function () {
+Route::group(['middleware' => ['auth','is_admin'], 'prefix' => 'admin', 'as'=>'admin.'], function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/scriptwriters', [AdminController::class, 'scriptwriters'])->name('scriptwriters');
     Route::get('/projects', [AdminController::class, 'projects'])->name('projects');
@@ -44,11 +45,13 @@ Route::group(['middleware', 'prefix' => 'admin', 'as'=>'admin.'], function () {
     Route::get('/scriptwriters/rejected', [AdminController::class, 'scripts_rejected'])->name('scripts_rejected');
 });
 
-Route::group(['middleware' => ['auth','verified'], 'prefix' => 'scriptwriter', 'as'=>'scriptwriter.'], function(){
+Route::group(['middleware' => ['auth','verified','is_verified_script_writter'], 'prefix' => 'scriptwriter', 'as'=>'scriptwriter.'], function(){
     Route::get("/dashboard", [ScriptWrittersController::class, "dashboard"])->name("dashboard");
     Route::get("/add_script", [ScriptWrittersController::class, "add_script"])->name("add_script");
     Route::post("/add_script", [ScriptWrittersController::class, "save_script"])->name("add_script.posts");
 });
+
+Route::get("/scriptwriter/first_script", [ScriptWrittersController::class, "first_script"])->middleware(['auth','verified'])->name("first_script");
 
 // Investors only routes
 Route::group(['middleware' => ['auth', 'verified','is_investor'], 'prefix' => 'investor', 'as' => 'investor.'],function () {
@@ -59,7 +62,7 @@ Route::group(['middleware' => ['auth', 'verified','is_investor'], 'prefix' => 'i
 
 Route::get('/dashboard', function () {
     if(auth()->user()->is_admin()){
-        return redirect()->intended('/admin');
+        return redirect()->route('admin.dashboard');
     }else if(auth()->user()->is_investor()){
         return redirect()->intended("/investor/dashboard");
     }else{

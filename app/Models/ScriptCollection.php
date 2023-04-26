@@ -42,4 +42,26 @@ class ScriptCollection extends Model
     public function subGenres(): BelongsToMany {
         return $this->belongsToMany(Genre::class, 'sub_genre_script', 'script_id', 'genre_id');
     }
+
+    public static function unverifiedScripts(){
+        $users_role_id = Role::where('name', 'user')->first()->id;
+        $all_users = User::where('role_id', $users_role_id)->get();
+        $uverified_users = [];
+        foreach($all_users as $user){
+            if($user->scriptWriter->is_verified == false){
+                $uverified_users[] = $user;
+            }
+        }
+        
+        $uverified_scripts = [];
+        foreach($uverified_users as $uverified_user){
+            $script = $uverified_user->scripts()->first();
+            
+            if($script != null){
+                array_push($uverified_scripts, $script);
+            }
+        }
+
+        return $uverified_scripts;
+    }
 }
