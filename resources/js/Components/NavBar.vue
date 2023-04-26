@@ -20,7 +20,7 @@ const role = computed(() => usePage().props.auth.role)
             </button>
             <div id="links" :class="{'hidden md:flex': !showMobileNav}" class="flex flex-col md:flex-row md:space-x-8 items-center py-2 text-md">
                 <Link :href="route('home')" class="text-white uppercase" :class="{'active': $page.url.endsWith('/')}">Home</Link>
-                <Link :href="route('scripts')" class="text-white uppercase">Scripts</Link>
+                <Link :href="route('scripts')" class="text-white uppercase" :class="{'active': $page.url.startsWith('/scripts')}">Scripts</Link>
                 <Link href="" class="text-white uppercase">Projects</Link>
                 <Link href="" class="text-white uppercase">About us</Link>
                 <Link href="" class="text-white uppercase">Blog</Link>
@@ -50,8 +50,20 @@ const role = computed(() => usePage().props.auth.role)
     </nav>
 </template>
 
-<style>
+<style scoped>
 .active {
+    background: linear-gradient(120deg,
+        var(--alternate-color),
+        var(--hues-2)
+    );
+}
 
+#links a {
+    padding: 7px;
+    border-radius: 3px;
+}
+
+#links a:hover {
+    background-color: var(--primary-color);
 }
 </style>
