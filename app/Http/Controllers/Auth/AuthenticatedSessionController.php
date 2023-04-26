@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         if(auth()->user()->role->name == "admin"){
-            return redirect()->intended('/admin');
+            return redirect()->route('admin.dashboard');
         }else if(auth()->user()->role->name == "investor"){
             return redirect()->intended("/");
         }else{

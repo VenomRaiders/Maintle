@@ -7,10 +7,20 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Genre;
 
+use App\Models\ScriptCollection;
+use App\Models\Role;
+
 class AdminController extends Controller
 {
     public function dashboard() {
-        return Inertia::render('Admin/Main', ["tab" => "Admin Dashboard"]);
+        $stats = [];
+        $stats['total_scripts'] = ScriptCollection::all()->count();
+        $stats['total_investors'] = Role::where('name', 'investor')->first()->users->count();
+        $stats['scripts_pending_approval'] = count(ScriptCollection::unverifiedScripts());
+
+        $scripts_needing_approval = ScriptCollection::unverifiedScripts();
+        
+        return Inertia::render('Admin/Main', ['stats' => $stats, 'scripts_needing_approval' => $scripts_needing_approval]);
     }
 
     public function scriptwriters() {
@@ -44,5 +54,11 @@ class AdminController extends Controller
 
     public function admin_profile() {
         return Inertia::render('Admin/Profile', ["tab" => "My Profile"]);
+    }
+
+    public function unverified_users_scripts() {
+        $scripts = ScriptCollection::unverifiedScripts();
+
+        dd($scripts);
     }
 }

@@ -13,15 +13,17 @@ const props = defineProps(['scripts'])
       <StandardButton text="New Script" :isLink=true :href="route('scriptwriter.add_script')"></StandardButton>
     </div>
     <div class="all-scripts">
-      <ScriptsCard v-for="script in scripts" :key="script.id" 
-      :stitle= "script.script_title"
-      :body="script.script_synopsis"
-      :genres="script.genres"
-      >
-      <img :src="'/storage/'+script.poster_image" alt="Script offical blopper image" style="width:100%">
-    </ScriptsCard>
+      <div class="flex flex-wrap">
+        <ScriptsCard v-for="script in scripts" :key="script.id" 
+        :stitle= "script.script_title"
+        :body="script.script_synopsis"
+        :genres="script.genres"
+        >
+        <img :src="'/storage/'+script.poster_image" alt="Script offical blopper image" style="width:100%">
+      </ScriptsCard>
+      </div>
     
-    <p v-if="scripts">No Scripts Have been Added</p>
+    <p v-if="!scripts">No Scripts Have been Added</p>
     
     </div>
   </ScriptNavBar>

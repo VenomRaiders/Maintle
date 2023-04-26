@@ -1,6 +1,10 @@
 <script setup>
 import AdminDashboardLayout from "@/Layouts/AdminDashboardLayout.vue";
 import StatsCard from "@/Components/StatsCard.vue";
+import StandardButton from "@/Components/StandardButton.vue";
+
+const props = defineProps(["stats", "scripts_needing_approval"])
+
 </script>
 
 <template>
@@ -8,22 +12,48 @@ import StatsCard from "@/Components/StatsCard.vue";
         <div class="content">
             <StatsCard
                 card-title="Total Scripts"
-                stat-numbers="20"
+                :stat-numbers="stats.total_scripts"
                 stat-percentage="3.14"
                 icon="fa-solid fa-scroll"
             />
             <StatsCard
-                card-title="Total Scripts"
-                stat-numbers="20"
+                card-title="Total Investors"
+                :stat-numbers="stats.total_investors"
                 stat-percentage="3.14"
                 icon="fa-solid fa-scroll"
             />
             <StatsCard
-                card-title="Total Scripts"
-                stat-numbers="20"
+                card-title="Accounts Pending Approval"
+                :stat-numbers="stats.scripts_pending_approval"
                 stat-percentage="3.14"
                 icon="fa-solid fa-scroll"
             />
+        </div>
+
+        <div class="">
+            <h1 class="text-center text-2xl font-bold">First uploaded scripts needing approval</h1>
+            <div class="relative overflow-x-auto">
+                <table class="w-full text-sm text-left text-gray-500">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                        <tr>
+                            <th class="font-bold px-6 py-3">#</th>
+                            <th class="font-bold px-6 py-3">Script Title</th>
+                            <th class="font-bold px-6 py-3">Synopsis</th>
+                            <th class="font-bold px-6 py-3">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(script ,index) in scripts_needing_approval" :key="script.id" class="bg-white border-b">
+                            <td class="px-6 py-4">{{ index }}</td>
+                            <td class="px-6 py-4">{{ script.script_title }}</td>
+                            <td class="px-6 py-4">{{ script.script_synopsis }}</td>
+                            <td class="px-6 py-4">
+                                <StandardButton text="View"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </AdminDashboardLayout>
 </template>

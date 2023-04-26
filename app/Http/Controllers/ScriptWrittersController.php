@@ -32,6 +32,12 @@ class ScriptWrittersController extends Controller
             'subGenre' => 'required',
             'castSize' => 'required',
             'location' => 'required',
+            'copyright' => 'nullable',
+            'movie_format' => 'required',
+            'target_audience' => 'required',
+            'motivation' => 'required',
+            'relevance' => 'required',
+            'story_origin' => 'required',
             'leadRoles' => 'required',
         ]);
 
@@ -53,8 +59,19 @@ class ScriptWrittersController extends Controller
             'document_url' => $script_document_url,
             'script_cast_size' => $validated['castSize'],
             'script_no_locations' => $validated['location'],
+            'movie_format' => $validated['movie_format'],
+            'target_audience' => $validated['target_audience'],
+            'motivation' => $validated['motivation'],
+            'relevance' => $validated['relevance'],
+            'story_origin' => $validated['story_origin'],
             'script_lead_roles' => json_encode($validated['leadRoles'])
         ]);
+
+        if($request->has('copyright')){
+            $script->update([
+                'copyright' => $validated['copyright']
+            ]);
+        }
 
         $script->genres()->attach($validated['mainGenre']);
         $script->subGenres()->attach($validated['subGenre']);
@@ -64,5 +81,17 @@ class ScriptWrittersController extends Controller
 
     public function statistics(){
         return Inertia::render('scriptwriter/Statistics');
+    }
+
+    public function first_script(){
+        $user = auth()->user();
+        $user_script_count = $user->scripts->count();
+
+        if($user_script_count < 1){
+            $genres = Genre::all();
+            return Inertia::render('scriptwriter/AddScript', ["genres" => $genres]);
+        }
+
+        return Inertia::render('scriptwriter/AccountInReview');
     }
 }
