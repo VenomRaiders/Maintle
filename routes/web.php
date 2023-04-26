@@ -34,7 +34,7 @@ Route::get('/payment/callback', [TransactionsController::class, 'payment_callbac
 
 Route::get('/un', [AdminController::class, 'unverified_users_scripts'])->name('unverified_users_scripts');
 
-Route::group(['middleware', 'prefix' => 'admin', 'as'=>'admin.'], function () {
+Route::group(['middleware' => ['auth','is_admin'], 'prefix' => 'admin', 'as'=>'admin.'], function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/scriptwriters', [AdminController::class, 'scriptwriters'])->name('scriptwriters');
     Route::get('/projects', [AdminController::class, 'projects'])->name('projects');
@@ -62,7 +62,7 @@ Route::group(['middleware' => ['auth', 'verified','is_investor'], 'prefix' => 'i
 
 Route::get('/dashboard', function () {
     if(auth()->user()->is_admin()){
-        return redirect()->intended('/admin');
+        return redirect()->route('admin.dashboard');
     }else if(auth()->user()->is_investor()){
         return redirect()->intended("/investor/dashboard");
     }else{
