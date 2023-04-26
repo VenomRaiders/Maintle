@@ -52,9 +52,14 @@ class ScriptCollection extends Model
                 $uverified_users[] = $user;
             }
         }
+        
         $uverified_scripts = [];
         foreach($uverified_users as $uverified_user){
-            $uverified_scripts[] = $uverified_user->scripts()->first();
+            $script = $uverified_user->scripts()->first();
+            
+            if($script != null){
+                array_push($uverified_scripts, $script);
+            }
         }
 
         return $uverified_scripts;
