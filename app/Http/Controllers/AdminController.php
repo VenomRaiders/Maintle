@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Genre;
 
 use App\Models\ScriptCollection;
 use App\Models\Role;
@@ -43,6 +45,11 @@ class AdminController extends Controller
 
     public function projects() {
         return Inertia::render('Admin/Projects', ["tab" => "Projects"]);
+    }
+
+    public function add_project() {
+        $genres = Genre::all();
+        return Inertia::render('Admin/projects/AddProject', ["tab" => "Projects -> New Project", "genres" => $genres]);
     }
 
     public function admin_profile() {

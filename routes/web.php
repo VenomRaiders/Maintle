@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth','is_admin'], 'prefix' => 'admin', 'as'=>'a
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/scriptwriters', [AdminController::class, 'scriptwriters'])->name('scriptwriters');
     Route::get('/projects', [AdminController::class, 'projects'])->name('projects');
+    Route::get("/projects/add_project", [AdminController::class, "add_project"])->name("add_project");
     Route::get('/profile', [AdminController::class, 'admin_profile'])->name('admin_profile');
     Route::get('/scriptwriters/all_scripts', [AdminController::class, 'all_scripts'])->name('all_scripts');
     Route::get('/scriptwriters/pending', [AdminController::class, 'scripts_pending'])->name('scripts_pending');
