@@ -19,7 +19,7 @@ const role = computed(() => usePage().props.auth.role)
                 </svg>
             </button>
             <div id="links" :class="{'hidden md:flex': !showMobileNav}" class="flex flex-col md:flex-row md:space-x-8 items-center py-2 text-md">
-                <Link :href="route('home')" class="text-white uppercase">Home</Link>
+                <Link :href="route('home')" class="text-white uppercase" :class="{'active': $page.url.endsWith('/')}">Home</Link>
                 <Link :href="route('scripts')" class="text-white uppercase">Scripts</Link>
                 <Link href="" class="text-white uppercase">Projects</Link>
                 <Link href="" class="text-white uppercase">About us</Link>
@@ -42,7 +42,6 @@ const role = computed(() => usePage().props.auth.role)
                 </div>
 
                 <div v-if="user" class="flex flex-col md:flex-row md:space-x-8 items-center">
-                    <Link :href="route('script_writters')" class="text-white uppercase">scriptWriters</Link>
                     <Link :href="route('dashboard')" class="text-white uppercase">Dashboard</Link>
                     <Link :href="route('logout')" as="button" method="POST" class="text-white uppercase bg-[#316802] p-2 rounded-md">Logout</Link>
                 </div>
@@ -50,3 +49,9 @@ const role = computed(() => usePage().props.auth.role)
         </div>
     </nav>
 </template>
+
+<style>
+.active {
+
+}
+</style>
