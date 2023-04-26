@@ -44,7 +44,7 @@ const role = computed(() => usePage().props.auth.role)
                 <div v-if="user" class="flex flex-col md:flex-row md:space-x-8 items-center">
                     <Link :href="route('script_writters')" class="text-white uppercase">scriptWriters</Link>
                     <Link :href="route('dashboard')" class="text-white uppercase">Dashboard</Link>
-                    <Link :href="route('logout')" as="button" method="POST" class="text-white uppercase bg-primary p-2 rounded-md">Logout</Link>
+                    <Link :href="route('logout')" as="button" method="POST" class="text-white uppercase bg-[#316802] p-2 rounded-md">Logout</Link>
                 </div>
             </div>
         </div>

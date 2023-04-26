@@ -13,19 +13,16 @@ const props = defineProps(["stats", "scripts_needing_approval"])
             <StatsCard
                 card-title="Total Scripts"
                 :stat-numbers="stats.total_scripts"
-                stat-percentage="3.14"
                 icon="fa-solid fa-scroll"
             />
             <StatsCard
                 card-title="Total Investors"
                 :stat-numbers="stats.total_investors"
-                stat-percentage="3.14"
                 icon="fa-solid fa-scroll"
             />
             <StatsCard
                 card-title="Accounts Pending Approval"
                 :stat-numbers="stats.scripts_pending_approval"
-                stat-percentage="3.14"
                 icon="fa-solid fa-scroll"
             />
         </div>
