@@ -27,7 +27,7 @@ class VerrifiedScriptWritterMiddleware
                 return redirect()->route('first_script');
             }
         } else {
-            return $next($request);
+            return redirect()->route('home');
         }
     }
 }
