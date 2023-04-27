@@ -39,3 +39,7 @@ function buyScript(id){
         </div>
     </div>
 </template>
+
+<style>
+
+</style>
