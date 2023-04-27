@@ -17,4 +17,8 @@ class Genre extends Model
     public function scripts(): BelongsToMany {
         return $this->belongsToMany(ScriptCollection::class, 'genre_script', 'genre_id', 'script_id');
     }
+
+    public function projects(): BelongsToMany {
+        return $this->belongsToMany(Project::class);
+    }
 }
