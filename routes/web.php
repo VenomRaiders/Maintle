@@ -30,7 +30,7 @@ Route::get('/scripts', [GeneralController::class, 'scripts'])->name('scripts');
 Route::get('/scripts/{id}', [GeneralController::class, 'script_details'])->name('script_details');
 Route::get('/scriptwriters', [GeneralController::class, 'script_writers'])->name('script_writters')->middleware(['auth', 'verified']);
 
-Route::post('/scripts/buy', [TransactionsController::class, 'buy_Script'])->name('buy_script')->middleware(['auth', 'verified']);
+Route::post('/scripts/buy', [TransactionsController::class, 'buy_Script'])->name('buy_script')->middleware(['auth', 'verified', 'is_investor']);
 Route::get('/payment/callback', [TransactionsController::class, 'payment_callback'])->name('payment_callback')->middleware(['auth', 'verified']);
 
 Route::get('/un', [AdminController::class, 'unverified_users_scripts'])->name('unverified_users_scripts');
