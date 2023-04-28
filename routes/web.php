@@ -38,8 +38,14 @@ Route::get('/un', [AdminController::class, 'unverified_users_scripts'])->name('u
 Route::group(['middleware' => ['auth','is_admin'], 'prefix' => 'admin', 'as'=>'admin.'], function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/scriptwriters', [AdminController::class, 'scriptwriters'])->name('scriptwriters');
+
     Route::get('/projects', [AdminProjectController::class, 'index'])->name('projects');
+    Route::get('/projects/{id}/view', [AdminProjectController::class, 'view_project'])->name('project.view');
     Route::get("/projects/add_project", [AdminProjectController::class, "add_project"])->name("add_project");
+    Route::get('/projects/{id}/edit', [AdminProjectController::class, 'edit_project'])->name('project.edit');
+    Route::put('/projects/{id}/edit', [AdminProjectController::class, 'update_project'])->name('project.edit.put');
+    Route::delete('/projects/{id}/delete', [AdminProjectController::class, 'delete'])->name('project.delete');
+
     Route::post("/project/add_project", [AdminProjectController::class, "store_project"])->name("store_project");
     Route::get('/profile', [AdminController::class, 'admin_profile'])->name('admin_profile');
     Route::get('/scriptwriters/all_scripts', [AdminController::class, 'all_scripts'])->name('all_scripts');

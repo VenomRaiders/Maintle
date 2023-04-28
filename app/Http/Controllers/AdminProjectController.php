@@ -14,8 +14,8 @@ class AdminProjectController extends Controller
     }
 
     public function add_project() {
-        $genres = Genre::all();
-        return Inertia::render('Admin/projects/AddProject', ["tab" => "Projects -> New Project", "genres" => $genres]);
+        $projects = Project::all()->sortBy('created_at');
+        return Inertia::render('Admin/projects/AddProject', ["projects" => $projects]);
     }
 
     public function store_project(Request $request){
@@ -41,5 +41,66 @@ class AdminProjectController extends Controller
         $project->genres()->attach($validated["genre"]);
 
         return redirect()->route("admin.projects")->with('message', 'Project added successfully');
+    }
+
+    public function view_project(Request $request, $id){
+        $project = Project::find($id);
+        if(!$project){
+            return redirect()->back()->with("error", "Invalid id provided");
+        }
+
+        // Todo: return the page to view the project
+    }
+
+    public function edit_project(Request $request, $id){
+        $project = Project::find($id);
+        if(!$project){
+            return redirect()->back()->with("error", "Invalid id provided");
+        }
+
+        $genres = Genre::all();
+
+        // Todo: return the page to edit
+    }
+
+    public function update_project(Request $request, $id){
+        $project = Project::find($id);
+        if(!$project){
+            return redirect()->back()->with("error", "Invalid id provided");
+        }
+
+        $validated = $request->validate([
+            "title" => "required",
+            "logline" => "required",
+            "synopsis" => "required",
+            "genre" => "required",
+            "movie_format" => "required",
+            "lead_cast" => "required",
+            "crew" => "required"
+        ]);
+
+        $pr = $project->update([
+            "title" => $validated["title"],
+            "logline" => $validated["logline"],
+            "synopsis" => $validated["synopsis"],
+            "movie_format" => $validated["movie_format"],
+            "lead_cast" => json_encode($validated["lead_cast"]),
+            "crew" => json_encode($validated["crew"])
+        ]);
+
+        $pr->genres()->sync($validated["genre"]);
+
+        return redirect()->route("admin.projects")->with("message", 'Project added successfully');
+    }
+
+    public function delete($id){
+        $project = Project::find($id);
+        if(!$project){
+            return redirect()->back()->with("error", "Invalid id provided");
+        }
+
+        $project->delete();
+
+        return redirect()->route("admin.projects")->with("message", "Project successfully deleted");
     }
 }
