@@ -43,15 +43,6 @@ class AdminController extends Controller
         return Inertia::render('Admin/scriptwriters/Rejected', ["tab" => "ScriptWriters"]);
     }
 
-    public function projects() {
-        return Inertia::render('Admin/Projects', ["tab" => "Projects"]);
-    }
-
-    public function add_project() {
-        $genres = Genre::all();
-        return Inertia::render('Admin/projects/AddProject', ["tab" => "Projects -> New Project", "genres" => $genres]);
-    }
-
     public function admin_profile() {
         return Inertia::render('Admin/Profile', ["tab" => "My Profile"]);
     }

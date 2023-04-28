@@ -8,55 +8,86 @@ import LoadingComponent from "@/Components/LoadingComponent.vue";
 
 const props = defineProps(['genres'])
 
-const showLeadRoles = ref(false)
+const showLeadCast = ref(false)
 const showCrewRoles = ref(false)
 
-const singleLeadRole = reactive({
-  "realName": "",
-  "characterName": "",
-  "gender": "",
-  "socialMediaHandle": ""
+const singleLeadCast = reactive({
+    "name": "",
+    "socialMediaHandle": ""
 })
 
-const leadRoles = reactive({values: []})
+const singleCrew = reactive({
+    "scriptwriter": "",
+    "director": "",
+    "gender": "",
+    "socialMediaHandle": "",
+    "previousWork": ""
+})
+
+const leadCast = reactive({values: []})
+
+const crew = reactive({values: []})
 
 const form = useForm({
   "title": "",
   "logline": "",
   "synopsis": "",
-  "genre": "",
-  "movieFormat": "",
-  "leadRoles": leadRoles.values
+  "genre": [],
+  "movie_format": "",
+  "lead_cast": leadCast.values,
+  "crew": crew.values
 })
 
-function addLeadRole() {
-  leadRoles.values.push({
-    name: singleLeadRole.name,
-    socialMediaHandle: singleLeadRole.socialMediaHandle
+function addLeadCast() {
+  leadCast.values.push({
+    name: singleLeadCast.name,
+    socialMediaHandle: singleLeadCast.socialMediaHandle
   })
-  singleLeadRole.name = ""
-  singleLeadRole.socialMediaHandle = ""
+  singleLeadCast.name = ""
+  singleLeadCast.socialMediaHandle = ""
 }
 
-function removeLeadRole(leadrole) {
-  let newLeadRoles = leadRoles.values.filter((role) => {
-    return role.name != leadrole.name
+function addCrew(){
+    crew.values.push({
+        "scriptwriter" : singleCrew.scriptwriter,
+        "director" : singleCrew.director,
+        "gender" : singleCrew.gender,
+        "socialMediaHandle" : singleCrew.socialMediaHandle,
+        "previousWork": singleCrew.previousWork
+    })
+    singleCrew.scriptwriter = ""
+    singleCrew.director = ""
+    singleCrew.gender = ""
+    singleCrew.socialMediaHandle = ""
+    singleCrew.previousWork = ""
+}
+
+function removeLeadCast(leadC) {
+  let newLeadCast = leadCast.values.filter((cast) => {
+    return cast.name != leadC.name
   })
-  leadRoles.values = newLeadRoles
+  leadCast.values = newLeadCast
+}
+
+function removeCrew(cr){
+    let newCrew = crew.values.filter((c) => {
+        return c.scriptwriter != cr.scriptwriter
+    })
+    crew.values = newCrew
 }
 
 function submitForm(){
-  form.post("/admin/add_project")
+  form.post("/admin/project/add_project")
 }
 </script>
 
 <template>
     <AdminDashboardLayout>
-        <div class="content">
+        <div class="">
             <h1 class="text-center text-2xl uppercase font-bold">New Project</h1>
-            <form @submit.prevent="submitForm" class="mt-4">
-                <div class="flex flex-col space-y-4 md:flex-row justify-between">
-                    <div class="w-full md:w-3/5 px-2 mb-2">
+            <form @submit.prevent="submitForm" class="w-full">
+                <div class="w-full flex flex-col space-y-4 md:flex-row justify-between">
+                    <div class="w-full md:w-1/2 px-2 mb-2">
                     <div class="form-group mb-2">
                         <label for="title" class="font-bold text-2xl">Title</label> <br />
                         <input type="text" v-model="form.title" class="w-full bg-[#7dd1b8] rounded-md text-white" name="" id="title">
@@ -77,75 +108,78 @@ function submitForm(){
 
                     <div class="form-group">
                         <label for="mainGenre" class="font-bold text-2xl">Genre</label> <br />
-                        <select v-model="form.mainGenre" name="mainGenre" id="mainGenre" multiple>
+                        <select v-model="form.genre" name="mainGenre" id="mainGenre" multiple>
                         <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{ genre.genre }}</option>
                         </select>
-                        <ErrorMessage v-if="form.errors.mainGenre">{{ form.errors.mainGenre }}</ErrorMessage>
+                        <ErrorMessage v-if="form.errors.genre">{{ form.errors.genre }}</ErrorMessage>
                     </div>
 
                     <div class="form-group">
                         <label for="movieFormat" class="font-bold text-2xl">Movie Format</label> <br />
-                        <select v-model="form.movieFormat" name="movieFormat" id="movieFormat">
+                        <select v-model="form.movie_format" name="movie_format" id="movie_format">
                         <option value="Feature Movie">Feature Movie</option>
                         <option value="Short Film">Short Film</option>
                         <option value="Documentary">Documentary</option>
                         <option value="Series">Series</option>
                         </select>
-                        <ErrorMessage v-if="form.errors.movieFormat">{{ form.errors.movieFormat }}</ErrorMessage>
+                        <ErrorMessage v-if="form.errors.movie_format">{{ form.errors.movie_format }}</ErrorMessage>
                     </div>
 
                     </div>
-                    <div class="w-full md:w-1/5">
+                    <div class="w-full md:w-1/2">
                         <label for="" class="font-bold text-2xl">Lead Cast</label>
-                        <StandardButton @click.prevent="showLeadRoles = !showLeadRoles" text="Enter Lead Cast" />
-                        <ErrorMessage v-if="form.errors.leadRoles">{{ form.errors.leadRoles }}</ErrorMessage>
-                        <div v-if="showLeadRoles">
+                        <StandardButton @click.prevent="showLeadCast = !showLeadCast" text="Enter Lead Cast" />
+                        <ErrorMessage v-if="form.errors.lead_cast">{{ form.errors.lead_cast }}</ErrorMessage>
+                        <div v-if="showLeadCast">
                             <div class="my-2 p-1 border">
-                                <ul v-if="leadRoles.values.length != 0" class="h-48 overflow-y-scroll cursor-pointer">
-                                    <li v-for="leadrole in leadRoles.values" :key="leadrole" @click.prevent="removeLeadRole(leadrole)" class="text-sm bg-slate-300 my-1">
-                                        <span><strong>Name</strong>: {{ leadrole.name }}</span> <br />
-                                        <span><strong>Handle</strong>: {{ leadrole.socialMediaHandle }}</span>
+                                <ul v-if="leadCast.values.length != 0" class="h-48 overflow-y-scroll cursor-pointer">
+                                    <li v-for="leadC in leadCast.values" :key="leadC" @click.prevent="removeLeadCast(leadC)" class="text-sm bg-slate-300 my-1">
+                                        <span><strong>Name</strong>: {{ leadC.name }}</span> <br />
+                                        <span><strong>Handle</strong>: {{ leadC.socialMediaHandle }}</span>
                             </li>
                         </ul>
-                        <h6 v-else class="font-bold">No lead roles added yet</h6>
+                        <h6 v-else class="font-bold">No lead cast added yet</h6>
                         </div>
                         <div class="border my-2 p-1">
                         <div class="form-group">
                             <label for="fullName" class="font-bold">Full Name</label> <br />
-                            <input type="text" v-model="singleLeadRole.fullName" name="fullName" id="fullName" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                            <input type="text" v-model="singleLeadCast.name" name="fullName" id="fullName" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
                         </div>
                         
                         <div class="form-group">
                             <label for="name" class="font-bold">Social media handle</label> <br />
-                            <input type="text" v-model="singleLeadRole.socialMediaHandle" name="name" id="name" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                            <input type="text" v-model="singleLeadCast.socialMediaHandle" name="name" id="name" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
                         </div>
-                        <StandardButton @click.prevent="addLeadRole" text="Add" class="mt-4"/>
+                        <StandardButton @click.prevent="addLeadCast" text="Add" class="mt-4"/>
                     </div>
                 </div>
                     </div>
                     <div class="w-full md:w-1/5">
                     <label for="" class="font-bold text-2xl">Crew</label>
                     <StandardButton @click.prevent="showCrewRoles = !showCrewRoles" text="Enter Crew" />
-                    <ErrorMessage v-if="form.errors.leadRoles">{{ form.errors.leadRoles }}</ErrorMessage>
-                    <div v-if="showLeadRoles">
+                    <ErrorMessage v-if="form.errors.crew">{{ form.errors.crew }}</ErrorMessage>
+                    <div v-if="showCrewRoles">
                         <div class="my-2 p-1 border">
-                        <ul v-if="leadRoles.values.length != 0" class="h-48 overflow-y-scroll cursor-pointer">
-                            <li v-for="leadrole in leadRoles.values" :key="leadrole" @click.prevent="removeLeadRole(leadrole)" class="text-sm bg-slate-300 my-1">
-                            <span><strong>Name</strong>: {{ leadrole.name }}</span> <br />
-                            <span><strong>Handle</strong>: {{ leadrole.socialMediaHandle }}</span>
+                        <ul v-if="crew.values.length != 0" class="h-48 overflow-y-scroll cursor-pointer">
+                            <li v-for="cr in crew.values" :key="cr" @click.prevent="removeCrew(cr)" class="text-sm bg-slate-300 my-1">
+                                <span><strong>ScriptWritter</strong>: {{ cr.scriptwriter }}</span> <br />
+                                <span><strong>Director</strong>: {{ cr.director }}</span> <br />
+                                <span><strong>Gender</strong>: {{ cr.gender }}</span> <br />
+                                <span><strong>Social media handle</strong>: {{ cr.socialMediaHandle }}</span> <br />
+                                <span><strong>Link to previous work</strong>: {{ cr.previousWork }}</span>
                             </li>
                         </ul>
-                        <h6 v-else class="font-bold">No lead roles added yet</h6>
+                        <h6 v-else class="font-bold">No crew added yet</h6>
                         </div>
                         <div class="border my-2 p-1">
                         <div class="form-group">
                             <label for="scriptwriter" class="font-bold">Scriptwriter</label> <br />
-                            <input type="text" v-model="singleLeadRole.scriptwriter" name="scriptwriter" id="scriptwriter" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                            <input type="text" v-model="singleCrew.scriptwriter" name="scriptwriter" id="scriptwriter" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
                         </div>
                 
                         <div class="form-group">
                             <label for="director" class="font-bold">Director</label> <br />
-                            <input type="text" v-model="singleLeadRole.director" name="director" id="director" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                            <input type="text" v-model="singleCrew.director" name="director" id="director" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
                         </div>
                 
                         <div class="form-group">
@@ -158,14 +192,14 @@ function submitForm(){
 
                         <div class="form-group">
                             <label for="name" class="font-bold">Social media handle</label> <br />
-                            <input type="text" v-model="singleLeadRole.socialMediaHandle" name="name" id="name" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                            <input type="text" v-model="singleCrew.socialMediaHandle" name="name" id="name" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
                         </div>
                 
                         <div class="form-group">
                             <label for="name" class="font-bold">Links to previous works</label> <br />
-                            <textarea name="" v-model="form.synopsis" id="synopsis" class="w-full bg-[#7dd1b8] rounded-md text-white"></textarea>
+                            <textarea name="" v-model="singleCrew.previousWork" id="synopsis" class="w-full bg-[#7dd1b8] rounded-md text-white"></textarea>
                         </div>
-                        <StandardButton @click.prevent="addLeadRole" text="Add" class="mt-4"/>
+                        <StandardButton @click.prevent="addCrew" text="Add" class="mt-4"/>
                         </div>
                     </div>
                     </div>
