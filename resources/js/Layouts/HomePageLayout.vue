@@ -1,0 +1,291 @@
+<script setup>
+import { Link } from "@inertiajs/vue3";
+import { ref } from "vue"
+
+const props = defineProps(['tab']);
+const showDropDown = ref(false);
+
+function toggleNavBarOn() {
+    document.getElementById("nav").style.width = "250px";
+}
+
+function toggleNavBarOff() {
+    document.getElementById("nav").style.width = "0";
+}
+</script>
+
+<template>
+    <main class="homepage">
+        <section id="nav" class="homepage">
+            <div class="nav-image">
+                <Link :href="route('home')" class="logo">
+                    <img
+                        src="/images/maintle-logo.png"
+                        alt="maintle logo image"
+                    />
+                </Link>
+            </div>
+            <!-- <Link :href="route('home')" class="logo"> -->
+            <!-- </Link> -->
+            <a class="closebtn" @click="toggleNavBarOff()">&times;</a>
+            <div class="nav-links">
+                <Link :href="route('home')" class="text-white uppercase" :class="{'active': $page.url.endsWith('/')}">
+                   <i class="fa-solid fa-house"></i> Home
+                </Link>
+                <Link :href="route('scripts')" class="text-white uppercase" :class="{'active': $page.url.startsWith('/scripts')}">
+                    <i class="fa-solid fa-scroll"></i> Scripts
+                </Link>
+                <Link href="" class="text-white uppercase">
+                    <i class="fa-solid fa-clapperboard"></i> Projects
+                </Link>
+                <Link href="" class="text-white uppercase">
+                    <i class="fa-solid fa-circle-question"></i> About us
+                </Link>
+                <Link href="" class="text-white uppercase">
+                    <i class="fa-solid fa-blog"></i> Blog
+                </Link>
+                <div v-if="!user" class="">
+                    <button class="uppercase">
+                        <Link :href="route('login')">
+                            <i class="fa-solid fa-right-to-bracket"></i> Login
+                        </Link>
+                        <svg @click="showDropDown = !showDropDown" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 st">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                        </svg>
+                    </button>
+
+                    <div v-if="showDropDown" id="dropdownitems" class="dropdown">
+                        <Link :href="route('register.scriptwritter')" class=" text-white px-2">
+                            <i class="fa-solid fa-user-plus"></i> Register
+                        </Link>
+                    </div>
+                </div>
+
+                <div v-if="role == 'investor'" class="flex flex-col md:flex-row md:space-x-8 items-center">
+                    <Link href="#" class="text-white uppercase">Catalog</Link>
+                </div>
+
+                <div v-if="user" class="flex flex-col md:flex-row md:space-x-8 items-center">
+                    <Link :href="route('dashboard')" class="text-white uppercase">Dashboard</Link>
+                    <Link :href="route('logout')" as="button" method="POST" class="text-white uppercase bg-[#316802] p-2 rounded-md">Logout</Link>
+                </div>
+            </div>
+        </section>
+        <section id="nav-body" class="homepage">
+            <div class="nav-top">
+                <!-- toggle button -->
+                <button class="toggle" @click="toggleNavBarOn()">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 25 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-9 h-9"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                        />
+                    </svg>
+                </button>
+                <Link :href="route('home')" class="logo">
+                    <img
+                        src="/images/maintle-logo.png"
+                        alt="maintle logo image"
+                    />
+                </Link>
+            </div>
+            <div class="body-wrapper">
+                <slot />
+            </div>
+        </section>
+    </main>
+</template>
+
+<style scoped>
+/* Default Mobile styling */
+
+main {
+    display: flex;
+}
+
+/* Nav bar section */
+#nav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    overflow-x: hidden;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    color: var(--text-color);
+    transition: 0.5s;
+    padding-top: 70px;
+}
+
+.active {
+    background: linear-gradient(120deg,
+        var(--alternate-color),
+        var(--hues-2)
+    );
+}
+
+/* special styling for the login drop down */
+.dropdown {
+    padding: 5px;
+    position: absolute;
+    margin-left: 35px;
+    margin-top: -10px;
+}
+
+.dropdown a, .st {
+    border: 1px solid var(--border-color)
+}
+/* end of special styling of dropdoqn */
+
+#nav .nav-image {
+    display: none;
+}
+
+#nav > .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 40px;
+    cursor: pointer;
+    color: red;
+    color: rgba(255, 255, 255, 0.836);
+    transition: 0.3s;
+}
+
+#nav > .closebtn:hover {
+    color: white;
+}
+
+.nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nav-links a, .nav-links button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 15px 27px;
+    transition: 0.3s;
+}
+
+.nav-links a > i, .nav-links button > i {
+    font-size: 15px;
+    margin-right: 10px;
+}
+
+.nav-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-links a:hover {
+    background: linear-gradient(
+        120deg,
+        var(--primary-color),
+        var(--secondary-color)
+    );
+}
+
+/* body section */
+#nav-body {
+    width: 100%;
+    height: 100svh;
+    overflow-y: auto;
+    padding: 10px 20px;
+    background-color: var(--alternate-background-color);
+}
+
+.nav-top {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-top a {
+    height: inherit;
+    background-size: cover;
+}
+
+.nav-top img {
+    height: inherit;
+}
+
+
+.body-wrapper h1 {
+    line-height: 35px;
+}
+
+/* Scaling for desktop screens */
+/* Responsive media queries to scale to desktop size */
+
+@media only screen and (min-width: 690px) {
+    .body-wrapper h1 {
+        font-size: 18px;
+    }
+}
+
+@media only screen and (min-width: 1100px) {
+    main {
+        flex-direction: column;
+    }
+    #nav-body .nav-top {
+        display: none;
+    }
+    #nav {
+        all: unset;
+        color: var(--text-color);
+        transition: 0.5s;
+        display: flex;
+    }
+
+    .nav-links {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .nav-links a {
+        font-size: 15px;
+        padding: 10px;
+        border-radius: 5px;
+        display: flex;
+        text-align: center;
+    }
+    
+    #nav .nav-image img {
+        height: 100px;
+        margin-left: 29px;
+    }
+
+    #nav .closebtn {
+        display: none;
+    }
+    #nav .nav-image {
+        width: 100%;
+        display: flex;
+    }
+
+    .nav-links {
+        margin-right: 20px;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .body-wrapper {
+        padding: 25px 30px;
+    }
+}
+</style>

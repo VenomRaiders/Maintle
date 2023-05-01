@@ -92,7 +92,7 @@ function createInvestor(){
 
                 <div class="flex justify-center">
                     <LoadingComponent v-if="form.processing" class="border-2 border-primary"/>
-                    <input type="submit" value="Create Account" v-else class="rounded-md bg-primary text-white font-bold py-2 px-4 cursor-pointer">
+                    <input type="submit" value="Create Account" v-else class="rounded-md bg-[#316802] text-white font-bold py-2 px-4 cursor-pointer">
                 </div>
             </form>
 

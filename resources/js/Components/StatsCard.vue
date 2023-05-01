@@ -6,9 +6,6 @@ defineProps({
     statNumbers: {
         type: Number
     },
-    statPercentage: {
-        type: Number
-    },
     icon: {
         type: String
     }
@@ -20,7 +17,6 @@ defineProps({
         <div class="card-details">
             <h1>{{ cardTitle }}</h1>
             <p>{{ statNumbers }}</p>
-            <small><i class="fa-solid fa-arrow-up"></i> {{ statPercentage }}%</small>
         </div>
         <div class="icon">
             <i :class="icon"></i>

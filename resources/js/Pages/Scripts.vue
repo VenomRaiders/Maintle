@@ -17,7 +17,7 @@ function buyScript(id){
     <Head title="Scripts" />
 
     <div id="catalog">
-        <NavBar class="bg-primary"/>
+        <NavBar class="bg-[#316802]"/>
         
         <div class="mx-4">
             <h1 class="text-center text-4xl font-bold my-4">Available Scripts</h1>
@@ -39,3 +39,7 @@ function buyScript(id){
         </div>
     </div>
 </template>
+
+<style>
+
+</style>
