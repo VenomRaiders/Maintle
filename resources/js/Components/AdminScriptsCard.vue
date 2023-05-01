@@ -1,4 +1,4 @@
-<script setup>
+    <script setup>
 import StandardButton from "./StandardButton.vue";
 import Tags from "./Tags.vue";
 

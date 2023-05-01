@@ -5,33 +5,126 @@ import HomePageLayout from "@/Layouts/HomePageLayout.vue";
 
 <template>
     <Head title="Home"/>
-    <HomePageLayout>
-        <div class="herro bg-black bg-opacity-70 py-8 px-2 flex flex-col items-center">
-            <h1 class="text-white font-bold text-4xl md:text-6xl uppercase">Welcome to the maintle</h1>
-            <div class="">
-                <h1 class="st font-bold text-xl md:text-2xl my-4 uppercase">Professional Script writers and scripts available</h1>
-            <p class="text-white text-justify">A marketing platform for scriptwriters where potential film-makers purchase <br />meaningful scripts for their movies</p>
+    <HomePageLayout toggle-class="homepage">
+        <div class="main-screen">
+            <h1 class="h">Welcome to the maintle</h1>
+            <div class="main-screen-items">
+                <p class="st">Professional Script writers and scripts available</p>
+                <p class="mission-statement">A marketing platform for scriptwriters where potential film-makers purchase meaningful scripts for their movies</p>
             </div>
         </div>
 
-        <section id="utils" class="container mx-auto py-8 pr-2 md:pr-0 flex flex-col items-end space-y-4">
-            <Link href="#" class="bg-green-300 text-white font-bold rounded-md py-2 text-center w-60">become an investor</Link>
-            <Link href="#" class="bg-green-300 text-white font-bold rounded-md py-2 text-center w-60">become a scriptwriter</Link>
+        <section id="utils">
+            <Link :href="route('register.investor')">Be an Investor</Link>
+            <Link :href="route('register.scriptwritter')">For Scriptwriters</Link>
         </section>
 
-        <section id="utils-2" class="w-3/5 md:w-2/5 py-10 md:py-16 bg-black bg-opacity-70 flex flex-col items-center justify-center">
-            <Link href="#" class="bg-green-300 text-white font-bold rounded-md py-2 px-4 text-center">browse scripts & projects</Link>
+        <section id="utils-2">
+            <Link :href="route('scripts')" >Scripts Gallery</Link>
         </section>
     </HomePageLayout>
     
 </template>
 
 <style scoped>
+
+.main-screen {
+    background-color: #010101a8;
+    border-radius: 5px;
+    padding: 25px;
+    margin-top: 90px;
+    color: white;
+}
+
+h1, .st {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.main-screen .h {
+    margin-bottom: 20px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.main-screen-items p {
+    display: flex;
+    flex-direction: column;
+}
+
+.mission-statement {
+    font-family: 'Montserrat Alternates', sans-serif;
+    font-size: 15px;
+    color: whitesmoke;
+    margin-top: 20px;
+}
+
 #utils a, #utils-2 a {
-    background-color: var(--primary-color);
+    background: linear-gradient(120deg,
+        var(--alternate-color),
+        var(--hues-2)
+    );
+    border-radius: 5px;
+    padding: 12px;
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#utils {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    justify-content: flex-start;
+}
+
+#utils a {
+    width: fit-content;
+    align-self: flex-end;
+    margin-top: 10px;
+}
+
+#utils-2 {
+    background-color: #010101a8;
+    border-radius: 5px;
+    padding: 40px;
+    width: fit-content;
+}
+
+
+#utils a:hover, #utils-2 a:hover {
+    background: var(--primary-color);
 }
 
 .st {
     color: var(--alternate-color);
+    font-size: 15px;
+}
+
+/* Scaling for desktop */
+
+@media only screen and (min-width: 735px) {
+    .main-screen h1 {
+        font-size: 25px;
+    }
+    .main-screen .st {
+        font-size: 17   px;
+    }
+}
+
+@media only screen and (min-width: 1100px) {
+    .main-screen {
+        display: flex;
+    }
+    .main-screen h1 {
+        width: 90%;
+        font-size: 40px;
+    }
+
+    .main-screen-items .st {
+        font-size: 18px;
+    }
 }
 </style>

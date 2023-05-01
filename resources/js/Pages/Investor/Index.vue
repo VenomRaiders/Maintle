@@ -7,6 +7,6 @@ import { Head } from '@inertiajs/vue3';
 <template>
     <Head title="Investor Dashboard" />
     <InvestorDashboardLayout>
-        <h1>Main content here</h1>
+        <h1>Investor Dashboard</h1>
     </InvestorDashboardLayout>
 </template>

@@ -83,7 +83,7 @@ function toggleNavBarOff() {
                         />
                     </svg>
                 </button>
-                <Link :href="route('home')" class="logo">
+                <Link :href="route('home')" as="div" class="logo cursor-pointer">
                     <img
                         src="/images/maintle-logo.png"
                         alt="maintle logo image"
@@ -188,7 +188,7 @@ main {
 
 .nav-top {
     width: 100%;
-    height: 50px;
+    height: 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -200,7 +200,7 @@ main {
 }
 
 .nav-top img {
-    height: inherit;
+    height: 70px;
 }
 
 .body-wrapper {
