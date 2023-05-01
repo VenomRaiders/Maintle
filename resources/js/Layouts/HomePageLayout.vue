@@ -1,9 +1,20 @@
 <script setup>
-import { Link } from "@inertiajs/vue3";
-import { ref } from "vue"
+import { Link, usePage } from "@inertiajs/vue3";
+import { ref, computed } from "vue";
 
-const props = defineProps(['tab']);
+defineProps({
+    toggleClass: {
+        type: String,
+        default: ""
+    },
+    tabHeader: {
+        type: String,
+    }
+})
+
 const showDropDown = ref(false);
+const user = computed(() => usePage().props.auth.user)
+
 
 function toggleNavBarOn() {
     document.getElementById("nav").style.width = "250px";
@@ -61,18 +72,14 @@ function toggleNavBarOff() {
                     </div>
                 </div>
 
-                <div v-if="role == 'investor'" class="flex flex-col md:flex-row md:space-x-8 items-center">
-                    <Link href="#" class="text-white uppercase">Catalog</Link>
-                </div>
-
                 <div v-if="user" class="flex flex-col md:flex-row md:space-x-8 items-center">
                     <Link :href="route('dashboard')" class="text-white uppercase">Dashboard</Link>
-                    <Link :href="route('logout')" as="button" method="POST" class="text-white uppercase bg-[#316802] p-2 rounded-md">Logout</Link>
+                    <Link :href="route('logout')" method="POST" class="text-white uppercase">Logout</Link>
                 </div>
             </div>
         </section>
-        <section id="nav-body" class="homepage">
-            <div class="nav-top">
+        <section id="nav-body" :class="toggleClass">
+            <div class="nav-top homepage">
                 <!-- toggle button -->
                 <button class="toggle" @click="toggleNavBarOn()">
                     <svg
@@ -80,8 +87,8 @@ function toggleNavBarOff() {
                         fill="none"
                         viewBox="0 0 25 24"
                         stroke-width="1.5"
-                        stroke="currentColor"
-                        class="w-9 h-9"
+                        stroke="white"
+                        class="w-9 h-9 "
                     >
                         <path
                             stroke-linecap="round"
@@ -90,7 +97,7 @@ function toggleNavBarOff() {
                         />
                     </svg>
                 </button>
-                <Link :href="route('home')" class="logo">
+                <Link :href="route('home')" as="div" class="logo cursor-pointer">
                     <img
                         src="/images/maintle-logo.png"
                         alt="maintle logo image"
@@ -98,6 +105,8 @@ function toggleNavBarOff() {
                 </Link>
             </div>
             <div class="body-wrapper">
+                <h1 class="tab-header">{{ tabHeader }}</h1>
+                <hr class="st">
                 <slot />
             </div>
         </section>
@@ -117,7 +126,7 @@ main {
     width: 0;
     position: fixed;
     overflow-x: hidden;
-    z-index: 1;
+    z-index: 2;
     top: 0;
     left: 0;
     color: var(--text-color);
@@ -167,13 +176,11 @@ main {
 .nav-links {
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 .nav-links a, .nav-links button {
     display: flex;
     align-items: center;
-    width: 100%;
     padding: 15px 27px;
     transition: 0.3s;
 }
@@ -208,10 +215,15 @@ main {
 
 .nav-top {
     width: 100%;
-    height: 50px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 70px;
+    z-index: 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 10px 15px;
 }
 
 .nav-top a {
@@ -220,12 +232,35 @@ main {
 }
 
 .nav-top img {
-    height: inherit;
+    height: 70px;
+    margin-right: 10px;
 }
 
+.logo {
+    margin-right: -15px;
+}
+
+.body-wrapper {
+    padding-top: 70px;
+}
 
 .body-wrapper h1 {
     line-height: 35px;
+}
+
+.st {
+    height: 5px;
+    background: linear-gradient(120deg,
+        var(--alternate-color),
+        var(--hues-2)
+    );
+}
+
+.tab-header {
+    font-family: 'Montserrat Alternates', sans-serif;
+    font-weight: bold;
+    padding-top: 15px;
+    margin-bottom: 5px;
 }
 
 /* Scaling for desktop screens */
@@ -241,28 +276,36 @@ main {
     main {
         flex-direction: column;
     }
+
+    .tab-header, .st {
+        display: none;
+    }
     #nav-body .nav-top {
         display: none;
+        height: 60px;
     }
     #nav {
         all: unset;
         color: var(--text-color);
         transition: 0.5s;
         display: flex;
+        align-items: center;
+        z-index: 1;
     }
 
     .nav-links {
         width: 100%;
         display: flex;
         flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
     }
 
     .nav-links a {
         font-size: 15px;
+        height: fit-content;
         padding: 10px;
         border-radius: 5px;
-        display: flex;
-        text-align: center;
     }
     
     #nav .nav-image img {
@@ -273,6 +316,7 @@ main {
     #nav .closebtn {
         display: none;
     }
+
     #nav .nav-image {
         width: 100%;
         display: flex;
@@ -286,6 +330,25 @@ main {
 @media only screen and (min-width: 1200px) {
     .body-wrapper {
         padding: 25px 30px;
+    }
+}
+
+/* fix the about us cloaking together */
+@media only screen and (max-width: 1544px) {
+    .nav-image {
+        max-width: 40%;
+    }
+}
+
+@media only screen and (max-width: 1420px) {
+    .nav-image {
+        max-width: 35%;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .nav-image {
+        max-width: 25%;
     }
 }
 </style>
