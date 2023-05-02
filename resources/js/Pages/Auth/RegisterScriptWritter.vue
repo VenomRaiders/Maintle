@@ -27,9 +27,9 @@ function createAccount(){
     <AuthProcessLayout>
         <div class="form-container">
             <h1 class="text-2xl font-bold uppercase">Create A Scriptwritter Account</h1>
-            <hr>
-
+            
             <form @submit.prevent="createAccount" class="">
+                <hr class="st">
                 <div class="form-inputs">
                     <label for="profilePicture">Upload picture</label>
                     <input type="file" name="profilePicture" id="profilePicture" @input="form.profile_picture = $event.target.files[0]">
@@ -96,9 +96,9 @@ function createAccount(){
 
                 <p>Already have an account? <Link :href="route('login')" class="auth-link">Login</Link></p>
                 
-                <div>
+                <div class="submit-container">
                     <LoadingComponent v-if="form.processing" class="border-2 border-primary"/>
-                    <input type="submit" value="Confirm" v-else class="rounded-md bg-[#316802] text-white font-bold py-2 px-4 cursor-pointer float-center">
+                    <input type="submit" value="Confirm" v-else class="rounded-md bg-[#316802] text-white font-bold py-2 px-4 cursor-pointer" style="text-align: center;">
                 </div>
             </form>
         </div>
@@ -112,6 +112,14 @@ function createAccount(){
     justify-content: center;
     padding: 15px;
     align-items: center;
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+}
+
+.st {
+    height: 3px;
+    background: linear-gradient(120deg, var(--primary-color), var(--alternate-color));
 }
 
 .form-container p {
@@ -166,10 +174,19 @@ function createAccount(){
     border: 2px solid var(--hues-3)
 }
 
+.submit-container {
+    text-align: center;
+}
+
 @media only screen and (min-width: 1100px) {
     .form-container {
-        border: 1px solid red;
-        width: 550px;
+        width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    form {
+        width: 100%;
     }
 }
 
