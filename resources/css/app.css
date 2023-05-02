@@ -59,3 +59,8 @@
     font-weight: bold;
 }
 
+/* stylings for the auth links on the login and register page */
+.auth-link {
+    color: blue;
+    text-decoration: underline;
+}

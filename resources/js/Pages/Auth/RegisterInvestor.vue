@@ -27,9 +27,9 @@ function createInvestor(){
 <template>
     <AuthProcessLayout>
         <div class="">
-            <h1 class="text-4xl font-bold uppercase my-6">Create An Investor Account</h1>
-
-            <form @submit.prevent="createInvestor" class="my-10 flex flex-col space-y-4 border-t-2 border-t-slate-500">
+            <h1 class="text-2xl font-bold uppercase my-5">Create An Investor Account</h1>
+            <hr class="border-t-1 border-t-slate-500">
+            <form @submit.prevent="createInvestor" class="my-10 flex flex-col space-y-4">
                 <div class="">
                     <div class="flex flex-col space-y-2 mb-2">
                         <label for="profilePicture" class="font-bold text-black text-2xl">Upload profile picture</label>
@@ -89,6 +89,8 @@ function createInvestor(){
                         <input type="password" name="password_confirmation" id="password_confirmation" v-model="form.password_confirmation" placeholder="Confirm Password" class="p-0 border-none outline-none focus:ring-0" required>
                     </div>
                 </div>
+
+                <h1 class="font-bold">Already have an account? <Link :href="route('login')" class="auth-link">Login</Link></h1>
 
                 <div class="flex justify-center">
                     <LoadingComponent v-if="form.processing" class="border-2 border-primary"/>
