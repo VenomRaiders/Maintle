@@ -17,6 +17,7 @@ function buyScript(id){
 
     <HomePageLayoutVue tab-header="Scripts Gallery">
         <div class="scripts-container">
+            <h1 v-if="scripts.length === 0" class="log">No Recent Scripts</h1>
             <ScriptAndProjectCard v-for="script in scripts" :key="script.id"
             :genres="script.genres"
             :stitle="script.script_title"

@@ -1,6 +1,7 @@
 <script setup>
 import { Link, usePage } from "@inertiajs/vue3";
 import { ref, computed } from "vue";
+import FooterComponent from "@/Components/Footer.vue";
 
 defineProps({
     toggleClass: {
@@ -46,23 +47,21 @@ function toggleNavBarOff() {
                 <Link :href="route('scripts')" class="text-white uppercase" :class="{'active': $page.url.startsWith('/scripts')}">
                     <i class="fa-solid fa-scroll"></i> Scripts
                 </Link>
-                <Link href="" class="text-white uppercase">
+                <Link :href="route('projects')" class="text-white uppercase">
                     <i class="fa-solid fa-clapperboard"></i> Projects
                 </Link>
-                <Link href="" class="text-white uppercase">
+                <Link :href="route('about_us')" class="text-white uppercase">
                     <i class="fa-solid fa-circle-question"></i> About us
                 </Link>
-                <Link href="" class="text-white uppercase">
+                <Link :href="route('blog')" class="text-white uppercase">
                     <i class="fa-solid fa-blog"></i> Blog
                 </Link>
                 <div v-if="!user" class="">
-                    <button class="uppercase">
+                    <button class="uppercase flex items-center">
                         <Link :href="route('login')">
                             <i class="fa-solid fa-right-to-bracket"></i> Login
                         </Link>
-                        <svg @click="showDropDown = !showDropDown" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 st">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                        </svg>
+                        <i @click="showDropDown = !showDropDown" class="fa-solid fa-caret-down"></i>
                     </button>
 
                     <div v-if="showDropDown" id="dropdownitems" class="dropdown">
@@ -105,12 +104,16 @@ function toggleNavBarOff() {
                 </Link>
             </div>
             <div class="body-wrapper">
-                <h1 class="tab-header">{{ tabHeader }}</h1>
-                <hr class="st">
+                <div v-if="!$page.url.endsWith(('/'))">
+                   <h1 class="tab-header">{{ tabHeader }}</h1>
+                   <hr class="st"> 
+                </div>
+                
                 <slot />
             </div>
         </section>
     </main>
+    <FooterComponent></FooterComponent>
 </template>
 
 <style scoped>
@@ -135,18 +138,16 @@ main {
 }
 
 .active {
-    background: linear-gradient(120deg,
-        var(--alternate-color),
-        var(--hues-2)
-    );
+    background: var(--primary-color);
 }
 
 /* special styling for the login drop down */
 .dropdown {
-    padding: 5px;
+    border-radius: 5px;
     position: absolute;
     margin-left: 35px;
     margin-top: -10px;
+    background-color: var(--secondary-color);
 }
 
 .dropdown a, .st {
@@ -197,11 +198,7 @@ main {
 }
 
 .nav-links a:hover {
-    background: linear-gradient(
-        120deg,
-        var(--primary-color),
-        var(--secondary-color)
-    );
+    background: var(--alternate-color);
 }
 
 /* body section */
@@ -259,6 +256,7 @@ main {
 .tab-header {
     font-family: 'Montserrat Alternates', sans-serif;
     font-weight: bold;
+    text-transform: uppercase;
     padding-top: 15px;
     margin-bottom: 5px;
 }
@@ -277,9 +275,6 @@ main {
         flex-direction: column;
     }
 
-    .tab-header, .st {
-        display: none;
-    }
     #nav-body .nav-top {
         display: none;
         height: 60px;

@@ -4,7 +4,7 @@ import HomePageLayoutVue from "@/Layouts/HomePageLayout.vue";
 import StandardButton from '@/Components/StandardButton.vue';
 import ScriptAndProjectCard from "@/Components/ScriptAndProjectCard.vue";
 
-const props = defineProps(['scripts'])
+const props = defineProps(['projects'])
 
 function buyScript(id){
     router.post('/scripts/buy', {script_id: id})
@@ -15,17 +15,18 @@ function buyScript(id){
 <template>
     <Head title="Scripts" />
 
-    <HomePageLayoutVue tab-header="Scripts Gallery">
+    <HomePageLayoutVue tab-header="Projects Gallery">
         <div class="scripts-container">
-            <ScriptAndProjectCard v-for="script in scripts" :key="script.id"
-            :genres="script.genres"
-            :stitle="script.script_title"
-            :body="script.script_synopsis"
-            :poster-image="script.poster_image"
+            <h1 v-if="projects.length === 0" class="log">No Recent Projects</h1>
+            <ScriptAndProjectCard v-for="project in projects" :key="script.id"
+            :genres="project.genres"
+            :stitle="project.script_title"
+            :body="project.script_synopsis"
+            :poster-image="project.poster_image"
             >
                 <template #buttons>
-                    <StandardButton text="View" :is-link=true :href="route('script_details', script.id)"/>
-                    <StandardButton text="Buy" @click.prevent="buyScript(script.id)" />
+                    <StandardButton text="View" :is-link=true :href="route('script_details', project.id)"/>
+                    <StandardButton text="Buy" @click.prevent="buyScript(project.id)" />
                 </template>
             </ScriptAndProjectCard>
         </div>

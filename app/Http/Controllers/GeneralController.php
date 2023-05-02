@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\User;
 use App\Models\ScriptCollection;
+use App\Models\Project;
 
 class GeneralController extends Controller
 {
@@ -24,5 +25,18 @@ class GeneralController extends Controller
         $genres = $script->genres;
         $sub_genres = $script->subGenres;
         return Inertia::render('ScriptDetails', ['script' => $script,'admin_contact' => $admin_contact]);
+    }
+
+    public function projects() {
+        $projects = Project::all();
+        return Inertia::render('Projects', ['projects' => $projects]);
+    }
+
+    public function about_us() {
+        return Inertia::render('About');
+    }
+
+    public function blog() {
+        return Inertia::render('Blog');
     }
 }
