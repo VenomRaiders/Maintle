@@ -1,6 +1,5 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
-import AccountBadge from "@/Components/AccountBadge.vue";
 import SuccessMessage from "@/Components/SuccessMessage.vue";
 import ErrorMessage from "@/Components/ErrorMessage.vue";
 

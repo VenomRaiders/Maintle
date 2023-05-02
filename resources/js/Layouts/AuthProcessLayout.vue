@@ -1,164 +1,253 @@
 <script setup>
-import { Link } from "@inertiajs/vue3"
-import { ref } from "vue"
-import SuccessMessage from "@/Components/SuccessMessage.vue"
-import ErrorMessage from "@/Components/ErrorMessage.vue"
+import { Link } from "@inertiajs/vue3";
+import SuccessMessage from "@/Components/SuccessMessage.vue";
+import ErrorMessage from "@/Components/ErrorMessage.vue";
 
-const showSideBar = ref(false)
-function checkUserAgent() {
-    if (window.innerWidth < 1999) {
-        showSideBar.value = false;
-    }else{
-        showSideBar.value = true;
-    }
+function toggleNavBarOn() {
+    document.getElementById("nav").style.width = "250px";
 }
 
-window.addEventListener('resize', checkUserAgent);
+function toggleNavBarOff() {
+    document.getElementById("nav").style.width = "0";
+}
 </script>
 
 <template>
-  <main>
-    
-    <section id="sw-nav" :class="{'hidden': !showSideBar}">
-      <div class="sw-nav-items">
-        <Link :href="route('home')" class="logo">
-          <img src="/images/maintle-logo.png" alt="maintle logo image">
-        </Link>
-      
-        <ul v-if="$page.url.startsWith('/register')">
-          <Link :href="route('register.scriptwritter')" as="li" :class="{'active': $page.url.startsWith('/register/scriptwritter')}" class="cursor-pointer text-white font-bold uppercase">
-            Scriptwritter
-          </Link>
-          <Link :href="route('register.investor')" as="li" :class="{'active': $page.url.startsWith('/register/investor')}" class="cursor-pointer text-white font-bold uppercase">
-            Investor
-          </Link>
-        </ul>
+    <main>
+        <section id="nav">
+            <div class="nav-image">
+                <Link :href="route('home')" class="logo">
+                    <img
+                        src="/images/maintle-logo.png"
+                        alt="maintle logo image"
+                    />
+                </Link>
+            </div>
+            <!-- <Link :href="route('home')" class="logo"> -->
+            <!-- </Link> -->
+            <a class="closebtn" @click="toggleNavBarOff()">&times;</a>
+            <div class="nav-links" v-if="!$page.url.startsWith('/login')">
+              <Link :href="route('register.scriptwritter')" :class="{'active': $page.url.startsWith('/register/scriptwritter')}">
+                <i class="fa-solid fa-scroll"></i> Scriptwritter
+              </Link>
+              <Link :href="route('register.investor')" :class="{'active': $page.url.startsWith('/register/investor')}">
+                <i class="fa-solid fa-coins"></i> Investor
+              </Link>
+            </div>
+            <div class="nav-links" v-else-if="$page.url.startsWith('/login')">
+              <Link :href="route('home')" class="logo">
+                    <i class="fa-solid fa-house"></i>Home
+                </Link>
+            </div>
 
-      </div>
-      
-    </section>
-    <!-- Position also matters where you are emitting the signal -->
-    <button class="toggle" @click="showSideBar = !showSideBar">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 25 24" stroke-width="1.5" stroke="currentColor" class="w-9 h-9">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-      </svg>
-    </button>
-    <section id="sw-body">
-        <SuccessMessage v-if="$page.props.flash.message"> {{$page.props.flash.message}} </SuccessMessage>
-        <ErrorMessage v-if="$page.props.flash.error"> {{$page.props.flash.error}} </ErrorMessage>
-        <slot />
-    </section>
-  </main>
+        </section>
+        <section id="nav-body">
+            <SuccessMessage v-if="$page.props.flash.message">
+                {{ $page.props.flash.message }}
+            </SuccessMessage>
+            <ErrorMessage v-if="$page.props.flash.error">
+                {{ $page.props.flash.error }}
+            </ErrorMessage>
+            <div class="nav-top">
+                <button class="toggle" @click="toggleNavBarOn()">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 25 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-9 h-9"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                        />
+                    </svg>
+                </button>
+                <Link :href="route('home')" as="div" class="logo cursor-pointer">
+                    <img
+                        src="/images/maintle-logo.png"
+                        alt="maintle logo image"
+                    />
+                  </Link>
+            </div>
+            <div class="body-wrapper">
+                <slot />
+            </div>
+        </section>
+    </main>
 </template>
 
 <style scoped>
-
-/* Mobile view 300px - 1199px */
-
 main {
-  background-color: var(--primary-color);
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
+    display: flex;
 }
 
-#sw-nav {
-  width: 100%;
-  position: relative;
-  border-right: 1px solid var(--border-color);
-  border-radius: 3px;
-  font-size: 20px;
-  transition: ease-in 0.5s ease;
-}
-
-.sw-nav-items a {
-  width: 100px;
-  height: 70px;
-}
-.sw-nav-items {
-  display: flex;
-  flex-direction: column;
-}
-
-.sw-nav-items ul {
-  padding: 10px 24px;
-  height: auto;
-}
-
-.sw-nav-items ul li {
-  height: 40px;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 15px;
+#nav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    overflow-x: hidden;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background: linear-gradient(
+        120deg,
+        var(--primary-color),
+        var(--alternate-color)
+    );
+    color: var(--text-color);
+    transition: 0.5s;
+    padding-top: 70px;
 }
 
 .active {
-  background-color: var(--alternate-color);
-  color: var(--text-color);
+    background: linear-gradient(
+        120deg,
+        var(--primary-color),
+        var(--secondary-color)
+    );
+    font-size: 20px;
 }
 
-#sw-nav li:hover {
-  background-color: var(--alternate-color);
-  color: var(--text-color);
-}
-
-#sw-body {
-  width: 100%;
-  /* height: 100svh; */
-  padding: 30px;
-  background-color: var(--alternate-background-color);
-}
-
-.toggle {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 10px;
-}
-
-/* Media queries for the responsive layout */
-/* 1200px -> */
-@media only screen and (min-width: 1200px) {
-  .toggle {
+#nav .nav-image {
     display: none;
-  }
+}
 
-  main {
-    flex-direction: row;
-  }
-
-  #sw-body {
-    height: 100vh;
-  }
-
-  #sw-nav {
-    display: block;
-    width: 300px;
-  }
-
-  .sw-nav-items {
-    display: block;
-  }
-  .sw-nav-items ul {
-    padding: 0;
-  }
-  .sw-nav-items ul li {
-    height: 60px;
-    border-bottom: 1px solid var(--border-color);
-    border-radius: 3px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 18px;
-  }
-
-  .sw-nav-footer {
-    width: 100%;
+#nav > .closebtn {
     position: absolute;
-    left: 0;
-    bottom: 0;
-  }
+    top: 0;
+    right: 25px;
+    font-size: 40px;
+    cursor: pointer;
+    color: red;
+    color: rgba(255, 255, 255, 0.836);
+    transition: 0.3s;
+}
+
+#nav > .closebtn:hover {
+    color: white;
+}
+
+.nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nav-links a {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 15px 27px;
+    transition: 0.3s;
+    font-size: 20px;
+}
+
+.nav-links a > i {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.nav-links a:hover {
+    background: linear-gradient(
+        120deg,
+        var(--primary-color),
+        var(--secondary-color)
+    );
+    font-size: 20px;
+}
+
+.nav-icons {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 55px 10px;
+  position: absolute;
+  bottom: 0;
+}
+
+.nav-icons a {
+  color: white;
+  font-size: 30px;
+}
+
+#nav-body {
+    width: 100%;
+    height: 100svh;
+    overflow-y: auto;
+    padding: 10px 20px;
+    background-color: var(--alternate-background-color);
+}
+
+.nav-top {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-top a {
+    height: inherit;
+    background-size: cover;
+}
+
+.nav-top img {
+    height: 70px;
+}
+
+.body-wrapper {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.body-wrapper h1 {
+    line-height: 35px;
+}
+.st {
+    height: 5px;
+    background: linear-gradient(
+        120deg,
+        var(--primary-color),
+        var(--secondary-color)
+    );
+}
+
+/* Responsive media queries to scale to desktop size */
+
+@media only screen and (min-width: 690px) {
+    .body-wrapper h1 {
+        font-size: 18px;
+    }
+}
+
+@media only screen and (min-width: 1100px) {
+    #nav-body .nav-top {
+        display: none;
+    }
+    #nav {
+        min-width: 250px;
+        min-height: 100svh;
+        position: relative;
+        padding-top: 0;
+    }
+
+    #nav .closebtn {
+        display: none;
+    }
+
+    #nav .nav-image {
+        width: 100%;
+        display: flex;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .body-wrapper {
+        padding: 25px 30px;
+    }
 }
 </style>
