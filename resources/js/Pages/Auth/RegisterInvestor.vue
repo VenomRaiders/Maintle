@@ -255,10 +255,6 @@ function createInvestor(){
     border: none;
 }
 
-.form-inputs input:focus {
-    border: 1px solid var(--hues-3)
-}
-
 .form-group {
     display: flex;
     gap: 10px;
@@ -286,6 +282,9 @@ function createInvestor(){
 .extra-info-container input {
     border: 1px solid var(--border-color)
 }
+
+
+/* responsive for desktop sizes */
 
 @media only screen and (min-width: 1100px) {
     .form-container {

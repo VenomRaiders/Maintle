@@ -106,6 +106,9 @@ function createAccount(){
 </template>
 
 <style scoped>
+
+/* Mobile styling first */
+
 .form-container {
     display: flex;
     flex-direction: column;
@@ -168,10 +171,6 @@ function createAccount(){
 .gender {
     display: flex;
     gap: 10px;
-}
-
-.form-inputs input:focus {
-    border: 2px solid var(--hues-3)
 }
 
 .submit-container {
