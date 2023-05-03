@@ -25,7 +25,7 @@ function buyScript(id){
             :poster-image="project.poster_image"
             >
                 <template #buttons>
-                    <StandardButton text="View" :is-link=true :href="route('script_details', project.id)"/>
+                    <StandardButton text="View" :is-link=true :href="route('project_details', project.id)"/>
                     <StandardButton text="Buy" @click.prevent="buyScript(project.id)" />
                 </template>
             </ScriptAndProjectCard>

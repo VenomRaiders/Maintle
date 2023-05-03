@@ -1,6 +1,5 @@
 <script setup>
 import ScriptwriterDashboardLayout from '@/Layouts/ScriptwriterDashboardLayout.vue';
-import StandardButton from '@/Components/StandardButton.vue';
 import ScriptsViewCard from "@/Components/ScriptsViewCard.vue";
 </script>
 
