@@ -15,8 +15,11 @@ class Investor extends Model
         'number_of_productions',
         'links_to_trailers',
         'work_in_production_company',
+        'work_in_production_company_details',
         'own_production_company',
-        'independent_investor'
+        'own_production_company_details',
+        'independent_investor',
+        'independent_investor_details'
     ];
 
     function user () {
