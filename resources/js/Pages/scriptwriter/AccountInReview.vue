@@ -1,20 +1,20 @@
 <script setup>
 import SuccessMessage from '@/Components/SuccessMessage.vue';
 import StandardButton from '@/Components/StandardButton.vue';
+import HomePageLayoutVue from "@/Layouts/HomePageLayout.vue";
 const props = defineProps(['scripts'])
 
 </script>
 
 <template>
-    <div id="info" class="flex justify-center items-center gap-10 h-full">
-		<img src="/images/maintle-logo.png" alt="">
-		<SuccessMessage>
-			<b>Your submited first Script is under review. You'll receive an email confirmation if your script has been approved.
-			Once Approved, you will be able to log in to your account and add more scripts!</b>
-		</SuccessMessage>
-		<StandardButton text="Logout" method="post" :isLink=true :href="route('logout')"></StandardButton>
-    </div>
-
+	<HomePageLayoutVue tab-header="First script under review">
+		<div id="info" class="flex justify-center items-center gap-10 h-full">
+			<p class="p-4 my-2 text-lg text-primary bg-green-100 rounded-lg">
+				<b>Your submited first Script is under review. You'll receive an email confirmation if your script has been approved.
+				Once Approved, you will be able to log in to your account and add more scripts!</b>
+			</p>
+		</div>
+	</HomePageLayoutVue>
 </template>
 
 <style scoped>
