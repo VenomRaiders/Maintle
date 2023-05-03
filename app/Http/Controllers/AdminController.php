@@ -9,6 +9,8 @@ use App\Models\Genre;
 
 use App\Models\ScriptCollection;
 use App\Models\Role;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\GeneralEmailNotification;
 
 class AdminController extends Controller
 {
@@ -63,7 +65,10 @@ class AdminController extends Controller
         $user->scriptWriter->is_verified = true;
         $user->scriptWriter->save();
 
-        //TODO: send email notification to user
+        $title = "Script successfully approved";
+        $body = "Your script have been successfully approved. You can login to the platform and continue using the system";
+
+        Mail::to($user->email)->send(new GeneralEmailNotification($title, $body));
 
         return redirect()->route('admin.scripts_approved');
     }
@@ -78,7 +83,13 @@ class AdminController extends Controller
 
         $script->delete();
 
-        //TODO: send email notification to user
+        $title = "First script decline";
+        $body = "
+            <p>Hello We are writing to inform you that your first script uploaded for review has been declined</p>
+            <p>The script did not meet with our minimum requirements for the system. You can login to the system and upload a different one for reveiw</p>
+        ";
+        
+        Mail::to($user->email)->send(new GeneralEmailNotification($title, $body));
 
         return redirect()->route('admin.all_scripts');
     }
