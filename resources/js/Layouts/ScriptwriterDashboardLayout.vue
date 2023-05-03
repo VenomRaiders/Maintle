@@ -171,6 +171,7 @@ main {
 
 .body-wrapper h1 {
   line-height: 35px;
+  font-family: 'Montserrat Alternates', sans-serif;
 }
 
 .st {

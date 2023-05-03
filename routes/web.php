@@ -60,6 +60,8 @@ Route::group(['middleware' => ['auth','is_admin'], 'prefix' => 'admin', 'as'=>'a
 Route::group(['middleware' => ['auth','verified','is_verified_script_writter'], 'prefix' => 'scriptwriter', 'as'=>'scriptwriter.'], function(){
     Route::get("/dashboard", [ScriptWrittersController::class, "dashboard"])->name("dashboard");
     Route::get("/add_script", [ScriptWrittersController::class, "add_script"])->name("add_script");
+    Route::get('/{id}/view', [ScriptWrittersController::class, 'view_script'])->name('script.view');
+    Route::get('/{id}/edit', [ScriptWrittersController::class, 'edit_script'])->name('script.edit');
 });
 
 Route::post("scriptwriter/add_script", [ScriptWrittersController::class, "save_script"])->name("add_script.posts")->middleware(['auth','verified']);
