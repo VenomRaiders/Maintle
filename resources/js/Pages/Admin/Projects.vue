@@ -13,9 +13,6 @@ import AdminProjectsCard from "@/Components/AdminProjectsCard.vue";
 
             <!-- Component for all the project cards -->
             <AdminProjectsCard></AdminProjectsCard>
-            <AdminProjectsCard></AdminProjectsCard>
-            <AdminProjectsCard></AdminProjectsCard>
-
         </div>
     </AdminDashboardLayout>
 </template>
