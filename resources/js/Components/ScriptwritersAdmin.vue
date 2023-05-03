@@ -6,6 +6,35 @@ import { Link } from "@inertiajs/vue3";
 <template>
     <AdminDashboardLayout>
         <div class="content">
+            <div class="tab-buttons">
+                <Link
+                    :href="route('admin.all_scripts')"
+                    :class="{
+                            active: $page.url.startsWith('/admin/scriptwriters/all_scripts'),
+                        }"
+                    as="button"
+                    class="btn"
+                    > All Scripts
+                </Link>
+                <Link
+                    :href="route('admin.scripts_pending')"
+                    :class="{
+                            active: $page.url.startsWith('/admin/scriptwriters/pending'),
+                        }"
+                    as="button"
+                    class="btn"
+                    > Pending
+                </Link>
+                <Link
+                    :href="route('admin.scripts_approved')"
+                    :class="{
+                            active: $page.url.startsWith('/admin/scriptwriters/approved'),
+                        }"
+                    as="button"
+                    class="btn"
+                    > Approved
+                </Link>
+            </div>
             <div class="scripts-container">
                 <slot />
             </div>
@@ -16,6 +45,9 @@ import { Link } from "@inertiajs/vue3";
 <style scoped>
 /* Default styling is for mobile */
 
+.tab-buttons {
+    display: flex;
+}
 .btn {
   display: flex;
   justify-content: center;
@@ -31,6 +63,10 @@ import { Link } from "@inertiajs/vue3";
   border-radius: 0px;
   transition: 0.3s;
   font-size: 13px;
+}
+
+.tab-buttons .btn:hover {
+    margin-top: -5px;
 }
 
 .content {

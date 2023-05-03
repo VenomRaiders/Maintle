@@ -1,7 +1,10 @@
 <script setup>
-import { Head, Link } from "@inertiajs/vue3"
+import { computed } from "vue"
+import { Head, Link, usePage } from "@inertiajs/vue3"
 import HomePageLayout from "@/Layouts/HomePageLayout.vue";
 
+const user = computed(() => usePage().props.auth.user)
+const role = computed(() => usePage().props.auth.role)
 
 </script>
 
@@ -16,9 +19,13 @@ import HomePageLayout from "@/Layouts/HomePageLayout.vue";
             </div>
         </div>
 
-        <section id="utils">
+        <section id="utils" v-if="!user">
             <Link :href="route('register.investor')">Be an Investor</Link>
             <Link :href="route('register.scriptwritter')">For Scriptwriters</Link>
+        </section>
+
+        <section id="utils" v-else>
+            <Link :href="route('dashboard')">Dashboard</Link>
         </section>
 
         <section id="utils-2">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Investor;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -77,7 +78,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        // TODO: redirect to investor dashboard when done
         return redirect()->route('scriptwriter.dashboard')->with("message", "Account created successfully. Please check your email account to verify your account"); 
     }
 
@@ -87,7 +87,16 @@ class RegisteredUserController extends Controller
             'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:'.User::class,
             'phone_number' => 'required|unique:'.User::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()]
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'previous_productions' => 'required', 
+            'number_of_productions' => 'required',
+            'links_to_trailers' => 'required',
+            'work_in_production_company' => 'required',
+            'workInCompany' => 'required_if:work_in_production_company,1',
+            'own_production_company' => 'required',
+            'productionCompany' => 'required_if:own_production_company,1',
+            'independent_investor' => 'required',
+            'independentInvestor' => 'required_if:independet_investor,1'
         ]);
 
         $profile_image_url = $request->file('profile_picture')->store('images/profiles','public');
@@ -99,6 +108,19 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'profile_pic_url' => $profile_image_url
+        ]);
+
+        $investor_details = Investor::create([
+            'user_id' => $user->id,
+            'previous_productions' => $request->previous_productions,
+            'number_of_productions' => $request->number_of_productions,
+            'links_to_trailers' => $request->links_to_trailers,
+            'work_in_production_company' => $request->work_in_production_company,
+            'work_in_production_company_details' => json_encode($request->workInCompany),
+            'own_production_company' => $request->own_production_company,
+            'own_production_company_details' => json_encode($request->productionCompany),
+            'independent_investor' => $request->independent_investor,
+            'independent_investor_details' => json_encode($request->independentInvestor)
         ]);
 
         event(new Registered($user));

@@ -1,7 +1,6 @@
 <script setup>
 import AdminDashboardLayout from "@/Layouts/AdminDashboardLayout.vue";
 import StatsCard from "@/Components/StatsCard.vue";
-import StandardButton from "@/Components/StandardButton.vue";
 
 const props = defineProps(["stats", "scripts_needing_approval"])
 
@@ -26,8 +25,6 @@ const props = defineProps(["stats", "scripts_needing_approval"])
                 icon="fa-solid fa-scroll"
             />
         </div>
-
-        
     </AdminDashboardLayout>
 </template>
 
