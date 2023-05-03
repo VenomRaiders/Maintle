@@ -6,7 +6,20 @@ import ErrorMessage from "@/Components/ErrorMessage.vue"
 import LoadingComponent from "@/Components/LoadingComponent.vue"
 
 
-const workCompany = ref(false);
+const workInCompany = reactive({
+    name: "",
+    link: ""
+})
+
+const ownProductionCompany = reactive({
+    name: "",
+    link: ""
+})
+
+const independentInvestor = reactive({
+    field: "",
+    link: ""
+})
 
 const form = useForm({
     profile_picture: null,
@@ -15,6 +28,24 @@ const form = useForm({
     phone_number: "",
     password: "",
     password_confirmation: "",
+    previous_productions: "",
+    number_of_productions: "",
+    links_to_trailers: "",
+    work_in_production_company: null,
+    workInCompany: {
+        name: "",
+        link: ""
+    },
+    own_production_company: null,
+    productionCompany: {
+        name: "",
+        link: ""
+    },
+    independent_investor: null,
+    independentInvestor: {
+        field: "",
+        linkedin_link: ""
+    }
 })
 
 function createInvestor(){
@@ -32,6 +63,7 @@ function createInvestor(){
     <AuthProcessLayout>
         <div class="form-container">
             <h1 class="text-2xl font-bold uppercase">Create An Investor Account</h1>
+            {{ form.errors }}
             <form @submit.prevent="createInvestor">
                 <hr class="st">
 
@@ -107,40 +139,39 @@ function createInvestor(){
                 </div>
 
                 <div class="form-inputs">
-                    <label for="no_of_productions">Number of Productions</label>
+                    <label for="number_of_productions">Number of Productions</label>
                     <div class="bg-white p-2 flex space-x-4 items-center border border-gray-400 rounded-md">
                         <i class="fa-solid fa-earth-africa"></i>
-                        <input type="number" name="no_of_productions" id="no_of_productions" v-model="form.no_of_productions" placeholder="Number of productions" class="p-0 border-none outline-none focus:ring-0" required>
+                        <input type="number" name="number_of_productions" id="number_of_productions" v-model="form.number_of_productions" placeholder="Number of productions" class="p-0 border-none outline-none focus:ring-0" required>
                     </div>
                 </div>
 
                 <div class="form-inputs">
-                    <label for="links_trailers">Links to trailers</label>
-                    <textarea name="links_trailers" id="links_trailers" v-model="form.links_trailers" rows="10" placeholder="https://link-to-trailers"></textarea>
-                    <ErrorMessage v-if="form.errors.links_trailers">{{ form.errors.links_trailers }}</ErrorMessage>
+                    <label for="links_to_trailers">Links to trailers</label>
+                    <textarea name="links_to_trailers" id="links_trailers" v-model="form.links_to_trailers" rows="10" placeholder="https://link-to-trailers"></textarea>
+                    <ErrorMessage v-if="form.errors.links_to_trailers">{{ form.errors.links_to_trailers }}</ErrorMessage>
                 </div>
-
                 <div class="form-inputs">
                     <div class="form-group fix-radio">
                         <label>Do you work for a production company?</label>
                         <label for="company-yes">
                             Yes
-                            <input type="radio" name="company" :value="workCompany" id="company-yes">
+                            <input type="radio" name="company" v-model="form.work_in_production_company" :value="true" id="company-yes">
                         </label>
                         <label for="company-no">
                             No
-                            <input type="radio" name="company" id="company-no">
+                            <input type="radio" name="company" id="company-no" v-model="form.work_in_production_company" :value="false">
                         </label>
                         
                     </div>
-                    <div v-if="workCompany" class="extra-info-container">
+                    <div v-if="form.work_in_production_company" class="extra-info-container">
                         <div class="form-inputs">
                             <label for="company_name">Name</label>
-                                <input type="text" name="company_name" id="company_name" v-model="form.company_name" placeholder="Comapny Name" class="p-0 border-none outline-none focus:ring-0" required>
+                                <input type="text" name="company_name" id="company_name" v-model="form.workInCompany.name" placeholder="Comapny Name" class="p-0 border-none outline-none focus:ring-0" required>
                         </div>
                         <div class="form-inputs">
                             <label for="company_link">Production Company Link</label>
-                            <input type="text" name="company_link" id="company_link" v-model="form.company_link" placeholder="Production Company Link" class="p-0 border-none outline-none focus:ring-0" required>
+                            <input type="text" name="company_link" id="company_link" v-model="form.workInCompany.link" placeholder="Production Company Link" class="p-0 border-none outline-none focus:ring-0" required>
                         </div>
                     </div>
                 </div>
@@ -150,21 +181,21 @@ function createInvestor(){
                         <label>Do you own a production company?</label>
                         <label for="production-yes">
                             Yes
-                            <input type="radio" name="production" id="production-yes">
+                            <input type="radio" name="production" id="production-yes" v-model="form.own_production_company" :value="true">
                         </label>
                         <label for="production-no">
                             No
-                            <input type="radio" name="production" id="production-no">
+                            <input type="radio" name="production" id="production-no" v-model="form.own_production_company" :value="false">
                         </label> 
                     </div>
-                    <div v-if="workCompany" class="extra-info-container">
+                    <div v-if="form.own_production_company" class="extra-info-container">
                         <div class="form-inputs">
                             <label for="company_name">Name</label>
-                                <input type="text" name="company_name" id="company_name" v-model="form.company_name" placeholder="Comapny Name" class="p-0 border-none outline-none focus:ring-0" required>
+                                <input type="text" name="company_name" id="company_name" v-model="form.productionCompany.name" placeholder="Comapny Name" class="p-0 border-none outline-none focus:ring-0" required>
                         </div>
                         <div class="form-inputs">
                             <label for="company_link">Production Company Link</label>
-                            <input type="text" name="company_link" id="company_link" v-model="form.company_link" placeholder="Production Company Link" class="p-0 border-none outline-none focus:ring-0" required>
+                            <input type="text" name="company_link" id="company_link" v-model="form.productionCompany.link" placeholder="Production Company Link" class="p-0 border-none outline-none focus:ring-0" required>
                         </div>
                     </div>
                 </div>
@@ -174,21 +205,21 @@ function createInvestor(){
                         <label>Are you an independent investor?</label>
                         <label for="independent-yes">
                             Yes
-                            <input type="radio" name="independent" id="independent-yes">
+                            <input type="radio" name="independent" id="independent-yes" v-model="form.independent_investor" :value="true">
                         </label>
                         <label for="independent-no">
                             No
-                            <input type="radio" name="independent" id="independent-no">
+                            <input type="radio" name="independent" id="independent-no" v-model="form.independent_investor" :value="false">
                         </label>
                     </div>
-                    <div v-if="workCompany" class="extra-info-container">
+                    <div v-if="form.independent_investor" class="extra-info-container">
                         <div class="form-inputs">
                             <label for="business_field">Your Field of Business</label>
-                                <input type="text" name="business_field" id="business_field" v-model="form.business_field" placeholder="Enter business field" class="p-0 border-none outline-none focus:ring-0" required>
+                                <input type="text" name="business_field" id="business_field" v-model="form.independentInvestor.field" placeholder="Enter business field" class="p-0 border-none outline-none focus:ring-0" required>
                         </div>
                         <div class="form-inputs">
                             <label for="linkedin_link">LinkedIn profile</label>
-                            <input type="text" name="linkedin_link" id="linkedin_link" v-model="form.linkedin_link" placeholder="LinkedIn profile link" class="p-0 border-none outline-none focus:ring-0" required>
+                            <input type="text" name="linkedin_link" id="linkedin_link" v-model="form.independentInvestor.linkedin_link" placeholder="LinkedIn profile link" class="p-0 border-none outline-none focus:ring-0" required>
                         </div>
                     </div>
                 </div>

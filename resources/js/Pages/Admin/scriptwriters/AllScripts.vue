@@ -1,6 +1,6 @@
 <script setup>
 import ScriptwritersAdmin from "@/Components/ScriptwritersAdmin.vue";
-import AdminScriptsCard from "@/Components/AdminScriptsCard.vue";
+import AdminScriptsCard from "@/Components/ScriptsCard.vue";
 </script>
 
 <template>
