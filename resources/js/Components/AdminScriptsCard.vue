@@ -1,11 +1,21 @@
 <script setup>
+import { useForm } from "@inertiajs/vue3";
 import StandardButton from "./StandardButton.vue";
 import Tags from "./Tags.vue";
-defineProps({
+
+const props = defineProps({
     script: Object,
     showApprove: false,
     showReject: false
 });
+
+const approveForm = useForm({
+    script_id: props.script.id,
+});
+
+function approveScript() {
+    approveForm.post(route("admin.approve_script"));
+}
 </script>
 
 <template>
@@ -22,7 +32,7 @@ defineProps({
                 </p>
             </div>
             <div class="card-buttons">
-                <StandardButton text="approve" v-if="showApprove"/>
+                <StandardButton text="approve" v-if="showApprove" @click="approveScript"/>
                 <StandardButton text="View" />
                 <StandardButton class="reject" text="Reject" v-if="showReject"/>
             </div>

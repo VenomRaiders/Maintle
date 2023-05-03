@@ -51,5 +51,19 @@ class AdminController extends Controller
         $scripts = ScriptCollection::unverifiedScripts();
         dd($scripts);
     }
+
+    public function approve_Script(Request $request){
+        $request->validate([
+            'script_id' => 'required|integer',
+        ]);
+
+        $script = ScriptCollection::find($request->script_id);
+        $user = $script->user;
+
+        $user->scriptWriter->is_verified = true;
+        $user->scriptWriter->save();
+
+        return redirect()->route('admin.scripts_approved');
+    }
     
 }
