@@ -10,21 +10,22 @@ use App\Models\Project;
 class AdminProjectController extends Controller
 {
     public function index(){
-        return Inertia::render('Admin/Projects', ["tab" => "Projects"]);
+        $projects = Project::orderBy('created_at')->get();
+        return Inertia::render('Admin/Projects', ["tab" => "Projects", "projects" => $projects]);
     }
 
     public function add_project() {
-        $projects = Project::all()->sortBy('created_at');
-        return Inertia::render('Admin/projects/AddProject', ["projects" => $projects]);
+        $genres = Genre::all();
+        return Inertia::render('Admin/projects/AddProject', ["genres" => $genres]);
     }
 
     public function store_project(Request $request){
         $validated = $request->validate([
             "title" => "required",
             "logline" => "required",
+            "cost" => "required",
             "synopsis" => "required",
             "genre" => "required",
-            "movie_format" => "required",
             "lead_cast" => "required",
             "crew" => "required"
         ]);
@@ -32,8 +33,8 @@ class AdminProjectController extends Controller
         $project = Project::create([
             "title" => $validated["title"],
             "logline" => $validated["logline"],
+            "amount" => $validated["cost"],
             "synopsis" => $validated["synopsis"],
-            "movie_format" => $validated["movie_format"],
             "lead_cast" => json_encode($validated["lead_cast"]),
             "crew" => json_encode($validated["crew"])
         ]);

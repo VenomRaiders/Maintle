@@ -14,9 +14,9 @@ class Project extends Model
         "title",
         "logline",
         "synopsis",
-        "movie_format",
         "lead_cast",
-        "crew"
+        "crew",
+        "amount",
     ];
 
     public function genres(): BelongsToMany {

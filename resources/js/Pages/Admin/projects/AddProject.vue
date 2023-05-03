@@ -32,6 +32,7 @@ const form = useForm({
   "title": "",
   "logline": "",
   "synopsis": "",
+  "cost": "",
   "genre": [],
   "movie_format": "",
   "lead_cast": leadCast.values,
@@ -88,6 +89,7 @@ function submitForm(){
                 <StandardButton text="Go Back" bg-color="var(--primary-color)" :is-link=true :href="route('admin.projects')" style="width: fit-content;"></StandardButton>
             </div>
             <h1 class="text-center text-2xl ">New Project</h1>
+            {{ form.errors }}
             <form @submit.prevent="submitForm" class="w-full">
                 <div class="form-group">
                     <label for="title">Title</label>
@@ -108,9 +110,9 @@ function submitForm(){
                 </div>
 
                 <div class="form-group">
-                    <label for="project_cost">Project Cost</label>
-                    <input type="number" v-model="form.project_cost" id="project_cost">
-                    <ErrorMessage v-if="form.errors.project_cost">{{ form.errors.project_cost }}</ErrorMessage>
+                    <label for="cost">Project Cost</label>
+                    <input type="number" v-model="form.cost" id="cost">
+                    <ErrorMessage v-if="form.errors.cost">{{ form.errors.cost }}</ErrorMessage>
                 </div>
 
                 <div class="form-group">
