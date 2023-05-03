@@ -50,6 +50,7 @@ class AdminProjectController extends Controller
         }
 
         // Todo: return the page to view the project
+        return Inertia::render('Admin/projects/ViewProject', ["project" => $project, "tab" => "Projects -> Detailed View"]);
     }
 
     public function edit_project(Request $request, $id){

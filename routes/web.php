@@ -51,10 +51,6 @@ Route::group(['middleware' => ['auth','is_admin'], 'prefix' => 'admin', 'as'=>'a
 
     Route::post("/project/add_project", [AdminProjectController::class, "store_project"])->name("store_project");
     Route::get('/profile', [AdminController::class, 'admin_profile'])->name('admin_profile');
-    Route::get('/scriptwriters/all_scripts', [AdminController::class, 'all_scripts'])->name('all_scripts');
-    Route::get('/scriptwriters/pending', [AdminController::class, 'scripts_pending'])->name('scripts_pending');
-    Route::get('/scriptwriters/approved', [AdminController::class, 'scripts_approved'])->name('scripts_approved');
-    Route::get('/scriptwriters/rejected', [AdminController::class, 'scripts_rejected'])->name('scripts_rejected');
 });
 
 Route::group(['middleware' => ['auth','verified','is_verified_script_writter'], 'prefix' => 'scriptwriter', 'as'=>'scriptwriter.'], function(){

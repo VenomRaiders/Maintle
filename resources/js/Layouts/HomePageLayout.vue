@@ -47,13 +47,13 @@ function toggleNavBarOff() {
                 <Link :href="route('scripts')" class="text-white uppercase" :class="{'active': $page.url.startsWith('/scripts')}">
                     <i class="fa-solid fa-scroll"></i> Scripts
                 </Link>
-                <Link :href="route('projects')" class="text-white uppercase">
+                <Link :href="route('projects')" class="text-white uppercase" :class="{ 'active': $page.url.startsWith('/projects') }">
                     <i class="fa-solid fa-clapperboard"></i> Projects
                 </Link>
-                <Link :href="route('about_us')" class="text-white uppercase">
+                <Link :href="route('about_us')" class="text-white uppercase" :class="{ 'active': $page.url.startsWith('/about_us') }">
                     <i class="fa-solid fa-circle-question"></i> About us
                 </Link>
-                <Link :href="route('blog')" class="text-white uppercase">
+                <Link :href="route('blog')" class="text-white uppercase" :class="{ 'active': $page.url.startsWith('/blog') }">
                     <i class="fa-solid fa-blog"></i> Blog
                 </Link>
                 <div v-if="!user" class="">
