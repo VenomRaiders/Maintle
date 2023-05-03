@@ -24,11 +24,13 @@ class AdminController extends Controller
     }
 
     public function scriptwriters() {
-        return Inertia::render('Admin/Scriptwriters', ["tab" => "ScriptWriters"]);
+        $scripts = ScriptCollection::orderBy('created_at')->with('genres')->get();
+        return Inertia::render('Admin/scriptwriters/AllScripts', ["tab" => "ScriptWriters", "scripts" => $scripts]);
     }
 
     public function all_scripts() {
-        return Inertia::render('Admin/scriptwriters/AllScripts', ["tab" => "ScriptWriters"]);
+        $scripts = ScriptCollection::orderBy('created_at')->get();
+        return Inertia::render('Admin/scriptwriters/AllScripts', ["tab" => "ScriptWriters", "scripts" => $scripts]);
     }
 
     public function scripts_pending() {
@@ -37,7 +39,8 @@ class AdminController extends Controller
     }
 
     public function scripts_approved() {
-        return Inertia::render('Admin/scriptwriters/Approved', ["tab" => "ScriptWriters"]);
+        $approved_scripts = ScriptCollection::approvedScripts();
+        return Inertia::render('Admin/scriptwriters/Approved', ["tab" => "ScriptWriters", "approved_scripts" => $approved_scripts]);
     }
 
     public function admin_profile() {
