@@ -6,44 +6,6 @@ import { Link } from "@inertiajs/vue3";
 <template>
     <AdminDashboardLayout>
         <div class="content">
-            <div class="tab-buttons">
-                <Link
-                    :href="route('admin.all_scripts')"
-                    :class="{
-                        active: $page.url.startsWith('/admin/scriptwriters/all_scripts'),
-                    }"
-                    as="button"
-                    class="btn"
-                    > All Scripts
-                </Link>
-                <Link
-                    :href="route('admin.scripts_pending')"
-                    :class="{
-                        active: $page.url.startsWith('/admin/scriptwriters/pending'),
-                    }"
-                    as="button"
-                    class="btn"
-                    > Pending
-                </Link>
-                <Link
-                    :href="route('admin.scripts_approved')"
-                    :class="{
-                        active: $page.url.startsWith('/admin/scriptwriters/approved'),
-                    }"
-                    as="button"
-                    class="btn"
-                    > Approved
-                </Link>
-                <Link
-                    :href="route('admin.scripts_rejected')"
-                    :class="{
-                        active: $page.url.startsWith('/admin/scriptwriters/rejected'),
-                    }"
-                    as="button"
-                    class="btn"
-                    > Rejected
-                </Link>
-            </div>
             <div class="scripts-container">
                 <slot />
             </div>
@@ -53,9 +15,6 @@ import { Link } from "@inertiajs/vue3";
 
 <style scoped>
 /* Default styling is for mobile */
-.tab-buttons {
-    display: flex;
-}
 
 .btn {
   display: flex;
@@ -74,12 +33,8 @@ import { Link } from "@inertiajs/vue3";
   font-size: 13px;
 }
 
-.tab-buttons .btn:hover {
-    margin-top: -5px;
-}
-
 .content {
-    margin-top: 20px;
+    /* margin-top: 10px; */
     margin-bottom: 20px;
 }
 

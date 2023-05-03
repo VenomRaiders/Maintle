@@ -45,11 +45,12 @@ class AdminProjectController extends Controller
 
     public function view_project(Request $request, $id){
         $project = Project::find($id);
-        if(!$project){
-            return redirect()->back()->with("error", "Invalid id provided");
-        }
+        // if(!$project){
+        //     return redirect()->back()->with("error", "Invalid id provided");
+        // }
 
         // Todo: return the page to view the project
+        return Inertia::render('Admin/projects/ViewProject', ["project" => $project, "tab" => "Projects -> Detailed View"]);
     }
 
     public function edit_project(Request $request, $id){

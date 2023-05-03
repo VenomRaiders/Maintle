@@ -1,12 +1,13 @@
 <script setup>
 import AdminDashboardLayout from "@/Layouts/AdminDashboardLayout.vue";
-import StatsCard from "@/Components/StatsCard.vue";
+import StandardButton from '@/Components/StandardButton.vue';
+import ViewCard from "@/Components/ViewCard.vue";
 </script>
 
 <template>
     <AdminDashboardLayout>
         <div class="content">
-            Coming Soon
+            <ViewCard></ViewCard>
         </div>
     </AdminDashboardLayout>
 </template>
@@ -15,18 +16,20 @@ import StatsCard from "@/Components/StatsCard.vue";
 /* Default styling is for mobile */
 
 .content {
+    display: flex;
+    justify-content: center;
     margin-top: 20px;
     margin-bottom: 20px;
+}
+
+.btn {
+    width: fit-content;
+    margin-top: 15px;
 }
 
 /* Scaling for desktop devices */
 
 @media only screen and (min-width: 690px) {
-    .content {
-        display: flex;
-        gap: 30px;
-        justify-content: space-evenly;
-    }
     .card {
         width: 100%;
     }
@@ -34,7 +37,7 @@ import StatsCard from "@/Components/StatsCard.vue";
 
 @media only screen and (min-width: 1200px) {
     .content {
-        padding-top: 10px;
+        padding-top: 30px;
     }
 }
 </style>

@@ -193,7 +193,6 @@ function createInvestor(){
                     </div>
                 </div>
 
-
                 <p>Already have an account? <Link :href="route('login')" class="auth-link">Login</Link></p>
 
                 <div class="flex justify-center">
@@ -254,6 +253,7 @@ function createInvestor(){
 .form-inputs input[type=file] {
     border: none;
 }
+
 
 .form-group {
     display: flex;

@@ -1,8 +1,7 @@
 <script setup>
 import AdminDashboardLayout from "@/Layouts/AdminDashboardLayout.vue";
 import StandardButton from '@/Components/StandardButton.vue';
-import AdminScriptsCard from "@/Components/AdminScriptsCard.vue";
-import StatsCard from "@/Components/StatsCard.vue";
+import AdminProjectsCard from "@/Components/AdminProjectsCard.vue";
 </script>
 
 <template>
@@ -13,7 +12,10 @@ import StatsCard from "@/Components/StatsCard.vue";
             <!-- No projects available -->
 
             <!-- Component for all the project cards -->
-            <AdminScriptsCard></AdminScriptsCard>
+            <AdminProjectsCard></AdminProjectsCard>
+            <AdminProjectsCard></AdminProjectsCard>
+            <AdminProjectsCard></AdminProjectsCard>
+
         </div>
     </AdminDashboardLayout>
 </template>
@@ -22,6 +24,9 @@ import StatsCard from "@/Components/StatsCard.vue";
 /* Default styling is for mobile */
 
 .content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
     margin-top: 20px;
     margin-bottom: 20px;
 }
@@ -35,9 +40,7 @@ import StatsCard from "@/Components/StatsCard.vue";
 
 @media only screen and (min-width: 690px) {
     .content {
-        display: flex;
-        gap: 30px;
-        justify-content: space-evenly;
+        justify-content: center;
     }
     .card {
         width: 100%;
@@ -46,7 +49,8 @@ import StatsCard from "@/Components/StatsCard.vue";
 
 @media only screen and (min-width: 1200px) {
     .content {
-        padding-top: 10px;
+        padding-top: 30px;
+        gap: 50px;
     }
 }
 </style>

@@ -83,139 +83,177 @@ function submitForm(){
 
 <template>
     <AdminDashboardLayout>
-        <div class="">
-            <h1 class="text-center text-2xl uppercase font-bold">New Project</h1>
+        <div class="form-container">
+            <div class="text-left w-full">
+                <StandardButton text="Go Back" bg-color="var(--primary-color)" :is-link=true :href="route('admin.projects')" style="width: fit-content;"></StandardButton>
+            </div>
+            <h1 class="text-center text-2xl ">New Project</h1>
             <form @submit.prevent="submitForm" class="w-full">
-                <div class="w-full flex flex-col space-y-4 md:flex-row justify-between">
-                    <div class="w-full md:w-1/2 px-2 mb-2">
-                    <div class="form-group mb-2">
-                        <label for="title" class="font-bold text-2xl">Title</label> <br />
-                        <input type="text" v-model="form.title" class="w-full bg-[#7dd1b8] rounded-md text-white" name="" id="title">
-                        <ErrorMessage v-if="form.errors.title">{{ form.errors.title }}</ErrorMessage>
-                    </div>
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" v-model="form.title" id="title">
+                    <ErrorMessage v-if="form.errors.title">{{ form.errors.title }}</ErrorMessage>
+                </div>
 
-                    <div class="form-group mb-2">
-                        <label for="logline" class="font-bold text-2xl">Logline</label> <br />
-                        <input type="text" v-model="form.logline" class="w-full bg-[#7dd1b8] rounded-md text-white" name="" id="logline">
-                        <ErrorMessage v-if="form.errors.logline">{{ form.errors.logline }}</ErrorMessage>
-                    </div>
+                <div class="form-group">
+                    <label for="logline">Logline</label>
+                    <input type="text" v-model="form.logline" id="logline">
+                    <ErrorMessage v-if="form.errors.logline">{{ form.errors.logline }}</ErrorMessage>
+                </div>
 
-                    <div class="form-group mb-2">
-                        <label for="synopsis" class="font-bold text-2xl">Synopsis</label> <br />
-                        <textarea name="" v-model="form.synopsis" id="synopsis" class="w-full bg-[#7dd1b8] rounded-md text-white"></textarea>
-                        <ErrorMessage v-if="form.errors.synopsis">{{ form.errors.synopsis }}</ErrorMessage>
-                    </div>
+                <div class="form-group">
+                    <label for="synopsis">Synopsis</label>
+                    <textarea v-model="form.synopsis" id="synopsis" rows="5"></textarea>
+                    <ErrorMessage v-if="form.errors.synopsis">{{ form.errors.synopsis }}</ErrorMessage>
+                </div>
 
-                    <div class="form-group">
-                        <label for="mainGenre" class="font-bold text-2xl">Genre</label> <br />
-                        <select v-model="form.genre" name="mainGenre" id="mainGenre" multiple>
-                        <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{ genre.genre }}</option>
-                        </select>
-                        <ErrorMessage v-if="form.errors.genre">{{ form.errors.genre }}</ErrorMessage>
-                    </div>
+                <div class="form-group">
+                    <label for="project_cost">Project Cost</label>
+                    <input type="number" v-model="form.project_cost" id="project_cost">
+                    <ErrorMessage v-if="form.errors.project_cost">{{ form.errors.project_cost }}</ErrorMessage>
+                </div>
 
-                    <div class="form-group">
-                        <label for="movieFormat" class="font-bold text-2xl">Movie Format</label> <br />
-                        <select v-model="form.movie_format" name="movie_format" id="movie_format">
-                        <option value="Feature Movie">Feature Movie</option>
-                        <option value="Short Film">Short Film</option>
-                        <option value="Documentary">Documentary</option>
-                        <option value="Series">Series</option>
-                        </select>
-                        <ErrorMessage v-if="form.errors.movie_format">{{ form.errors.movie_format }}</ErrorMessage>
-                    </div>
+                <div class="form-group">
+                    <label for="mainGenre">Genre</label>
+                    <select v-model="form.genre" name="mainGenre" id="mainGenre" multiple>
+                    <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{ genre.genre }}</option>
+                    </select>
+                    <ErrorMessage v-if="form.errors.genre">{{ form.errors.genre }}</ErrorMessage>
+                </div>
 
-                    </div>
-                    <div class="w-full md:w-1/2">
-                        <label for="" class="font-bold text-2xl">Lead Cast</label>
-                        <StandardButton @click.prevent="showLeadCast = !showLeadCast" text="Enter Lead Cast" />
-                        <ErrorMessage v-if="form.errors.lead_cast">{{ form.errors.lead_cast }}</ErrorMessage>
-                        <div v-if="showLeadCast">
-                            <div class="my-2 p-1 border">
-                                <ul v-if="leadCast.values.length != 0" class="h-48 overflow-y-scroll cursor-pointer">
-                                    <li v-for="leadC in leadCast.values" :key="leadC" @click.prevent="removeLeadCast(leadC)" class="text-sm bg-slate-300 my-1">
-                                        <span><strong>Name</strong>: {{ leadC.name }}</span> <br />
-                                        <span><strong>Handle</strong>: {{ leadC.socialMediaHandle }}</span>
-                            </li>
-                        </ul>
-                        <h6 v-else class="font-bold">No lead cast added yet</h6>
+                <div class="form-group">
+                    <label for="">Lead Cast</label>
+                    <StandardButton @click.prevent="showLeadCast = !showLeadCast" text="Enter Lead Cast" style="width: fit-content;"/>
+                    <ErrorMessage v-if="form.errors.lead_cast">{{ form.errors.lead_cast }}</ErrorMessage>
+                    <div v-if="showLeadCast">
+                        <div class="my-2 p-1 border">
+                            <ul v-if="leadCast.values.length != 0" class="h-48 overflow-y-scroll cursor-pointer">
+                                <li v-for="leadC in leadCast.values" :key="leadC" @click.prevent="removeLeadCast(leadC)" class="text-sm bg-slate-300 my-1">
+                                    <span><strong>Name</strong>: {{ leadC.name }}</span>
+                                    <span><strong>Handle</strong>: {{ leadC.socialMediaHandle }}</span>
+                                 </li>
+                            </ul>
+                            <h6 v-else class="font-bold">No lead cast added yet</h6>
                         </div>
                         <div class="border my-2 p-1">
-                        <div class="form-group">
-                            <label for="fullName" class="font-bold">Full Name</label> <br />
-                            <input type="text" v-model="singleLeadCast.name" name="fullName" id="fullName" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
-                        </div>
+                            <div class="form-group">
+                                <label for="fullName">Full Name</label>
+                                <input type="text" v-model="singleLeadCast.name" name="fullName" id="fullName" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                            </div>
                         
-                        <div class="form-group">
-                            <label for="name" class="font-bold">Social media handle</label> <br />
-                            <input type="text" v-model="singleLeadCast.socialMediaHandle" name="name" id="name" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                            <div class="form-group">
+                                <label for="name" class="font-bold">Social media handle</label>
+                                <input type="text" v-model="singleLeadCast.socialMediaHandle" name="name" id="name" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                            </div>
+                            <StandardButton @click.prevent="addLeadCast" text="Add" class="mt-4"/>
                         </div>
-                        <StandardButton @click.prevent="addLeadCast" text="Add" class="mt-4"/>
                     </div>
                 </div>
-                    </div>
-                    <div class="w-full md:w-1/5">
-                    <label for="" class="font-bold text-2xl">Crew</label>
-                    <StandardButton @click.prevent="showCrewRoles = !showCrewRoles" text="Enter Crew" />
+                <div class="form-group">
+                    <label for="">Crew</label>
+                    <StandardButton @click.prevent="showCrewRoles = !showCrewRoles" text="Enter Crew" style="width: fit-content;"/>
                     <ErrorMessage v-if="form.errors.crew">{{ form.errors.crew }}</ErrorMessage>
                     <div v-if="showCrewRoles">
                         <div class="my-2 p-1 border">
-                        <ul v-if="crew.values.length != 0" class="h-48 overflow-y-scroll cursor-pointer">
-                            <li v-for="cr in crew.values" :key="cr" @click.prevent="removeCrew(cr)" class="text-sm bg-slate-300 my-1">
-                                <span><strong>ScriptWritter</strong>: {{ cr.scriptwriter }}</span> <br />
-                                <span><strong>Director</strong>: {{ cr.director }}</span> <br />
-                                <span><strong>Gender</strong>: {{ cr.gender }}</span> <br />
-                                <span><strong>Social media handle</strong>: {{ cr.socialMediaHandle }}</span> <br />
-                                <span><strong>Link to previous work</strong>: {{ cr.previousWork }}</span>
-                            </li>
-                        </ul>
-                        <h6 v-else class="font-bold">No crew added yet</h6>
+                            <ul v-if="crew.values.length != 0" class="h-48 overflow-y-scroll cursor-pointer">
+                                <li v-for="cr in crew.values" :key="cr" @click.prevent="removeCrew(cr)" class="text-sm bg-slate-300 my-1">
+                                    <span><strong>ScriptWritter</strong>: {{ cr.scriptwriter }}</span>
+                                    <span><strong>Director</strong>: {{ cr.director }}</span>
+                                    <span><strong>Gender</strong>: {{ cr.gender }}</span>
+                                    <span><strong>Social media handle</strong>: {{ cr.socialMediaHandle }}</span>
+                                    <span><strong>Link to previous work</strong>: {{ cr.previousWork }}</span>
+                                </li>
+                            </ul>
+                            <h6 v-else class="font-bold">No crew added yet</h6>
                         </div>
                         <div class="border my-2 p-1">
-                        <div class="form-group">
-                            <label for="scriptwriter" class="font-bold">Scriptwriter</label> <br />
-                            <input type="text" v-model="singleCrew.scriptwriter" name="scriptwriter" id="scriptwriter" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
-                        </div>
-                
-                        <div class="form-group">
-                            <label for="director" class="font-bold">Director</label> <br />
-                            <input type="text" v-model="singleCrew.director" name="director" id="director" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
-                        </div>
-                
-                        <div class="form-group">
-                            <label for="name" class="font-bold">Gender</label> <br />
-                            Male
-                            <input type="radio" name="gender" id="gender">
-                            Female
-                            <input type="radio" name="gender" id="gender">
-                        </div>
+                            <div class="form-group">
+                                <label for="scriptwriter" class="font-bold">Scriptwriter</label>
+                                <input type="text" v-model="singleCrew.scriptwriter" name="scriptwriter" id="scriptwriter" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                            </div>
+                    
+                            <div class="form-group">
+                                <label for="director" class="font-bold">Director</label>
+                                <input type="text" v-model="singleCrew.director" name="director" id="director" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                            </div>
+                    
+                            <div class="form-group">
+                                <label for="name" class="font-bold">Gender</label>
+                                Male
+                                <input type="radio" name="gender" id="gender">
+                                Female
+                                <input type="radio" name="gender" id="gender">
+                            </div>
 
-                        <div class="form-group">
-                            <label for="name" class="font-bold">Social media handle</label> <br />
-                            <input type="text" v-model="singleCrew.socialMediaHandle" name="name" id="name" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                            <div class="form-group">
+                                <label for="name" class="font-bold">Social media handle</label>
+                                <input type="text" v-model="singleCrew.socialMediaHandle" name="name" id="name" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                            </div>
+                    
+                            <div class="form-group">
+                                <label for="name" class="font-bold">Links to previous works</label>
+                                <textarea v-model="singleCrew.previousWork" id="synopsis"></textarea>
+                            </div>
+                            <StandardButton @click.prevent="addCrew" text="Add" class="mt-4"/>
                         </div>
-                
-                        <div class="form-group">
-                            <label for="name" class="font-bold">Links to previous works</label> <br />
-                            <textarea name="" v-model="singleCrew.previousWork" id="synopsis" class="w-full bg-[#7dd1b8] rounded-md text-white"></textarea>
-                        </div>
-                        <StandardButton @click.prevent="addCrew" text="Add" class="mt-4"/>
-                        </div>
-                    </div>
                     </div>
                 </div>
         
-                <div class="my-4">
+                <div class="my-4 text-center">
                     <LoadingComponent v-if="form.processing" class="border-2 border-primary"/>
-                    <input type="submit" value="Save" v-else class="px-4 py-2 rounded-md bg-primary text-white, font-bold text-center cursor-pointer">
+                    <input type="submit" value="Save Project" v-else class="px-4 py-2 rounded-md bg-[var(--primary-color)] text-center text-white cursor-pointer">
                 </div>
             </form>
-        </div>
+
+    </div>
     </AdminDashboardLayout>
 </template>
 
 <style scoped>
 /* Default styling is for mobile */
+.form-container {
+    padding: 15px;
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container h1 {
+    font-size: 25px;
+    padding-top: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.form-container textarea {
+    border-radius: 5px;
+}
+
+
+.form-group {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    height: inherit;
+    padding: 5px;
+    border-radius: 5px;
+    outline: none;
+}
+
+.form-group label {
+    font-weight: bold;
+}
 
 .content {
     margin-top: 20px;
@@ -232,6 +270,21 @@ function submitForm(){
     }
     .card {
         width: 100%;
+    }
+}
+
+/* responsive for desktop sizes */
+
+@media only screen and (min-width: 1100px) {
+    .form-container {
+        width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    form {
+        width: 100%;
+        align-items: center;
     }
 }
 

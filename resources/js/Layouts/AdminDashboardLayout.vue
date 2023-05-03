@@ -90,8 +90,10 @@ function toggleNavBarOff() {
                 </Link>
             </div>
             <div class="body-wrapper">
-                <h1>{{ $page.props.tab }}</h1>
-                <hr class="st" />
+                <div v-if="!$page.url.endsWith('/add_project')">
+                    <h1>{{ $page.props.tab }}</h1>
+                    <hr class="st" />
+                </div>
                 <slot />
             </div>
         </section>
