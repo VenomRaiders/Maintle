@@ -9,12 +9,16 @@ const props = defineProps({
     showReject: false
 });
 
-const approveForm = useForm({
+const scriptForm = useForm({
     script_id: props.script.id,
 });
 
 function approveScript() {
-    approveForm.post(route("admin.approve_script"));
+    scriptForm.post(route("admin.approve_script"));
+}
+
+function rejectScript(){
+    scriptForm.post(route("admin.reject_script"));
 }
 </script>
 
@@ -34,7 +38,7 @@ function approveScript() {
             <div class="card-buttons">
                 <StandardButton text="approve" v-if="showApprove" @click="approveScript"/>
                 <StandardButton text="View" />
-                <StandardButton class="reject" text="Reject" v-if="showReject"/>
+                <StandardButton class="reject" text="Reject" v-if="showReject" @click="rejectScript"/>
             </div>
         </div>
     </div>

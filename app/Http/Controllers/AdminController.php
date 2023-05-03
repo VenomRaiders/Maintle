@@ -63,7 +63,24 @@ class AdminController extends Controller
         $user->scriptWriter->is_verified = true;
         $user->scriptWriter->save();
 
+        //TODO: send email notification to user
+
         return redirect()->route('admin.scripts_approved');
+    }
+
+    public function reject_script(Request $request){
+        $request->validate([
+            'script_id' => 'required|integer',
+        ]);
+
+        $script = ScriptCollection::find($request->script_id);
+        $user = $script->user;
+
+        $script->delete();
+
+        //TODO: send email notification to user
+
+        return redirect()->route('admin.all_scripts');
     }
     
 }
