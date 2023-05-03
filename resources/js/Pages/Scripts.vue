@@ -1,10 +1,14 @@
 <script setup>
-import { Head, router } from "@inertiajs/vue3";
+import { computed } from "vue";
+import { Head, router, usePage } from "@inertiajs/vue3";
 import HomePageLayoutVue from "@/Layouts/HomePageLayout.vue";
 import StandardButton from '@/Components/StandardButton.vue';
 import ScriptAndProjectCard from "@/Components/ScriptAndProjectCard.vue";
 
 const props = defineProps(['scripts'])
+
+const user = computed(() => usePage().props.auth.user)
+const role = computed(() => usePage().props.auth.role)
 
 function buyScript(id){
     router.post('/scripts/buy', {script_id: id})
@@ -26,7 +30,10 @@ function buyScript(id){
             >
                 <template #buttons>
                     <StandardButton text="View" :is-link=true :href="route('script_details', script.id)"/>
-                    <StandardButton text="Buy" @click.prevent="buyScript(script.id)" />
+                    <div v-if="user">
+                        <StandardButton v-if="role == 'investor'" text="Buy" @click.prevent="buyScript(script.id)" />
+                    </div>
+                    <StandardButton v-else text="Buy" @click.prevent="buyScript(script.id)" />
                 </template>
             </ScriptAndProjectCard>
         </div>
