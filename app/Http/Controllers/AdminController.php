@@ -32,7 +32,8 @@ class AdminController extends Controller
     }
 
     public function scripts_pending() {
-        return Inertia::render('Admin/scriptwriters/Pending', ["tab" => "ScriptWriters"]);
+        $scripts_needing_approval = ScriptCollection::unverifiedScripts();
+        return Inertia::render('Admin/scriptwriters/Pending', ["tab" => "ScriptWriters", "scripts_needing_approval" => $scripts_needing_approval]);
     }
 
     public function scripts_approved() {
