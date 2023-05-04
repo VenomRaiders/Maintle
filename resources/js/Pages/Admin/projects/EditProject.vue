@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import AdminDashboardLayout from "@/Layouts/AdminDashboardLayout.vue";
 import StandardButton from '@/Components/StandardButton.vue';
@@ -8,8 +8,16 @@ import LoadingComponent from "@/Components/LoadingComponent.vue";
 
 const props = defineProps(['genres', 'project'])
 
-const showLeadCast = ref(false)
-const showCrewRoles = ref(false)
+const showLeadCast = ref(true)
+const showCrewRoles = ref(true)
+
+const g = ref([])
+
+onMounted(() => {
+    props.project.genres.forEach(genre => {
+        g.value.push(genre.id)
+    })
+})
 
 const singleLeadCast = reactive({
     "name": "",
@@ -24,35 +32,37 @@ const singleCrew = reactive({
     "previousWork": ""
 })
 
-const leadCast = reactive({ values: [] })
+const leadCast = reactive({values: JSON.parse(props.project.lead_cast)})
 
-const crew = reactive({ values: [] })
+const crew = reactive({values: JSON.parse(props.project.crew)})
 
 const form = useForm({
-    "title": "",
-    "logline": "",
-    "synopsis": "",
-    "genre": [],
-    "movie_format": "",
-    "lead_cast": leadCast.values,
-    "crew": crew.values
+  "title": props.project.title,
+  "poster_image": null,
+  "project_document": null,
+  "logline": props.project.logline,
+  "synopsis": props.project.synopsis,
+  "cost": props.project.amount,
+  "genre": g.value,
+  "lead_cast": leadCast.values,
+  "crew": crew.values
 })
 
 function addLeadCast() {
-    leadCast.values.push({
-        name: singleLeadCast.name,
-        socialMediaHandle: singleLeadCast.socialMediaHandle
-    })
-    singleLeadCast.name = ""
-    singleLeadCast.socialMediaHandle = ""
+  leadCast.values.push({
+    name: singleLeadCast.name,
+    socialMediaHandle: singleLeadCast.socialMediaHandle
+  })
+  singleLeadCast.name = ""
+  singleLeadCast.socialMediaHandle = ""
 }
 
-function addCrew() {
+function addCrew(){
     crew.values.push({
-        "scriptwriter": singleCrew.scriptwriter,
-        "director": singleCrew.director,
-        "gender": singleCrew.gender,
-        "socialMediaHandle": singleCrew.socialMediaHandle,
+        "scriptwriter" : singleCrew.scriptwriter,
+        "director" : singleCrew.director,
+        "gender" : singleCrew.gender,
+        "socialMediaHandle" : singleCrew.socialMediaHandle,
         "previousWork": singleCrew.previousWork
     })
     singleCrew.scriptwriter = ""
@@ -63,21 +73,21 @@ function addCrew() {
 }
 
 function removeLeadCast(leadC) {
-    let newLeadCast = leadCast.values.filter((cast) => {
-        return cast.name != leadC.name
-    })
-    leadCast.values = newLeadCast
+  let newLeadCast = leadCast.values.filter((cast) => {
+    return cast.name != leadC.name
+  })
+  leadCast.values = newLeadCast
 }
 
-function removeCrew(cr) {
+function removeCrew(cr){
     let newCrew = crew.values.filter((c) => {
         return c.scriptwriter != cr.scriptwriter
     })
     crew.values = newCrew
 }
 
-function submitForm() {
-    form.post("/admin/project/add_project")
+function submitForm(){
+  form.put(`/admin/projects/${props.project.id}/edit`)
 }
 </script>
 
@@ -85,15 +95,27 @@ function submitForm() {
     <AdminDashboardLayout>
         <div class="form-container">
             <div class="text-left w-full">
-                <StandardButton text="Go Back" bg-color="var(--primary-color)" :is-link=true :href="route('admin.projects')"
-                    style="width: fit-content"></StandardButton>
+                <StandardButton text="Go Back" bg-color="var(--primary-color)" :is-link=true :href="route('admin.projects')" style="width: fit-content;"></StandardButton>
             </div>
-            <h1 class="text-center text-2xl ">New Project</h1>
+            <h1 class="text-center text-2xl ">Update Project</h1>
+           
             <form @submit.prevent="submitForm" class="w-full">
                 <div class="form-group">
                     <label for="title">Title</label>
                     <input type="text" v-model="form.title" id="title">
                     <ErrorMessage v-if="form.errors.title">{{ form.errors.title }}</ErrorMessage>
+                </div>
+
+                <div class="form-group">
+                    <label for="poster_image">Poster Image</label>
+                    <input type="file" @change="form.poster_image = $event.target.files[0]" id="poster_image">
+                    <ErrorMessage v-if="form.errors.poster_image">{{ form.errors.poster_image }}</ErrorMessage>
+                </div>
+
+                <div class="form-inputs">
+                    <label for="script" class="font-bold text-2xl">Project Document</label> <br />
+                    <input type="file" name="" id="project_document" @change="form.project_document = $event.target.files[0]" class="w-full rounded-md text-black">
+                    <ErrorMessage v-if="form.errors.project_document">{{ form.errors.project_document }}</ErrorMessage>
                 </div>
 
                 <div class="form-group">
@@ -109,61 +131,55 @@ function submitForm() {
                 </div>
 
                 <div class="form-group">
-                    <label for="project_cost">Project Cost</label>
-                    <input type="number" v-model="form.project_cost" id="project_cost">
-                    <ErrorMessage v-if="form.errors.project_cost">{{ form.errors.project_cost }}</ErrorMessage>
+                    <label for="cost">Project Cost (USD)</label>
+                    <input type="number" v-model="form.cost" id="cost">
+                    <ErrorMessage v-if="form.errors.cost">{{ form.errors.cost }}</ErrorMessage>
                 </div>
 
                 <div class="form-group">
                     <label for="mainGenre">Genre</label>
                     <select v-model="form.genre" name="mainGenre" id="mainGenre" multiple>
-                        <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{ genre.genre }}</option>
+                    <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{ genre.genre }}</option>
                     </select>
                     <ErrorMessage v-if="form.errors.genre">{{ form.errors.genre }}</ErrorMessage>
                 </div>
 
                 <div class="form-group">
                     <label for="">Lead Cast</label>
-                    <StandardButton @click.prevent="showLeadCast = !showLeadCast" text="Enter Lead Cast"
-                        style="width: fit-content;" />
+                    <StandardButton @click.prevent="showLeadCast = !showLeadCast" text="Enter Lead Cast" style="width: fit-content;"/>
                     <ErrorMessage v-if="form.errors.lead_cast">{{ form.errors.lead_cast }}</ErrorMessage>
                     <div v-if="showLeadCast">
                         <div class="my-2 p-1 border">
                             <ul v-if="leadCast.values.length != 0" class="h-48 overflow-y-scroll cursor-pointer">
-                                <li v-for="leadC in leadCast.values" :key="leadC" @click.prevent="removeLeadCast(leadC)"
-                                    class="text-sm bg-slate-300 my-1">
+                                <li v-for="leadC in leadCast.values" :key="leadC" @click.prevent="removeLeadCast(leadC)" class="text-sm bg-slate-300 my-1">
                                     <span><strong>Name</strong>: {{ leadC.name }}</span>
                                     <span><strong>Handle</strong>: {{ leadC.socialMediaHandle }}</span>
-                                </li>
+                                 </li>
                             </ul>
                             <h6 v-else class="font-bold">No lead cast added yet</h6>
                         </div>
                         <div class="border my-2 p-1">
                             <div class="form-group">
                                 <label for="fullName">Full Name</label>
-                                <input type="text" v-model="singleLeadCast.name" name="fullName" id="fullName"
-                                    class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                                <input type="text" v-model="singleLeadCast.name" name="fullName" id="fullName" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
                             </div>
-
+                        
                             <div class="form-group">
                                 <label for="name" class="font-bold">Social media handle</label>
-                                <input type="text" v-model="singleLeadCast.socialMediaHandle" name="name" id="name"
-                                    class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                                <input type="text" v-model="singleLeadCast.socialMediaHandle" name="name" id="name" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
                             </div>
-                            <StandardButton @click.prevent="addLeadCast" text="Add" class="mt-4" />
+                            <StandardButton @click.prevent="addLeadCast" text="Add" class="mt-4"/>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="">Crew</label>
-                    <StandardButton @click.prevent="showCrewRoles = !showCrewRoles" text="Enter Crew"
-                        style="width: fit-content;" />
+                    <StandardButton @click.prevent="showCrewRoles = !showCrewRoles" text="Enter Crew" style="width: fit-content;"/>
                     <ErrorMessage v-if="form.errors.crew">{{ form.errors.crew }}</ErrorMessage>
                     <div v-if="showCrewRoles">
                         <div class="my-2 p-1 border">
                             <ul v-if="crew.values.length != 0" class="h-48 overflow-y-scroll cursor-pointer">
-                                <li v-for="cr in crew.values" :key="cr" @click.prevent="removeCrew(cr)"
-                                    class="text-sm bg-slate-300 my-1">
+                                <li v-for="cr in crew.values" :key="cr" @click.prevent="removeCrew(cr)" class="text-sm bg-slate-300 my-1">
                                     <span><strong>ScriptWritter</strong>: {{ cr.scriptwriter }}</span>
                                     <span><strong>Director</strong>: {{ cr.director }}</span>
                                     <span><strong>Gender</strong>: {{ cr.gender }}</span>
@@ -176,16 +192,14 @@ function submitForm() {
                         <div class="border my-2 p-1">
                             <div class="form-group">
                                 <label for="scriptwriter" class="font-bold">Scriptwriter</label>
-                                <input type="text" v-model="singleCrew.scriptwriter" name="scriptwriter" id="scriptwriter"
-                                    class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                                <input type="text" v-model="singleCrew.scriptwriter" name="scriptwriter" id="scriptwriter" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
                             </div>
-
+                    
                             <div class="form-group">
                                 <label for="director" class="font-bold">Director</label>
-                                <input type="text" v-model="singleCrew.director" name="director" id="director"
-                                    class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                                <input type="text" v-model="singleCrew.director" name="director" id="director" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
                             </div>
-
+                    
                             <div class="form-group">
                                 <label for="name" class="font-bold">Gender</label>
                                 Male
@@ -196,27 +210,25 @@ function submitForm() {
 
                             <div class="form-group">
                                 <label for="name" class="font-bold">Social media handle</label>
-                                <input type="text" v-model="singleCrew.socialMediaHandle" name="name" id="name"
-                                    class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
+                                <input type="text" v-model="singleCrew.socialMediaHandle" name="name" id="name" class="w-full bg-white border-1 border-gray-400 rounded-md text-black">
                             </div>
-
+                    
                             <div class="form-group">
                                 <label for="name" class="font-bold">Links to previous works</label>
                                 <textarea v-model="singleCrew.previousWork" id="synopsis"></textarea>
                             </div>
-                            <StandardButton @click.prevent="addCrew" text="Add" class="mt-4" />
+                            <StandardButton @click.prevent="addCrew" text="Add" class="mt-4"/>
                         </div>
                     </div>
                 </div>
-
+        
                 <div class="my-4 text-center">
-                    <LoadingComponent v-if="form.processing" class="border-2 border-primary" />
-                    <input type="submit" value="Save Project" v-else
-                        class="px-4 py-2 rounded-md bg-[var(--primary-color)] text-center text-white cursor-pointer">
+                    <LoadingComponent v-if="form.processing" class="border-2 border-primary"/>
+                    <input type="submit" value="Update Project" v-else class="px-4 py-2 rounded-md bg-[var(--primary-color)] text-center text-white cursor-pointer">
                 </div>
             </form>
 
-        </div>
+    </div>
     </AdminDashboardLayout>
 </template>
 
@@ -231,7 +243,6 @@ function submitForm() {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 30px;
 }
 
 .form-container h1 {
@@ -280,7 +291,6 @@ function submitForm() {
         gap: 30px;
         justify-content: space-evenly;
     }
-
     .card {
         width: 100%;
     }
@@ -294,7 +304,7 @@ function submitForm() {
         margin-left: auto;
         margin-right: auto;
     }
-
+    
     form {
         width: 100%;
         align-items: center;
