@@ -11,7 +11,7 @@ use Illuminate\Validation\Rules\File;
 class AdminProjectController extends Controller
 {
     public function index(){
-        $projects = Project::orderBy('created_at')->get();
+        $projects = Project::orderBy('created_at')->with('genres')->get();
         return Inertia::render('Admin/Projects', ["tab" => "Projects", "projects" => $projects]);
     }
 

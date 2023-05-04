@@ -17,7 +17,7 @@ defineProps(['project']);
         <div class="col-2">
             <div class="card-body">
                 <h1>{{ project.title }}</h1>
-                <Tags text="Funk" />
+                <Tags v-for="genre in project.genres" :key="genre.id" :text="genre.genre"/>
                 <p>Project Cost: <span>{{ project.amount }}$</span></p>
                 <p>Amount Contributed: <span>{{ project.contribution }}$</span></p>
                 <p>Amount left: <span>{{ project.amount - project.contribution}}$</span></p>
