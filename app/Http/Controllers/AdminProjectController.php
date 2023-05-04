@@ -122,4 +122,51 @@ class AdminProjectController extends Controller
 
         return redirect()->route("admin.projects")->with("message", "Project successfully deleted");
     }
+
+    public function add_contribution(Request $request){
+        $validated = $request->validate([
+            "project_id" => "required",
+            "amount" => "required"
+        ]);
+
+        $project = Project::find($validated["project_id"]);
+
+        if(!$project){
+            return redirect()->back()->with("error", "Invalid project id provided");
+        }
+
+        if($project->amount - $validated["amount"] < 0){
+            return redirect()->back()->with("error", "Amount to be contributed is more than the project cost");
+        }
+
+        $project->contribution = $project->contribution + $validated["amount"];
+
+
+        $project->save();
+
+        if($project->contribution == $project->amount){
+            $project->is_funded = true;
+            $project->save();
+        }
+
+        return redirect()->route("admin.projects")->with("message", "Contribution added successfully");
+    }
+
+    public function mark_project_as_sold(Request $request){
+        $validated = $request->validate([
+            "project_id" => "required"
+        ]);
+
+        $project = Project::find($validated["project_id"]);
+
+        if(!$project){
+            return redirect()->back()->with("error", "Invalid project id provided");
+        }
+
+        $project->is_funded = true;
+        $project->contribution = $project->amount;
+        $project->save();
+
+        return redirect()->route("admin.projects")->with("message", "Project marked as sold successfully");
+    }
 }

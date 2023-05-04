@@ -48,6 +48,8 @@ Route::group(['middleware' => ['auth','is_admin'], 'prefix' => 'admin', 'as'=>'a
     Route::get('/projects/{id}/edit', [AdminProjectController::class, 'edit_project'])->name('project.edit');
     Route::put('/projects/{id}/edit', [AdminProjectController::class, 'update_project'])->name('project.edit.put');
     Route::delete('/projects/{id}/delete', [AdminProjectController::class, 'delete'])->name('project.delete');
+    Route::put('/project/add_contribution', [AdminProjectController::class, 'add_contribution'])->name('project.add_contribution');
+    Route::put('/project/mark_as_sold',[AdminProjectController::class, 'mark_project_as_sold'])->name('project.mark_as_sold');
 
     Route::get('/scriptwriters/all_scripts', [AdminController::class, 'all_scripts'])->name('all_scripts');
     Route::get('/scriptwriters/pending', [AdminController::class, 'scripts_pending'])->name('scripts_pending');
