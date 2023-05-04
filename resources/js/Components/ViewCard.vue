@@ -6,7 +6,7 @@ import { useForm } from "@inertiajs/vue3";
 
 const toggleDelete = ref(false);
 
-const props = defineProps(['project']);
+const props = defineProps(['project', 'script']);
 
 const deleteProjectForm = useForm({
     project_id: props.project.id,
@@ -20,7 +20,7 @@ function deleteProject(){
 </script>
 
 <template>
-<div class="view-container">
+<div v-if="project" class="view-container">
     <div class="col-1">
         <img :src="'/storage/'+project.image" alt="prject image" />
     </div>
@@ -82,6 +82,75 @@ function deleteProject(){
                 </div>
             </div>
             <StandardButton text="Modify" :is-link=true :href="route('admin.project.edit', id=project.id)"/>
+        </div>
+    </div>
+</div>
+<div v-if="script" class="view-container">
+    <div class="col-1">
+        <img :src="'/storage/' + project.image" alt="prject image" />
+        <img :src="'/storage/' + project.image" alt="prject image" />
+    </div>
+    <div class="col-2">
+        <div class="card-body">
+            <div class="item">
+                <h1>Title</h1>
+                <p>{{ project.title }}</p>
+                <p>{{ project.title }}</p>
+            </div>
+            <div class="item">
+                <h1>Logline</h1>
+                <p>{{ project.logline }}</p>
+                <p>{{ project.logline }}</p>
+            </div>
+            <div class="item">
+                <h1>Genre</h1>
+                <Tags v-for="genre in project.genres" :key="genre.id" :text="genre.genre"/>
+                <Tags v-for="genre in project.genres" :key="genre.id" :text="genre.genre"/>
+            </div>
+            <div class="item">
+                <h1>Project Cost</h1>
+                <p><span>{{ project.amount }}$</span></p>
+            </div>
+            <div class="item">
+                <h1>Synopsis</h1>
+                <p>{{ project.synopsis }}</p>
+            </div>
+            <div class="item">
+                <h1>Amount Contributed</h1>
+                <p><span>{{ project.contribution }}$</span></p>
+            </div>
+            <div class="item">
+                <h1>Amount Left</h1>
+                <p><span>{{ project.amount - project.contribution }}$</span></p>
+            </div>
+            <div class="item">
+                <h1>Lead Cast</h1>
+                <div v-for="leadCast in JSON.parse(project.lead_cast)" class="nested-item">
+                    <p>Name<br><span>{{ leadCast.name }}</span></p>
+                    <p>Handle<br><span>{{ leadCast.socialMediaHandle }}</span></p>
+                </div>
+            </div>
+            <div class="item">
+                <h1>Crew</h1>
+                <div v-for="crew in JSON.parse(project.crew)" class="nested-item">
+                    <p>ScriptWritter<br><span>{{ crew.scriptwriter }}</span></p>
+                    <p>Director<br><span>{{ crew.director }}</span></p>
+                    <p>Gender<br><span>{{ crew.gender }}</span></p>
+                    <p>Social Media Handle<br><span>{{ crew.socialMediaHandle }}</span></p>
+                    <p>Links to previous work<br><span>[{{ crew.previousWork }}]</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="card-buttons">
+            <StandardButton class="no-outline" text="Delete" @click="toggleDelete = !toggleDelete"/>
+            <div v-if="toggleDelete" class="delete-confirm">
+                <p>Are you sure you want to delete this project?</p>
+                <div class="buttons">
+                    <StandardButton text="Cancel" @click="toggleDelete = !toggleDelete"/>
+                    <StandardButton @click="deleteProject" class="delete" text="Delete"/>
+                </div>
+            </div>
+            <StandardButton text="Modify" :is-link=true :href="route('admin.project.edit', id = project.id)"/>
         </div>
     </div>
 </div>
