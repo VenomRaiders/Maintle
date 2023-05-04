@@ -53,7 +53,7 @@ const markAsSold = () => {
                         <StandardButton text="Add" @click="addContribution"/>
                     </div>
                 </div>
-                <StandardButton text="View" :is-link=true :href="route('admin.project.view', id=1)"/>
+                <StandardButton text="View" :is-link=true :href="route('admin.project.view', id=project.id)"/>
             </div>
         </div>
     </div>

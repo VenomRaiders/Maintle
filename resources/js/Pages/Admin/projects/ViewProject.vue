@@ -2,12 +2,15 @@
 import AdminDashboardLayout from "@/Layouts/AdminDashboardLayout.vue";
 import StandardButton from '@/Components/StandardButton.vue';
 import ViewCard from "@/Components/ViewCard.vue";
+
+const props = defineProps(['project'])
+
 </script>
 
 <template>
     <AdminDashboardLayout>
         <div class="content">
-            <ViewCard></ViewCard>
+            <ViewCard :project="project"></ViewCard>
         </div>
     </AdminDashboardLayout>
 </template>
