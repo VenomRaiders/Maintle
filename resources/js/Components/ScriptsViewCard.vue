@@ -3,6 +3,8 @@ import { ref } from "vue";
 import StandardButton from '@/Components/StandardButton.vue';
 import Tags from '@/Components/Tags.vue';
 
+defineProps(['scripts'])
+
 const toggleDelete = ref(false);
 </script>
 
@@ -89,7 +91,7 @@ const toggleDelete = ref(false);
                     </div>
                 </div>
             </div>
-            <div class="card-buttons">
+            <div class="card-buttons" v-if="!$page.url.startsWith('/scripts')">
                 <StandardButton class="no-outline" text="Delete" @click="toggleDelete = !toggleDelete" />
                 <div v-if="toggleDelete" class="delete-confirm">
                     <p>Are you sure you want to delete this project?</p>
@@ -99,6 +101,9 @@ const toggleDelete = ref(false);
                     </div>
                 </div>
                 <StandardButton text="Modify" :is-link=true :href="route('scriptwriter.script.edit', id=1)"/>
+            </div>
+            <div v-if="$page.url.startsWith('/scripts')">
+                <slot />
             </div>
         </div>
     </div>
