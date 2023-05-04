@@ -37,8 +37,9 @@ class GeneralController extends Controller
         if(!$project){
             return redirect()->back()->with("error", "Invalid id provided");
         }
-
-        return Inertia::render('ProjectDetails', ['project' => $project]);
+        
+        $admin_contact = env('ADMIN_CONTACT');
+        return Inertia::render('ProjectDetails', ['project' => $project,'admin_contact' => $admin_contact]);
     }
 
     public function about_us() {

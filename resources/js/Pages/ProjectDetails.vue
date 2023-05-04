@@ -2,8 +2,9 @@
 import { Head, router } from "@inertiajs/vue3";
 import HomePageLayoutVue from "@/Layouts/HomePageLayout.vue";
 import AdminProjectsCard from "@/Components/AdminProjectsCard.vue";
+import HomeScriptsView from "@/Components/HomeScriptsView.vue";
 
-const props = defineProps(['project'])
+const props = defineProps(['project','admin_contact'])
 
 function buyScript(id){
     // router.post('/scripts/buy', {script_id: id})
@@ -13,8 +14,10 @@ function buyScript(id){
 
 <template>
     <HomePageLayoutVue :tab-header="project.title">
-
-    <div class="view-container">
+        <div class="content">
+            <HomeScriptsView :project="project" :admin_contact="admin_contact"></HomeScriptsView>
+        </div>
+    <!-- <div class="view-container">
         <div class="col-1">
             <img :src="'/storage/'+project.image" alt="project image"  class="h-96"/>
         </div>
@@ -67,10 +70,36 @@ function buyScript(id){
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     </HomePageLayoutVue>
 </template>
 
 <style scoped>
+/* Default styling is for mobile */
 
+.content {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.btn {
+    width: fit-content;
+    margin-top: 15px;
+}
+
+/* Scaling for desktop devices */
+
+@media only screen and (min-width: 690px) {
+    .card {
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .content {
+        padding-top: 30px;
+    }
+}
 </style>
