@@ -12,7 +12,7 @@ const props = defineProps(['projects'])
         <div class="content">
             <h1 v-if="projects.length < 1" class="font-bold text-4xl">No projects available</h1>
 
-            <AdminProjectsCard v-for="project in projects" :key="project.id" :project="project" />
+            <AdminProjectsCard v-for="project in projects" :key="project.id" :project="project" :isAdmin="true"/>
         </div>
     </AdminDashboardLayout>
 </template>

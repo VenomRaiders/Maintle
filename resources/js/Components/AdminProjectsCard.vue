@@ -6,7 +6,7 @@ import Tags from "./Tags.vue";
 
 const toggleContribution = ref(false);
 
-const props = defineProps(['project']);
+const props = defineProps({'project': Object, 'isAdmin': false});
 
 const contributionForm = useForm({
     project_id: props.project.id,
@@ -32,7 +32,7 @@ const markAsSold = () => {
 <template>
     <div class="card">
         <div class="col-1">
-            <img :src="'/storage/'+project.image" alt="script image" />
+            <img :src="'/storage/'+project.image" alt="project image" />
         </div>
         <div class="col-2">
             <div class="card-body">
@@ -42,7 +42,7 @@ const markAsSold = () => {
                 <p>Amount Contributed: <span>{{ project.contribution }}$</span></p>
                 <p>Amount left: <span>{{ project.amount - project.contribution}}$</span></p>
             </div>
-            <div class="card-buttons">
+            <div v-if="isAdmin" class="card-buttons">
                 <StandardButton @click="markAsSold" v-if="!project.is_funded" class="no-outline" text="Mark as Sold"/>
                 <StandardButton text="Add Contribution" @click="toggleContribution = !toggleContribution" v-if="!project.is_funded" class="no-outline"/>
                 <div v-if="toggleContribution" class="add-contribution">
@@ -54,6 +54,9 @@ const markAsSold = () => {
                     </div>
                 </div>
                 <StandardButton text="View" :is-link=true :href="route('admin.project.view', id=project.id)"/>
+            </div>
+            <div v-else class="card-button">
+                <StandardButton text="View" :is-link=true :href="route('project_details', id=project.id)"/>
             </div>
         </div>
     </div>

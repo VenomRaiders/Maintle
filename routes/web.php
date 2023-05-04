@@ -29,6 +29,7 @@ Route::get('/', [GeneralController::class, 'home'])->name('home');
 Route::get('/scripts', [GeneralController::class, 'scripts'])->name('scripts');
 Route::get('/scripts/{id}', [GeneralController::class, 'script_details'])->name('script_details');
 Route::get('/projects', [GeneralController::class, 'projects'])->name('projects');
+Route::get('/projects/{id}', [GeneralController::class, 'project_details'])->name('project_details');
 Route::get('/about_us', [GeneralController::class, 'about_us'])->name('about_us');
 Route::get('/blog', [GeneralController::class, 'blog'])->name('blog');
 

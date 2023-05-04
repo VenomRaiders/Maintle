@@ -22,7 +22,7 @@ function deleteProject(){
 <template>
 <div class="view-container">
     <div class="col-1">
-        <img src="/images/image.jpg" alt="script image" />
+        <img :src="'/storage/'+project.image" alt="prject image" />
     </div>
     <div class="col-2">
         <div class="card-body">
