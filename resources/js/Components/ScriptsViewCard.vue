@@ -3,6 +3,8 @@ import { ref } from "vue";
 import StandardButton from '@/Components/StandardButton.vue';
 import Tags from '@/Components/Tags.vue';
 
+defineProps(['scripts'])
+
 const toggleDelete = ref(false);
 </script>
 
@@ -22,15 +24,28 @@ const toggleDelete = ref(false);
                     <p>The Uncharted Sea is a land unspoken and teaming with life from worldwide</p>
                 </div>
                 <div class="item">
-                    <h1>Genre</h1>
-                    <Tags text="Funk" />
-                </div>
-                <div class="item">
-                    <h1>Project Cost</h1>
-                    <p><span>2000$</span></p>
-                </div>
-                <div class="item">
                     <h1>Synopsis</h1>
+                    <p>Hello world</p>
+                </div>
+                <div class="item">
+                    <h1>Motivation for the story</h1>
+                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi ratione rerum assumenda animi ea aspernatur cumque quaerat at inventore porro, ut error dicta alias ad eaque labore pariatur soluta commodi.</p>
+                </div>
+                <div class="item">
+                    <h1>Relevance of the story</h1>
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                        Aliquid consequatur ipsa, quas corrupti suscipit vel?
+                        Explicabo excepturi quos, dolore totam officia nam sapiente
+                        accusamus tenetur minima id, quia ipsam quisquam?
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                        Aliquid consequatur ipsa, quas corrupti suscipit vel?
+                        Explicabo excepturi quos, dolore totam officia nam sapiente
+                        accusamus tenetur minima id, quia ipsam quisquam?
+                    </p>
+                </div>
+
+                <div class="item">
+                    <h1>Origin of the idea</h1>
                     <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                         Aliquid consequatur ipsa, quas corrupti suscipit vel?
                         Explicabo excepturi quos, dolore totam officia nam sapiente
@@ -42,32 +57,41 @@ const toggleDelete = ref(false);
                     </p>
                 </div>
                 <div class="item">
-                    <h1>Amount Contributed</h1>
-                    <p><span>2000$</span></p>
+                    <h1>Script Document</h1>
+                    <StandardButton text="Download File"></StandardButton>
                 </div>
                 <div class="item">
-                    <h1>Amount Left</h1>
-                    <p><span>2000$</span></p>
+                    <h1>Genre</h1>
+                    <Tags text="Love"></Tags>
                 </div>
                 <div class="item">
-                    <h1>Lead Cast</h1>
+                    <h1>Cast Size</h1>
+                    <p><span>13</span></p>
+                </div>
+                <div class="item">
+                    <h1>Cast Location</h1>
+                    <p><span>13</span></p>
+                </div>
+                <div class="item">
+                    <h1>Target Audience</h1>
+                    <p><span>13</span></p>
+                </div>
+                <div class="item">
+                    <!-- if any -->
+                    <h1>Copyright</h1>
+                    <p><span>[Tambe]: [12rds45]</span></p>
+                </div>
+                <div class="item">
+                    <h1>Lead Roles</h1>
                     <div class="nested-item">
-                        <p>Name<br><span>Tambe Hanslett</span></p>
-                        <p>Handle<br><span>https://somelink.com</span></p>
-                    </div>
-                </div>
-                <div class="item">
-                    <h1>Crew</h1>
-                    <div class="nested-item">
-                        <p>ScriptWritter<br><span>Hanslett</span></p>
-                        <p>Director<br><span>Venom Raider</span></p>
+                        <p>Real Name<br><span>Hanslett</span></p>
+                        <p>Character Name<br><span>Venom Raider</span></p>
                         <p>Gender<br><span>Male</span></p>
                         <p>Social Media Handle<br><span>https://somelink.com</span></p>
-                        <p>Links to previous work<br><span>[https://somelink.com, https://somelink.com]</span></p>
                     </div>
                 </div>
             </div>
-            <div class="card-buttons">
+            <div class="card-buttons" v-if="!$page.url.startsWith('/scripts')">
                 <StandardButton class="no-outline" text="Delete" @click="toggleDelete = !toggleDelete" />
                 <div v-if="toggleDelete" class="delete-confirm">
                     <p>Are you sure you want to delete this project?</p>
@@ -77,6 +101,9 @@ const toggleDelete = ref(false);
                     </div>
                 </div>
                 <StandardButton text="Modify" :is-link=true :href="route('scriptwriter.script.edit', id=1)"/>
+            </div>
+            <div v-if="$page.url.startsWith('/scripts')">
+                <slot />
             </div>
         </div>
     </div>

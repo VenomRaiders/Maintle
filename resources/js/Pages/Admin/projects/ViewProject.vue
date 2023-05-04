@@ -1,6 +1,5 @@
 <script setup>
 import AdminDashboardLayout from "@/Layouts/AdminDashboardLayout.vue";
-import StandardButton from '@/Components/StandardButton.vue';
 import ViewCard from "@/Components/ViewCard.vue";
 
 const props = defineProps(['project'])
