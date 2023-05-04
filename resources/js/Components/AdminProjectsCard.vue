@@ -6,14 +6,7 @@ import Tags from "./Tags.vue";
 
 const toggleContribution = ref(false);
 
-defineProps({
-    stitle: {
-        type: String,
-    },
-    body: {
-        type: String,
-    },
-});
+defineProps(['project']);
 </script>
 
 <template>
@@ -23,7 +16,7 @@ defineProps({
         </div>
         <div class="col-2">
             <div class="card-body">
-                <h1>The Uncharted sea</h1>
+                <h1>{{ project.title }}</h1>
                 <Tags text="Funk" />
                 <p>Project Cost: <span>2000$</span></p>
                 <p>Amount Contributed: <span>2000$</span></p>

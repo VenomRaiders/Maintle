@@ -30,6 +30,8 @@ const crew = reactive({values: []})
 
 const form = useForm({
   "title": "",
+  "poster_image": null,
+  "project_document": null,
   "logline": "",
   "synopsis": "",
   "cost": "",
@@ -89,12 +91,23 @@ function submitForm(){
                 <StandardButton text="Go Back" bg-color="var(--primary-color)" :is-link=true :href="route('admin.projects')" style="width: fit-content;"></StandardButton>
             </div>
             <h1 class="text-center text-2xl ">New Project</h1>
-            {{ form.errors }}
             <form @submit.prevent="submitForm" class="w-full">
                 <div class="form-group">
                     <label for="title">Title</label>
                     <input type="text" v-model="form.title" id="title">
                     <ErrorMessage v-if="form.errors.title">{{ form.errors.title }}</ErrorMessage>
+                </div>
+
+                <div class="form-group">
+                    <label for="poster_image">Poster Image</label>
+                    <input type="file" @change="form.poster_image = $event.target.files[0]" id="poster_image">
+                    <ErrorMessage v-if="form.errors.poster_image">{{ form.errors.poster_image }}</ErrorMessage>
+                </div>
+
+                <div class="form-inputs">
+                    <label for="script" class="font-bold text-2xl">Project Document</label> <br />
+                    <input type="file" name="" id="project_document" @change="form.project_document = $event.target.files[0]" class="w-full rounded-md text-black">
+                    <ErrorMessage v-if="form.errors.project_document">{{ form.errors.project_document }}</ErrorMessage>
                 </div>
 
                 <div class="form-group">
@@ -110,7 +123,7 @@ function submitForm(){
                 </div>
 
                 <div class="form-group">
-                    <label for="cost">Project Cost</label>
+                    <label for="cost">Project Cost (USD)</label>
                     <input type="number" v-model="form.cost" id="cost">
                     <ErrorMessage v-if="form.errors.cost">{{ form.errors.cost }}</ErrorMessage>
                 </div>

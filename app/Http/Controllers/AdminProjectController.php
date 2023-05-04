@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Genre;
 use App\Models\Project;
+use Illuminate\Validation\Rules\File;
 
 class AdminProjectController extends Controller
 {
@@ -22,6 +23,8 @@ class AdminProjectController extends Controller
     public function store_project(Request $request){
         $validated = $request->validate([
             "title" => "required",
+            "poster_image" => ['required', File::image()->max(2 * 1024)],
+            "project_document" => ['nullable', File::types(['pdf', 'doc', 'docx'])->max(10 * 1024)],
             "logline" => "required",
             "cost" => "required",
             "synopsis" => "required",
@@ -30,13 +33,27 @@ class AdminProjectController extends Controller
             "crew" => "required"
         ]);
 
+         $poster_image = $request->file('poster_image');
+         $poster_image_name = date('YmdHi').$poster_image->getClientOriginalName();
+         $poster_image_url = $poster_image->storeAs('project/images', $poster_image_name, 'public');
+        
+         $project_document_url = null;
+
+         if($request->has('project_document') && $request->file('project_document') != null){
+            $project_document = $request->file('project_document');
+            $project_document_name = date('YmdHi').$project_document->getClientOriginalName();
+            $project_document_url = $project_document->store($project_document_name, 'projects');
+         }
+
         $project = Project::create([
             "title" => $validated["title"],
             "logline" => $validated["logline"],
             "amount" => $validated["cost"],
             "synopsis" => $validated["synopsis"],
             "lead_cast" => json_encode($validated["lead_cast"]),
-            "crew" => json_encode($validated["crew"])
+            "crew" => json_encode($validated["crew"]),
+            "image" => $poster_image_url,
+            "document" => $project_document_url
         ]);
 
         $project->genres()->attach($validated["genre"]);
