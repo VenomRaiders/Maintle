@@ -12,15 +12,15 @@ defineProps(['project']);
 <template>
     <div class="card">
         <div class="col-1">
-            <img src="/images/image.jpg" alt="script image" />
+            <img :src="'/storage/'+project.image" alt="script image" />
         </div>
         <div class="col-2">
             <div class="card-body">
                 <h1>{{ project.title }}</h1>
                 <Tags text="Funk" />
-                <p>Project Cost: <span>2000$</span></p>
-                <p>Amount Contributed: <span>2000$</span></p>
-                <p>Amount left: <span>2000$</span></p>
+                <p>Project Cost: <span>{{ project.amount }}$</span></p>
+                <p>Amount Contributed: <span>{{ project.contribution }}$</span></p>
+                <p>Amount left: <span>{{ project.amount - project.contribution}}$</span></p>
             </div>
             <div class="card-buttons">
                 <StandardButton class="no-outline" text="Mark as Sold" />
