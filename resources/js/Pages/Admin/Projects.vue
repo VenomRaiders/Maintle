@@ -2,17 +2,17 @@
 import AdminDashboardLayout from "@/Layouts/AdminDashboardLayout.vue";
 import StandardButton from '@/Components/StandardButton.vue';
 import AdminProjectsCard from "@/Components/AdminProjectsCard.vue";
+
+const props = defineProps(['projects'])
 </script>
 
 <template>
     <AdminDashboardLayout>
         <StandardButton text="New Project" :isLink=true :href="route('admin.add_project')" />
         <div class="content">
-            <!-- This text below is used when there are no projects -->
-            <!-- No projects available -->
+            <h1 v-if="projects.length < 1" class="font-bold text-4xl">No projects available</h1>
 
-            <!-- Component for all the project cards -->
-            <AdminProjectsCard></AdminProjectsCard>
+            <AdminProjectsCard v-for="project in projects" :key="project.id" :project="project" :isAdmin="true"/>
         </div>
     </AdminDashboardLayout>
 </template>

@@ -29,6 +29,7 @@ Route::get('/', [GeneralController::class, 'home'])->name('home');
 Route::get('/scripts', [GeneralController::class, 'scripts'])->name('scripts');
 Route::get('/scripts/{id}', [GeneralController::class, 'script_details'])->name('script_details');
 Route::get('/projects', [GeneralController::class, 'projects'])->name('projects');
+Route::get('/projects/{id}', [GeneralController::class, 'project_details'])->name('project_details');
 Route::get('/about_us', [GeneralController::class, 'about_us'])->name('about_us');
 Route::get('/blog', [GeneralController::class, 'blog'])->name('blog');
 
@@ -48,10 +49,14 @@ Route::group(['middleware' => ['auth','is_admin'], 'prefix' => 'admin', 'as'=>'a
     Route::get('/projects/{id}/edit', [AdminProjectController::class, 'edit_project'])->name('project.edit');
     Route::put('/projects/{id}/edit', [AdminProjectController::class, 'update_project'])->name('project.edit.put');
     Route::delete('/projects/{id}/delete', [AdminProjectController::class, 'delete'])->name('project.delete');
+    Route::put('/project/add_contribution', [AdminProjectController::class, 'add_contribution'])->name('project.add_contribution');
+    Route::put('/project/mark_as_sold',[AdminProjectController::class, 'mark_project_as_sold'])->name('project.mark_as_sold');
 
     Route::get('/scriptwriters/all_scripts', [AdminController::class, 'all_scripts'])->name('all_scripts');
     Route::get('/scriptwriters/pending', [AdminController::class, 'scripts_pending'])->name('scripts_pending');
     Route::get('/scriptwriters/approved', [AdminController::class, 'scripts_approved'])->name('scripts_approved');
+    route::post('/scriptwriters/approve_script', [AdminController::class, 'approve_script'])->name('approve_script');
+    route::post('/scriptwriters/reject_script', [AdminController::class, 'reject_script'])->name('reject_script');
 
     Route::post("/project/add_project", [AdminProjectController::class, "store_project"])->name("store_project");
     Route::get('/profile', [AdminController::class, 'admin_profile'])->name('admin_profile');

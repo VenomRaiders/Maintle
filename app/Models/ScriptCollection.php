@@ -64,4 +64,26 @@ class ScriptCollection extends Model
 
         return $uverified_scripts;
     }
+
+    public static function approvedScripts(){
+        $users_role_id = Role::where('name', 'user')->first()->id;
+        $all_users = User::where('role_id', $users_role_id)->get();
+        $verified_users = [];
+        foreach($all_users as $user){
+            if($user->scriptWriter->is_verified == true){
+                $verified_users[] = $user;
+            }
+        }
+        
+        $verified_scripts = [];
+        foreach($verified_users as $verified_user){
+            $script = $verified_user->scripts()->first();
+            
+            if($script != null){
+                array_push($verified_scripts, $script);
+            }
+        }
+
+        return $verified_scripts;
+    }
 }

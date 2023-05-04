@@ -1,46 +1,62 @@
 <script setup>
 import { ref } from "vue";
-
+import { useForm } from "@inertiajs/vue3";
 import StandardButton from "./StandardButton.vue";
 import Tags from "./Tags.vue";
 
 const toggleContribution = ref(false);
 
-defineProps({
-    stitle: {
-        type: String,
-    },
-    body: {
-        type: String,
-    },
+const props = defineProps({'project': Object, 'isAdmin': false});
+
+const contributionForm = useForm({
+    project_id: props.project.id,
+    amount: null,
 });
+
+const addContribution = () => {
+    contributionForm.put(route('admin.project.add_contribution'));
+    contributionForm.amount = null
+    toggleContribution.value = false
+}
+
+const markAsSoldFom = useForm({
+    project_id: props.project.id,
+});
+
+const markAsSold = () => {
+    markAsSoldFom.put(route('admin.project.mark_as_sold'));
+}
+
 </script>
 
 <template>
     <div class="card">
         <div class="col-1">
-            <img src="/images/image.jpg" alt="script image" />
+            <img :src="'/storage/'+project.image" alt="project image" />
         </div>
         <div class="col-2">
             <div class="card-body">
-                <h1>The Uncharted sea</h1>
-                <Tags text="Funk" />
-                <p>Project Cost: <span>2000$</span></p>
-                <p>Amount Contributed: <span>2000$</span></p>
-                <p>Amount left: <span>2000$</span></p>
+                <h1>{{ project.title }}</h1>
+                <Tags v-for="genre in project.genres" :key="genre.id" :text="genre.genre"/>
+                <p>Project Cost: <span>{{ project.amount }}$</span></p>
+                <p>Amount Contributed: <span>{{ project.contribution }}$</span></p>
+                <p>Amount left: <span>{{ project.amount - project.contribution}}$</span></p>
             </div>
-            <div class="card-buttons">
-                <StandardButton class="no-outline" text="Mark as Sold" />
-                <StandardButton class="no-outline" text="Add Contribution" @click="toggleContribution = !toggleContribution"/>
+            <div v-if="isAdmin" class="card-buttons">
+                <StandardButton @click="markAsSold" v-if="!project.is_funded" class="no-outline" text="Mark as Sold"/>
+                <StandardButton text="Add Contribution" @click="toggleContribution = !toggleContribution" v-if="!project.is_funded" class="no-outline"/>
                 <div v-if="toggleContribution" class="add-contribution">
                     <label>Add New Contribution</label>
-                    <input type="number">
+                    <input type="number" v-model="contributionForm.amount">
                     <div class="buttons">
-                        <StandardButton class="no-outline" text="Cancel" @click="toggleContribution = !toggleContribution"/>
-                        <StandardButton text="Add" />
+                        <StandardButton text="Cancel" @click="toggleContribution = !toggleContribution" class="no-outline"/>
+                        <StandardButton text="Add" @click="addContribution"/>
                     </div>
                 </div>
-                <StandardButton text="View" :is-link=true :href="route('admin.project.view', id=1)"/>
+                <StandardButton text="View" :is-link=true :href="route('admin.project.view', id=project.id)"/>
+            </div>
+            <div v-else class="card-button">
+                <StandardButton text="View" :is-link=true :href="route('project_details', id=project.id)"/>
             </div>
         </div>
     </div>

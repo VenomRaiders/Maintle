@@ -30,8 +30,11 @@ const crew = reactive({values: []})
 
 const form = useForm({
   "title": "",
+  "poster_image": null,
+  "project_document": null,
   "logline": "",
   "synopsis": "",
+  "cost": "",
   "genre": [],
   "movie_format": "",
   "lead_cast": leadCast.values,
@@ -96,6 +99,18 @@ function submitForm(){
                 </div>
 
                 <div class="form-group">
+                    <label for="poster_image">Poster Image</label>
+                    <input type="file" @change="form.poster_image = $event.target.files[0]" id="poster_image">
+                    <ErrorMessage v-if="form.errors.poster_image">{{ form.errors.poster_image }}</ErrorMessage>
+                </div>
+
+                <div class="form-inputs">
+                    <label for="script" class="font-bold text-2xl">Project Document</label> <br />
+                    <input type="file" name="" id="project_document" @change="form.project_document = $event.target.files[0]" class="w-full rounded-md text-black">
+                    <ErrorMessage v-if="form.errors.project_document">{{ form.errors.project_document }}</ErrorMessage>
+                </div>
+
+                <div class="form-group">
                     <label for="logline">Logline</label>
                     <input type="text" v-model="form.logline" id="logline">
                     <ErrorMessage v-if="form.errors.logline">{{ form.errors.logline }}</ErrorMessage>
@@ -108,9 +123,9 @@ function submitForm(){
                 </div>
 
                 <div class="form-group">
-                    <label for="project_cost">Project Cost</label>
-                    <input type="number" v-model="form.project_cost" id="project_cost">
-                    <ErrorMessage v-if="form.errors.project_cost">{{ form.errors.project_cost }}</ErrorMessage>
+                    <label for="cost">Project Cost (USD)</label>
+                    <input type="number" v-model="form.cost" id="cost">
+                    <ErrorMessage v-if="form.errors.cost">{{ form.errors.cost }}</ErrorMessage>
                 </div>
 
                 <div class="form-group">

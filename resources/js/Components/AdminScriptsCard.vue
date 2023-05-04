@@ -1,33 +1,44 @@
 <script setup>
+import { useForm } from "@inertiajs/vue3";
 import StandardButton from "./StandardButton.vue";
 import Tags from "./Tags.vue";
-// defineProps({
-//     stitle: {
-//         type: String,
-//     },
-//     body: {
-//         type: String,
-//     },
-// });
+
+const props = defineProps({
+    script: Object,
+    showApprove: false,
+    showReject: false
+});
+
+const scriptForm = useForm({
+    script_id: props.script.id,
+});
+
+function approveScript() {
+    scriptForm.post(route("admin.approve_script"));
+}
+
+function rejectScript(){
+    scriptForm.post(route("admin.reject_script"));
+}
 </script>
 
 <template>
     <div class="card">
         <div class="col-1">
-            <img src="/images/image.jpg" alt="script image" />
+            <img :src="'/storage/'+script.poster_image" alt="script image" />
         </div>
         <div class="col-2">
             <div class="card-body">
-                <h1>The Uncharted sea</h1>
-                <Tags text="Funk" />
-                <Tags text="Funk" />
+                <h1>{{ script.script_title }}</h1>
+                <Tags v-for="genre in script.genres" :key="genre" :text="genre.genre" />
                 <p>
-                    This is some data that was added in here to test the script
+                    {{script.motivation}}
                 </p>
             </div>
             <div class="card-buttons">
-                <StandardButton class="reject" text="Reject" />
+                <StandardButton text="approve" v-if="showApprove" @click="approveScript"/>
                 <StandardButton text="View" />
+                <StandardButton class="reject" text="Reject" v-if="showReject" @click="rejectScript"/>
             </div>
         </div>
     </div>

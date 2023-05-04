@@ -9,6 +9,8 @@ use App\Models\Genre;
 
 use App\Models\ScriptCollection;
 use App\Models\Role;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\GeneralEmailNotification;
 
 class AdminController extends Controller
 {
@@ -24,11 +26,13 @@ class AdminController extends Controller
     }
 
     public function scriptwriters() {
-        return Inertia::render('Admin/Scriptwriters', ["tab" => "ScriptWriters"]);
+        $scripts = ScriptCollection::orderBy('created_at')->with('genres')->get();
+        return Inertia::render('Admin/scriptwriters/AllScripts', ["tab" => "ScriptWriters", "scripts" => $scripts]);
     }
 
     public function all_scripts() {
-        return Inertia::render('Admin/scriptwriters/AllScripts', ["tab" => "ScriptWriters"]);
+        $scripts = ScriptCollection::orderBy('created_at')->get();
+        return Inertia::render('Admin/scriptwriters/AllScripts', ["tab" => "ScriptWriters", "scripts" => $scripts]);
     }
 
     public function scripts_pending() {
@@ -37,7 +41,8 @@ class AdminController extends Controller
     }
 
     public function scripts_approved() {
-        return Inertia::render('Admin/scriptwriters/Approved', ["tab" => "ScriptWriters"]);
+        $approved_scripts = ScriptCollection::approvedScripts();
+        return Inertia::render('Admin/scriptwriters/Approved', ["tab" => "ScriptWriters", "approved_scripts" => $approved_scripts]);
     }
 
     public function admin_profile() {
@@ -47,6 +52,46 @@ class AdminController extends Controller
     public function unverified_users_scripts() {
         $scripts = ScriptCollection::unverifiedScripts();
         dd($scripts);
+    }
+
+    public function approve_Script(Request $request){
+        $request->validate([
+            'script_id' => 'required|integer',
+        ]);
+
+        $script = ScriptCollection::find($request->script_id);
+        $user = $script->user;
+
+        $user->scriptWriter->is_verified = true;
+        $user->scriptWriter->save();
+
+        $title = "Script successfully approved";
+        $body = "Your script have been successfully approved. You can login to the platform and continue using the system";
+
+        Mail::to($user->email)->send(new GeneralEmailNotification($title, $body));
+
+        return redirect()->route('admin.scripts_approved');
+    }
+
+    public function reject_script(Request $request){
+        $request->validate([
+            'script_id' => 'required|integer',
+        ]);
+
+        $script = ScriptCollection::find($request->script_id);
+        $user = $script->user;
+
+        $script->delete();
+
+        $title = "First script decline";
+        $body = "
+            <p>Hello We are writing to inform you that your first script uploaded for review has been declined</p>
+            <p>The script did not meet with our minimum requirements for the system. You can login to the system and upload a different one for reveiw</p>
+        ";
+        
+        Mail::to($user->email)->send(new GeneralEmailNotification($title, $body));
+
+        return redirect()->route('admin.all_scripts');
     }
     
 }

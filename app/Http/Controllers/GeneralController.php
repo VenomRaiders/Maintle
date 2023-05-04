@@ -32,6 +32,16 @@ class GeneralController extends Controller
         return Inertia::render('Projects', ['projects' => $projects]);
     }
 
+    public function project_details($id) {
+        $project = Project::find($id)->with('genres')->first();
+        if(!$project){
+            return redirect()->back()->with("error", "Invalid id provided");
+        }
+        
+        $admin_contact = env('ADMIN_CONTACT');
+        return Inertia::render('ProjectDetails', ['project' => $project,'admin_contact' => $admin_contact]);
+    }
+
     public function about_us() {
         return Inertia::render('About');
     }

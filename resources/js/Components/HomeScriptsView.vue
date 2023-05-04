@@ -1,66 +1,83 @@
 <script setup>
+import { ref } from "vue";
 import StandardButton from '@/Components/StandardButton.vue';
 import Tags from '@/Components/Tags.vue';
+
+const props = defineProps(['project', 'admin_contact']);
+
+const toggleMessage = ref(false)
+
+const message = ref('')
+
+const whatsappUrl = ref('https://api.whatsapp.com/send?phone='+props.admin_contact+'&text=')
+
+function sendMessage(){
+    let link = whatsappUrl.value + encodeURIComponent(message.value)
+    window.open(link, '_blank')
+}
+
 </script>
 
 <template>
     <div class="view-container">
         <div class="col-1">
-            <img src="/images/image.jpg" alt="script image" />
+            <img :src="'/storage/'+project.image" alt="prject image" />
         </div>
         <div class="col-2">
             <div class="card-body">
                 <div class="item">
                     <h1>Title</h1>
-                    <p>The Uncharted Sea</p>
+                    <p>{{ project.title }}</p>
                 </div>
                 <div class="item">
                     <h1>Logline</h1>
-                    <p>The Uncharted Sea is a land unspoken and teaming with life from worldwide</p>
+                    <p>{{ project.logline }}</p>
                 </div>
                 <div class="item">
                     <h1>Genre</h1>
-                    <Tags text="Funk" />
+                    <Tags v-for="genre in project.genres" :key="genre.id" :text="genre.genre"/>
                 </div>
                 <div class="item">
                     <h1>Project Cost</h1>
-                    <p><span>2000$</span></p>
+                    <p><span>{{ project.amount }}$</span></p>
                 </div>
                 <div class="item">
                     <h1>Synopsis</h1>
-                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                        Aliquid consequatur ipsa, quas corrupti suscipit vel?
-                        Explicabo excepturi quos, dolore totam officia nam sapiente
-                        accusamus tenetur minima id, quia ipsam quisquam?
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                        Aliquid consequatur ipsa, quas corrupti suscipit vel?
-                        Explicabo excepturi quos, dolore totam officia nam sapiente
-                        accusamus tenetur minima id, quia ipsam quisquam?
-                    </p>
+                    <p>{{ project.synopsis }}</p>
                 </div>
                 <div class="item">
                     <h1>Amount Contributed</h1>
-                    <p><span>2000$</span></p>
+                    <p><span>{{ project.contribution }}$</span></p>
                 </div>
                 <div class="item">
                     <h1>Amount Left</h1>
-                    <p><span>2000$</span></p>
+                    <p><span>{{ project.amount - project.contribution }}$</span></p>
                 </div>
                 <div class="item">
                     <h1>Lead Cast</h1>
-                    <div class="nested-item">
-                        <p>Name<br><span>Tambe Hanslett</span></p>
-                        <p>Handle<br><span>https://somelink.com</span></p>
+                    <div v-for="leadCast in JSON.parse(project.lead_cast)" class="nested-item">
+                        <p>Name<br><span>{{ leadCast.name }}</span></p>
+                        <p>Handle<br><span>{{ leadCast.socialMediaHandle }}</span></p>
                     </div>
                 </div>
                 <div class="item">
                     <h1>Crew</h1>
-                    <div class="nested-item">
-                        <p>ScriptWritter<br><span>Hanslett</span></p>
-                        <p>Director<br><span>Venom Raider</span></p>
-                        <p>Gender<br><span>Male</span></p>
-                        <p>Social Media Handle<br><span>https://somelink.com</span></p>
-                        <p>Links to previous work<br><span>[https://somelink.com, https://somelink.com]</span></p>
+                    <div v-for="crew in JSON.parse(project.crew)" class="nested-item">
+                        <p>ScriptWritter<br><span>{{ crew.scriptwriter }}</span></p>
+                        <p>Director<br><span>{{ crew.director }}</span></p>
+                        <p>Gender<br><span>{{ crew.gender }}</span></p>
+                        <p>Social Media Handle<br><span>{{ crew.socialMediaHandle }}</span></p>
+                        <p>Links to previous work<br><span>[{{ crew.previousWork }}]</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-buttons">
+                <StandardButton text="contact admin" @click="toggleMessage = !toggleMessage"/>
+                <div v-if="toggleMessage" class="delete-confirm">
+                    <textarea v-model="message" placeholder="Write message to admin"></textarea>
+                    <div class="buttons">
+                        <StandardButton text="Cancel" @click="toggleMessage = !toggleMessage"/>
+                        <StandardButton @click="sendMessage"  text="Send message"/>
                     </div>
                 </div>
             </div>
