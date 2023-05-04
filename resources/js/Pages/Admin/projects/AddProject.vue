@@ -104,8 +104,8 @@ function submitForm(){
                     <ErrorMessage v-if="form.errors.poster_image">{{ form.errors.poster_image }}</ErrorMessage>
                 </div>
 
-                <div class="form-inputs">
-                    <label for="script" class="font-bold text-2xl">Project Document</label> <br />
+                <div class="form-group">
+                    <label for="script">Project Document</label>
                     <input type="file" name="" id="project_document" @change="form.project_document = $event.target.files[0]" class="w-full rounded-md text-black">
                     <ErrorMessage v-if="form.errors.project_document">{{ form.errors.project_document }}</ErrorMessage>
                 </div>
@@ -194,10 +194,13 @@ function submitForm(){
                     
                             <div class="form-group">
                                 <label for="name" class="font-bold">Gender</label>
-                                Male
-                                <input type="radio" name="gender" id="gender">
-                                Female
-                                <input type="radio" name="gender" id="gender">
+                                <div class="fix-radio">
+                                    Male
+                                    <input type="radio" name="gender" id="gender">
+                                    Female
+                                    <input type="radio" name="gender" id="gender">
+                                </div>
+                                
                             </div>
 
                             <div class="form-group">
@@ -273,6 +276,18 @@ function submitForm(){
 .content {
     margin-top: 20px;
     margin-bottom: 20px;
+}
+
+.fix-radio input {
+    width: auto;
+    height: auto;
+    padding: 10px;
+    border-radius: 0px;
+}
+
+.fix-radio input:focus {
+    border: 1px solid white;
+    outline: none;
 }
 
 /* Scaling for desktop devices */
