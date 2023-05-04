@@ -1,28 +1,28 @@
 <script setup>
-import ScriptNavBar from '@/Components/ScriptNavBar.vue';
-import ScriptWriterDashboardLayout from '@/Layouts/ScriptWriterDashboardLayout.vue';
+import ScriptsCard from '@/Components/ScriptsCard.vue';
+import ScriptwriterDashboardLayout from '@/Layouts/ScriptwriterDashboardLayout.vue';
 import StandardButton from '@/Components/StandardButton.vue';
 
-const props = defineProps(['scripts'])
+const props = defineProps(['scripts', 'tab'])
 
 </script>
 
 <template>
-  <ScriptNavBar>
+  <ScriptwriterDashboardLayout>
     <StandardButton text="New Script" :isLink=true :href="route('scriptwriter.add_script')"></StandardButton>
     <div class="content">
-      <ScriptWriterDashboardLayout v-for="script in scripts" :key="script.id" 
+      <ScriptsCard v-for="script in scripts" :key="script.id" 
         :stitle= "script.script_title"
         :body="script.script_synopsis"
         :genres="script.genres"
         >
         <img :src="'/storage/'+script.poster_image" alt="Script offical blopper image" style="width:100%">
-      </ScriptWriterDashboardLayout>
+      </ScriptsCard>
     
       <p v-if="scripts.length === 0">No Scripts Have been Added</p>
     
     </div>
-  </ScriptNavBar>
+  </ScriptwriterDashboardLayout>
 
 </template>
 
@@ -32,8 +32,9 @@ const props = defineProps(['scripts'])
 .content {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 30px;
-    margin-top: 20px;
+    margin-top: 50px;
     margin-bottom: 20px;
 }
 
@@ -47,9 +48,6 @@ const props = defineProps(['scripts'])
 @media only screen and (min-width: 690px) {
     .content {
         justify-content: center;
-    }
-    .card {
-        width: 100%;
     }
 }
 

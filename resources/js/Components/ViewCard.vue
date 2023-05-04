@@ -81,7 +81,7 @@ function deleteProject(){
                     <StandardButton @click="deleteProject" class="delete" text="Delete"/>
                 </div>
             </div>
-            <StandardButton text="Modify" />
+            <StandardButton text="Modify" :is-link=true :href="route('admin.project.edit', id=1)"/>
         </div>
     </div>
 </div>

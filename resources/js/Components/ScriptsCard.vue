@@ -1,146 +1,128 @@
-<script>
+<script setup>
 import StandardButton from './StandardButton.vue';
 import Tags from './Tags.vue';
 
-export default {
-  props: ['stitle','body','genres'],
-  components: {
-    StandardButton,
-    Tags
-   }
-}
-</script>
 
+defineProps({
+  stitle: {
+    type: String,
+  },
+  body: {
+    type: String,
+  },
+  genres: {
+    type: Object,
+  }
+});
+</script>
 <template>
-<div class="card">
-    <slot/>
-  <div class="container">
-    <h4><b>{{ stitle }}</b></h4>
-    <div class="script-tags">
+  <div class="card">
+    <div class="col-1">
+      <img src="/images/image.jpg" alt="script image" />
+    </div>
+    <div class="col-2">
+      <div class="card-body">
+        <h1>{{ stitle }}</h1>
         <Tags v-for="genre in genres" :key="genre.id" :text="genre.genre"/>
-    </div>
-    <div class="script-content">
         <p>{{ body }}</p>
-    </div>
-    <div class="buttons">
-        <StandardButton text="View"/>
-        <StandardButton text="Edit"/>
+      </div>
+      <div class="card-buttons">
+        <StandardButton text="View" :is-link=true :href="route('scriptwriter.script.view', id = 1)" />
+      </div>
     </div>
   </div>
-</div>
 </template>
 
-<style>
+<style scoped>
 /* default mobile styling */
-
-.card img {
-    height: 200px;
-    object-fit: fill;
-}
-
 .card {
-    flex: 1;
-    background-color: var(--text-color);
-    box-shadow: 0 4px 8px 0 var(--shadow-color);
-    transition: 0.5s;
-    border-radius: 10px;
-    width: 290px;
+  display: flex;
+  height: 200px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  background-color: white;
+  border-radius: 5px;
 }
 
-.card:hover {
-    box-shadow: 0 8px 16px 0 var(--shadow-color);
+.card h1 {
+  font-weight: bold;
+  font-family: 'Montserrat Alternates', sans-serif;
 }
 
-.card .container {
-    padding: 7px 16px;
+.col-1 {
+  min-width: 30%;
+  width: 40%;
+}
+
+.col-1 img {
+  width: 100%;
+  background-size: contain;
+  height: 100%;
+}
+
+.col-2 {
+  width: 100%;
+  position: relative;
+}
+
+.card-body {
+  padding: 7px 12px;
+  width: auto;
+}
+
+.card-body span {
+  color: blue;
+}
+
+.card-body p {
+  margin-top: 5px;
+  font-size: 14px;
+  width: 300px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.card-buttons {
+  width: 100%;
+  padding: 9px 12px;
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.card-buttons .btn {
+  font-size: 13px;
+  height: 35px;
+  margin-right: 10px;
+}
+
+/* Scaling for desktop versions */
+
+/* overide the default growth size on this screen size */
+
+@media only screen and (min-width: 900px) {
+  .card {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-}
-
-.buttons {
-    display: flex;
-    gap: 10px;
-    font-size: 14px;
-}
-
-.buttons .btn {
-    min-width: 0; /* reset the default width */
-    width: 50px;
-    height: 40px;
-}
-
-.container div {
-    margin-bottom: 7px;
-}
-
-.card h4 {
-    font-weight: bold;
-    font-size: 18px;
-}
-
-.card .script-tags {
-    display: flex;
-    gap: 10px;
-}
-
-.script-content {
-    width: inherit;
-    max-height: 125px;
-}
-
-.script-content p {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-/* Media queries for large screens */
-
-/*  450px */
-@media only screen and (min-width: 450px) {
-  .card img {
-    height: 320px;
+    height: auto;
+    max-width: 350px;
   }
-}
 
-/*  450px */
-@media only screen and (min-width: 535px) {
-    p {
-        font-size: 16px;
-    }
-
-    .card img {
-        height: 400px;
-    }
-    .card h4 {
-        font-size: 22px;
-    }
-}
-
-/* 1200px -> 1700px */
-@media only screen and (min-width: 1200px) { 
-  .all-scripts {
-    max-height: 590px;
-    overflow-y: clip;
-  }
-  .all-scripts .card {
-    margin-right: 5px;
-    margin-bottom: 5px;
+  .col-1 {
+    all: unset;
   }
 
   .card img {
     height: 300px;
   }
-  
-  .all-scripts .card {
-    flex-grow: 0.5;
-  }
 
-  .buttons .btn {
-    width: 60px;
-    height: 45px;
-    font-size: 17px;
+  .card-buttons {
+    all: unset;
+    display: flex;
+    padding: 10px;
+    justify-content: flex-end;
   }
 }
 </style>

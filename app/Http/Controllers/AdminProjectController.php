@@ -72,13 +72,15 @@ class AdminProjectController extends Controller
 
     public function edit_project(Request $request, $id){
         $project = Project::find($id);
-        if(!$project){
-            return redirect()->back()->with("error", "Invalid id provided");
-        }
+        // if(!$project){
+        //     return redirect()->back()->with("error", "Invalid id provided");
+        // }
 
         $genres = Genre::all();
 
         // Todo: return the page to edit
+        return Inertia::render('Admin/projects/EditProject', ["project" => $project, "genres" => $genres, "tab" => "Projects -> Modify Project"]);
+
     }
 
     public function update_project(Request $request, $id){

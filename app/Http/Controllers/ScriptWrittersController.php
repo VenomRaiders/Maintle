@@ -13,7 +13,7 @@ class ScriptWrittersController extends Controller
 {
     public function dashboard(){
         $scripts = auth()->user()->scripts()->with('genres')->get(); // get all scripts for the logged in user
-        return Inertia::render('scriptwriter/Main', ["scripts" => $scripts]); 
+        return Inertia::render('scriptwriter/Main', ["scripts" => $scripts, "tab" => "Scriptwritter's Dashboard"]); 
     }
 
     public function add_script(){
@@ -79,10 +79,6 @@ class ScriptWrittersController extends Controller
         return redirect()->route('scriptwriter.dashboard')->with('message', 'Script added successfully');
     }
 
-    public function statistics(){
-        return Inertia::render('scriptwriter/Statistics');
-    }
-
     public function first_script(){
         $user = auth()->user();
         $user_script_count = $user->scripts->count();
@@ -94,4 +90,27 @@ class ScriptWrittersController extends Controller
 
         return Inertia::render('scriptwriter/AccountInReview');
     }
+
+
+    public function view_script(Request $request, $id) {
+        $script = ScriptCollection::find($id);
+        // if(!$project){
+        //     return redirect()->back()->with("error", "Invalid id provided");
+        // }
+        return Inertia::render('scriptwriter/ViewScript', ["script" => $script, "tab" => "ScriptWriter -> Detailed View"]);
+    }
+
+    public function edit_script(Request $request, $id){
+        $script = ScriptCollection::find($id);
+        // if(!$project){
+        //     return redirect()->back()->with("error", "Invalid id provided");
+        // }
+
+        $genres = Genre::all();
+
+        // Todo: return the page to edit
+        return Inertia::render('scriptwriter/EditScript', ["project" => $script, "genres" => $genres, "tab" => "ScriptWriter -> Modify Script"]);
+
+    }
+
 }
