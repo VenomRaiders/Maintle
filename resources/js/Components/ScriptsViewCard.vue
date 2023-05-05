@@ -3,7 +3,7 @@ import { ref } from "vue";
 import StandardButton from '@/Components/StandardButton.vue';
 import Tags from '@/Components/Tags.vue';
 
-defineProps(['scripts'])
+defineProps({'script': Object, isAllowed:false })
 
 const toggleDelete = ref(false);
 </script>
@@ -11,96 +11,73 @@ const toggleDelete = ref(false);
 <template>
     <div class="view-container">
         <div class="col-1">
-            <img src="/images/image.jpg" alt="script image" />
+            <img :src="'/storage/'+script.poster_image" alt="script image" />
         </div>
         <div class="col-2">
             <div class="card-body">
                 <div class="item">
                     <h1>Title</h1>
-                    <p>The Uncharted Sea</p>
+                    <p>{{ script.script_title }}</p>
                 </div>
                 <div class="item">
                     <h1>Logline</h1>
-                    <p>The Uncharted Sea is a land unspoken and teaming with life from worldwide</p>
+                    <p>{{ script.script_logline }}</p>
                 </div>
                 <div class="item">
                     <h1>Synopsis</h1>
-                    <p>Hello world</p>
+                    <p>{{ script.script_synopsis }}</p>
                 </div>
                 <div class="item">
                     <h1>Motivation for the story</h1>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi ratione rerum assumenda animi ea aspernatur cumque quaerat at inventore porro, ut error dicta alias ad eaque labore pariatur soluta commodi.</p>
+                    <p>{{ script.motivation }}</p>
                 </div>
                 <div class="item">
                     <h1>Relevance of the story</h1>
-                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                        Aliquid consequatur ipsa, quas corrupti suscipit vel?
-                        Explicabo excepturi quos, dolore totam officia nam sapiente
-                        accusamus tenetur minima id, quia ipsam quisquam?
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                        Aliquid consequatur ipsa, quas corrupti suscipit vel?
-                        Explicabo excepturi quos, dolore totam officia nam sapiente
-                        accusamus tenetur minima id, quia ipsam quisquam?
-                    </p>
+                    <p>{{ script.relevance }}</p>
                 </div>
 
                 <div class="item">
                     <h1>Origin of the idea</h1>
-                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                        Aliquid consequatur ipsa, quas corrupti suscipit vel?
-                        Explicabo excepturi quos, dolore totam officia nam sapiente
-                        accusamus tenetur minima id, quia ipsam quisquam?
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                        Aliquid consequatur ipsa, quas corrupti suscipit vel?
-                        Explicabo excepturi quos, dolore totam officia nam sapiente
-                        accusamus tenetur minima id, quia ipsam quisquam?
-                    </p>
+                    <p>{{ script.story_origin }}</p>
                 </div>
-                <div class="item">
+                <div v-if="isAllowed" class="item" >
                     <h1>Script Document</h1>
                     <StandardButton text="Download File"></StandardButton>
                 </div>
                 <div class="item">
-                    <h1>Genre</h1>
-                    <Tags text="Love"></Tags>
+                    <h1>Genres</h1>
+                    <Tags v-for="genre in script.genres" :key="genre.id" :text="genre.genre"></Tags>
+                </div>
+                <div class="item">
+                    <h1>Sub Genres</h1>
+                    <Tags v-for="genre in script.sub_genres" :key="genre.id" :text="genre.genre"></Tags>
                 </div>
                 <div class="item">
                     <h1>Cast Size</h1>
-                    <p><span>13</span></p>
+                    <p><span>{{ script.script_cast_size }}</span></p>
                 </div>
                 <div class="item">
                     <h1>Cast Location</h1>
-                    <p><span>13</span></p>
+                    <p><span>{{ script.script_no_locations }}</span></p>
                 </div>
                 <div class="item">
                     <h1>Target Audience</h1>
-                    <p><span>13</span></p>
+                    <p><span>{{ script.target_audience }}</span></p>
                 </div>
                 <div class="item">
                     <!-- if any -->
                     <h1>Copyright</h1>
-                    <p><span>[Tambe]: [12rds45]</span></p>
+                    <p><span v-for="copyright in JSON.parse(script.copyright)" :key="copyright">[{{ copyright.name}}]: [{{ copyright.number }}]</span></p>
                 </div>
                 <div class="item">
                     <h1>Lead Roles</h1>
-                    <div class="nested-item">
-                        <p>Real Name<br><span>Hanslett</span></p>
-                        <p>Character Name<br><span>Venom Raider</span></p>
-                        <p>Gender<br><span>Male</span></p>
-                        <p>Social Media Handle<br><span>https://somelink.com</span></p>
+                    <div v-for="leadRole in JSON.parse(script.script_lead_roles)" :key="leadRole.realName" class="nested-item">
+                        <p>Real Name<br><span>{{ leadRole.realName }}</span></p>
+                        <p>Character Name<br><span>{{  leadRole.characterName }}</span></p>
+                        <p>Gender<br><span>{{ leadRole.gender }}</span></p>
+                        <p>Social Media Handle<br><span>{{ leadRole.socialMediaHandle }}</span></p>
                     </div>
                 </div>
-            </div>
-            <div class="card-buttons" v-if="!$page.url.startsWith('/scripts')">
-                <StandardButton class="no-outline" text="Delete" @click="toggleDelete = !toggleDelete" />
-                <div v-if="toggleDelete" class="delete-confirm">
-                    <p>Are you sure you want to delete this project?</p>
-                    <div class="buttons">
-                        <StandardButton text="Cancel" @click="toggleDelete = !toggleDelete" />
-                        <StandardButton class="delete" text="Delete" />
-                    </div>
-                </div>
-                <StandardButton text="Modify" :is-link=true :href="route('scriptwriter.script.edit', id=1)"/>
             </div>
             <div v-if="$page.url.startsWith('/scripts')">
                 <slot />

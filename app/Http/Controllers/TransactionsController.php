@@ -12,7 +12,7 @@ use App\Models\User;
 class TransactionsController extends Controller
 {
     public function buy_Script(Request $request){
-        if(!auth()->user()->is_investor){
+        if(!auth()->user()->is_investor()){
             return redirect()->back()->with('error', 'You are not an investor');
         }
         $validated = $request->validate([

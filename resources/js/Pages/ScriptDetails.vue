@@ -20,7 +20,7 @@ function buyScript(id){
     <Head title="Scripts" />
     <HomePageLayoutVue tab-header="Scripts Gallery -> View Script">
         <div class="content">
-            <ScriptsViewCard>
+            <ScriptsViewCard :script="script">
                 <div v-if="!user || role == 'investor'" class="fix-a">
                     <a :href="'https://api.whatsapp.com/send?phone='+admin_contact+'&text=I%20am%20contacting%20for%20more%20information%20on%20the%20script%20'+script.script_title" class="bg-[var(--primary-color)] text-white p-2 rounded-md" target="_blank">Message Admin</a>
                     <StandardButton text="Buy" @click.prevent="buyScript(script.id)" />

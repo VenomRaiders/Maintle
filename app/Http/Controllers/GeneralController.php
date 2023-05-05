@@ -24,6 +24,7 @@ class GeneralController extends Controller
         $script = ScriptCollection::find($id);
         $genres = $script->genres;
         $sub_genres = $script->subGenres;
+
         return Inertia::render('ScriptDetails', ['script' => $script,'admin_contact' => $admin_contact]);
     }
 
