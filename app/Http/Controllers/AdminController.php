@@ -45,6 +45,11 @@ class AdminController extends Controller
         return Inertia::render('Admin/scriptwriters/Approved', ["tab" => "ScriptWriters", "approved_scripts" => $approved_scripts]);
     }
 
+    public function scripts_rejected(){
+        $rejected_scripts = ScriptCollection::onlyTrashed()->get();
+        return Inertia::render('Admin/scriptwriters/RejectedScripts', ["tab" => "ScriptWriters", "rejected_scripts" => $rejected_scripts]);
+    }
+
     public function admin_profile() {
         return Inertia::render('Admin/Profile', ["tab" => "My Profile"]);
     }
