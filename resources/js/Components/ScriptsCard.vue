@@ -18,7 +18,7 @@ defineProps({
 <template>
   <div class="card">
     <div class="col-1">
-      <img src="/images/image.jpg" alt="script image" />
+      <img src="/images/2023050417194 by 3.jpg" alt="script image" />
     </div>
     <div class="col-2">
       <div class="card-body">

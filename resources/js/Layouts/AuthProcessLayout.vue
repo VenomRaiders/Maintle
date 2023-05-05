@@ -27,10 +27,10 @@ function toggleNavBarOff() {
             <!-- </Link> -->
             <a class="closebtn" @click="toggleNavBarOff()">&times;</a>
             <div class="nav-links" v-if="!$page.url.startsWith('/login')">
-              <Link :href="route('register.scriptwritter')" :class="{'active': $page.url.startsWith('/register/scriptwritter')}">
+              <Link v-if="$page.url.startsWith('/register/scriptwritter')" :href="route('register.scriptwritter')" :class="{'active': $page.url.startsWith('/register/scriptwritter')}">
                 <i class="fa-solid fa-scroll"></i> Scriptwritter
               </Link>
-              <Link :href="route('register.investor')" :class="{'active': $page.url.startsWith('/register/investor')}">
+              <Link v-if="$page.url.startsWith('/register/investor')" :href="route('register.investor')" :class="{'active': $page.url.startsWith('/register/investor')}">
                 <i class="fa-solid fa-coins"></i> Investor
               </Link>
             </div>
