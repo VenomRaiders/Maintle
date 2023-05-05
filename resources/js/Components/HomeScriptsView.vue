@@ -1,9 +1,12 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import StandardButton from '@/Components/StandardButton.vue';
 import Tags from '@/Components/Tags.vue';
 
 const props = defineProps(['project', 'admin_contact']);
+
+const user = computed(() => usePage().props.auth.user)
+const role = computed(() => usePage().props.auth.role)
 
 const toggleMessage = ref(false)
 
@@ -72,7 +75,7 @@ function sendMessage(){
                 </div>
             </div>
             <div class="card-buttons">
-                <StandardButton text="contact admin" @click="toggleMessage = !toggleMessage"/>
+                <StandardButton v-if="!user || role != 'admin'" text="contact admin" @click="toggleMessage = !toggleMessage"/>
                 <div v-if="toggleMessage" class="delete-confirm">
                     <textarea v-model="message" placeholder="Write message to admin"></textarea>
                     <div class="buttons">
