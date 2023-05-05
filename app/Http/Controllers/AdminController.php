@@ -93,5 +93,19 @@ class AdminController extends Controller
 
         return redirect()->route('admin.all_scripts');
     }
+
+    public function view_script($id){
+        $admin_contact = env('ADMIN_CONTACT');
+        $script = ScriptCollection::find($id);
+
+        if(!$script){
+            return redirect()->back()->with("error", "Invalid script provided");
+        }
+
+        $genres = $script->genres;
+        $sub_genres = $script->subGenres;
+
+        return Inertia::render('Admin/scriptwriters/ScriptDetails', ['script' => $script,'admin_contact' => $admin_contact]);
+    }
     
 }

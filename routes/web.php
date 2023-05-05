@@ -33,6 +33,8 @@ Route::get('/projects/{id}', [GeneralController::class, 'project_details'])->nam
 Route::get('/about_us', [GeneralController::class, 'about_us'])->name('about_us');
 Route::get('/blog', [GeneralController::class, 'blog'])->name('blog');
 
+Route::get('/script/document/{id}/download', [GeneralController::class, 'download_script_document'])->name('download_script_document');
+
 
 Route::post('/scripts/buy', [TransactionsController::class, 'buy_Script'])->name('buy_script')->middleware(['auth', 'verified', 'is_investor']);
 Route::get('/payment/callback', [TransactionsController::class, 'payment_callback'])->name('payment_callback')->middleware(['auth', 'verified']);
@@ -57,6 +59,7 @@ Route::group(['middleware' => ['auth','is_admin'], 'prefix' => 'admin', 'as'=>'a
     Route::get('/scriptwriters/approved', [AdminController::class, 'scripts_approved'])->name('scripts_approved');
     route::post('/scriptwriters/approve_script', [AdminController::class, 'approve_script'])->name('approve_script');
     route::post('/scriptwriters/reject_script', [AdminController::class, 'reject_script'])->name('reject_script');
+    route::get('/scriptwriter/script/{id}/view', [AdminController::class, 'view_script'])->name('script.view');
 
     Route::post("/project/add_project", [AdminProjectController::class, "store_project"])->name("store_project");
     Route::get('/profile', [AdminController::class, 'admin_profile'])->name('admin_profile');

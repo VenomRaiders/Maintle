@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Models\User;
 use App\Models\ScriptCollection;
 use App\Models\Project;
+use Illuminate\Support\Facades\Storage;
 
 class GeneralController extends Controller
 {
@@ -22,10 +23,27 @@ class GeneralController extends Controller
     public function script_details($id){
         $admin_contact = env('ADMIN_CONTACT');
         $script = ScriptCollection::find($id);
+
+        if(!$script){
+            return redirect()->back()->with("error", "Invalid script provided");
+        }
+
         $genres = $script->genres;
         $sub_genres = $script->subGenres;
 
         return Inertia::render('ScriptDetails', ['script' => $script,'admin_contact' => $admin_contact]);
+    }
+
+    public function download_script_document($id) {
+        $script = ScriptCollection::find($id);
+
+        if(!$script){
+            return redirect()->back()->with("error", "Invalid script provided");
+        }
+        
+        $document = Storage::disk('scripts')->download($script->document_url);
+
+        return $document;
     }
 
     public function projects() {

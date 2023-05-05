@@ -42,7 +42,7 @@ const toggleDelete = ref(false);
                 </div>
                 <div v-if="isAllowed" class="item" >
                     <h1>Script Document</h1>
-                    <StandardButton text="Download File"></StandardButton>
+                    <a :href="route('download_script_document', script.id)" target="_blank" class="bg-primary text-white p-2 my-2 rounded-md">Download File</a>
                 </div>
                 <div class="item">
                     <h1>Genres</h1>

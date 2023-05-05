@@ -37,7 +37,7 @@ function rejectScript(){
             </div>
             <div class="card-buttons">
                 <StandardButton text="approve" v-if="showApprove" @click="approveScript"/>
-                <StandardButton text="View" />
+                <StandardButton text="View" :is-link=true :href="route('admin.script.view', script.id)"/>
                 <StandardButton class="reject" text="Reject" v-if="showReject" @click="rejectScript"/>
             </div>
         </div>
