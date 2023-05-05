@@ -35,6 +35,7 @@ const form = useForm({
   "relevance": "",
   "origin": "",
   "scriptDocument": null,
+  "contract_document": null,
   "mainGenre": [],
   "subGenre": [],
   "movieFormat": "",
@@ -103,8 +104,15 @@ function submitForm(){
         </div>
         <h1 v-if="$page.url == '/scriptwriter/first_script'" class="text-center text-2xl uppercase font-bold">Upload your first script for review</h1>
         <h1 v-else class="text-center text-2xl uppercase font-bold">New Script</h1>
+        {{ form.errors }}
         <form @submit.prevent="submitForm">
           <hr class="st">
+            <div v-if="$page.url == '/scriptwriter/first_script'" class="form-inputs">
+              <label for="contract_document">Signed Contract document</label> 
+              <input type="file" name="" id="contract_document" @change="form.contract_document = $event.target.files[0]" class="w-full rounded-md text-black">
+              <ErrorMessage v-if="form.errors.contract_document">{{ form.errors.contract_document }}</ErrorMessage>
+            </div>
+
             <div class="form-inputs">
               <label for="title">Title</label> 
               <input type="text" v-model="form.title"  name="" id="title">

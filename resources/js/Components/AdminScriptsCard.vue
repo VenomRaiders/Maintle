@@ -6,7 +6,8 @@ import Tags from "./Tags.vue";
 const props = defineProps({
     script: Object,
     showApprove: false,
-    showReject: false
+    showReject: false,
+    isRejected: false
 });
 
 const scriptForm = useForm({
@@ -19,6 +20,10 @@ function approveScript() {
 
 function rejectScript(){
     scriptForm.post(route("admin.reject_script"));
+}
+
+function reApprove(){
+    scriptForm.post(route("admin.re_approve_script"));
 }
 </script>
 
@@ -39,6 +44,7 @@ function rejectScript(){
                 <StandardButton text="approve" v-if="showApprove" @click="approveScript"/>
                 <StandardButton text="View" :is-link=true :href="route('admin.script.view', script.id)"/>
                 <StandardButton class="reject" text="Reject" v-if="showReject" @click="rejectScript"/>
+                <StandardButton text="ReApprove" v-if="isRejected" @click="reApprove"/>
             </div>
         </div>
     </div>

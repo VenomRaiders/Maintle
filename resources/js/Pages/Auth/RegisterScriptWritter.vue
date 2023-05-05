@@ -98,7 +98,7 @@ function createAccount(){
                 
                 <div class="submit-container">
                     <LoadingComponent v-if="form.processing" class="border-2 border-primary"/>
-                    <input type="submit" value="Confirm" v-else class="rounded-md bg-[#316802] text-white font-bold py-2 px-4 cursor-pointer" style="text-align: center;">
+                    <input type="submit" value="Register" v-else class="rounded-md bg-[#316802] text-white font-bold py-2 px-4 cursor-pointer" style="text-align: center;">
                 </div>
             </form>
         </div>

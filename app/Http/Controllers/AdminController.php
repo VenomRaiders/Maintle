@@ -88,7 +88,7 @@ class AdminController extends Controller
 
         $script->delete();
 
-        $title = "First script decline";
+        $title = "Script decline";
         $body = "
             <p>Hello We are writing to inform you that your first script uploaded for review has been declined</p>
             <p>The script did not meet with our minimum requirements for the system. You can login to the system and upload a different one for reveiw</p>
@@ -101,7 +101,7 @@ class AdminController extends Controller
 
     public function view_script($id){
         $admin_contact = env('ADMIN_CONTACT');
-        $script = ScriptCollection::find($id);
+        $script = ScriptCollection::withTrashed()->where('id',$id)->first();
 
         if(!$script){
             return redirect()->back()->with("error", "Invalid script provided");
