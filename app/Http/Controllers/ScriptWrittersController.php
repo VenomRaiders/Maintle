@@ -28,6 +28,7 @@ class ScriptWrittersController extends Controller
             'logline' => 'required',
             'synopsis' => 'required',
             'scriptDocument' => ['required', File::types(['pdf', 'doc', 'docx'])->max(10 * 1024)], // max file size set to 10mb
+            'contract_document' => ['nullable', File::types(['pdf', 'doc', 'docx'])->max(10 * 1024)], // max file size set to 10mb
             'mainGenre' => 'required',
             'subGenre' => 'required',
             'castSize' => 'required',
@@ -50,6 +51,16 @@ class ScriptWrittersController extends Controller
         $script_document = $request->file('scriptDocument');
         $script_document_name = date('YmdHi').$script_document->getClientOriginalName();
         $script_document_url = $script_document->store($script_document_name, 'scripts');
+
+        if($request->has('contract_document') && $request->file('contract_document')){
+            $contract_document = $request->file('contract_document');
+            $contract_document_name = date('YmdHi').$contract_document->getClientOriginalName();
+            $contract_document_url = $contract_document->store($contract_document_name, 'contracts');
+
+            auth()->user()->update([
+                'contract_document' => $contract_document_url
+            ]);
+        }
 
         $script =  auth()->user()->scripts()->create([
             'script_title' => $validated['title'],

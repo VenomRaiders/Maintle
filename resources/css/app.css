@@ -64,3 +64,10 @@
     color: blue;
     text-decoration: underline;
 }
+
+.scripts-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}

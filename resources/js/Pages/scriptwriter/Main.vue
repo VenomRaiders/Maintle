@@ -11,12 +11,14 @@ const props = defineProps(['scripts', 'tab'])
   <ScriptwriterDashboardLayout>
     <StandardButton text="New Script" :isLink=true :href="route('scriptwriter.add_script')"></StandardButton>
     <div class="content">
-      <ScriptsCard v-for="script in scripts" :key="script.id" 
+      <ScriptsCard v-for="script in scripts" 
+        :key="script.id" 
         :stitle= "script.script_title"
         :body="script.script_synopsis"
         :genres="script.genres"
+        :poster-image="script.poster_image"
+        :script-id="script.id"
         >
-        <img :src="'/storage/'+script.poster_image" alt="Script offical blopper image" style="width:100%">
       </ScriptsCard>
     
       <p v-if="scripts.length === 0">No Scripts Have been Added</p>

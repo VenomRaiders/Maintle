@@ -57,6 +57,7 @@ Route::group(['middleware' => ['auth','is_admin'], 'prefix' => 'admin', 'as'=>'a
     Route::get('/scriptwriters/all_scripts', [AdminController::class, 'all_scripts'])->name('all_scripts');
     Route::get('/scriptwriters/pending', [AdminController::class, 'scripts_pending'])->name('scripts_pending');
     Route::get('/scriptwriters/approved', [AdminController::class, 'scripts_approved'])->name('scripts_approved');
+    Route::get('/scriptwriters/rejected', [AdminController::class, 'scripts_rejected'])->name('scripts_rejected');
     route::post('/scriptwriters/approve_script', [AdminController::class, 'approve_script'])->name('approve_script');
     route::post('/scriptwriters/reject_script', [AdminController::class, 'reject_script'])->name('reject_script');
     route::get('/scriptwriter/script/{id}/view', [AdminController::class, 'view_script'])->name('script.view');

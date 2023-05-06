@@ -6,7 +6,8 @@ import Tags from "./Tags.vue";
 const props = defineProps({
     script: Object,
     showApprove: false,
-    showReject: false
+    showReject: false,
+    isRejected: false
 });
 
 const scriptForm = useForm({
@@ -19,6 +20,10 @@ function approveScript() {
 
 function rejectScript(){
     scriptForm.post(route("admin.reject_script"));
+}
+
+function reApprove(){
+    scriptForm.post(route("admin.re_approve_script"));
 }
 </script>
 
@@ -36,9 +41,10 @@ function rejectScript(){
                 </p>
             </div>
             <div class="card-buttons">
-                <StandardButton text="approve" v-if="showApprove" @click="approveScript"/>
+                <StandardButton text="Approve" v-if="showApprove" @click="approveScript"/>
                 <StandardButton text="View" :is-link=true :href="route('admin.script.view', script.id)"/>
                 <StandardButton class="reject" text="Reject" v-if="showReject" @click="rejectScript"/>
+                <StandardButton text="ReApprove" v-if="isRejected" @click="reApprove"/>
             </div>
         </div>
     </div>
@@ -64,6 +70,7 @@ function rejectScript(){
     overflow: hidden;
     background-color: white;
     border-radius: 5px;
+    width: 100%;
 }
 
 .card h1 {
@@ -124,4 +131,28 @@ function rejectScript(){
     .tag-text {
         font-size: 13px;
     }
-}</style>
+}
+
+@media only screen and (min-width: 785px) {
+    .card {
+        flex-direction: column;
+        height: 430px;
+        max-width: 350px;
+    }
+
+    .col-1 {
+        all: unset;
+    }
+
+    .card img {
+        height: 300px;
+    }
+
+    .card-buttons {
+        all: unset;
+        display: flex;
+        padding: 10px;
+    }
+
+}
+</style>

@@ -34,6 +34,15 @@ import { Link } from "@inertiajs/vue3";
                     class="btn"
                     > Approved
                 </Link>
+                <Link
+                    :href="route('admin.scripts_rejected')"
+                    :class="{
+                            active: $page.url.startsWith('/admin/scriptwriters/rejected'),
+                        }"
+                    as="button"
+                    class="btn"
+                    > Rejected
+                </Link>
             </div>
             <div class="scripts-container">
                 <slot />
