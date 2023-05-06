@@ -8,10 +8,8 @@ const props = defineProps(["scripts"]);
 
 <template>
     <ScriptwritersAdmin>
-        <AdminScriptsCard v-for="script in scripts" :key="script.id" :script="script"/>
+        <div class="scripts-container">
+            <AdminScriptsCard v-for="script in scripts" :key="script.id" :script="script"/>
+        </div>
     </ScriptwritersAdmin>
 </template>
-
-<style>
-
-</style>

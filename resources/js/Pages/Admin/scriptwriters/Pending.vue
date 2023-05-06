@@ -8,6 +8,8 @@ const props = defineProps(["scripts_needing_approval"]);
 <template>
 <ScriptwritersAdmin>
     <h4 class="text-center text-2xl font-bold">First scripts uploaded by script writters needing approval</h4>
-    <AdminScriptsCard v-for="script in scripts_needing_approval" :key="script.id" :script="script" :showApprove="true" :showReject="true"/>
+    <div class="scripts-container">
+        <AdminScriptsCard v-for="script in scripts_needing_approval" :key="script.id" :script="script" :showApprove="true" :showReject="true"/>
+    </div>
 </ScriptwritersAdmin>
 </template>

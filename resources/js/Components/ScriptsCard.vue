@@ -12,13 +12,19 @@ defineProps({
   },
   genres: {
     type: Object,
+  },
+  posterImage: {
+    type: String
+  },
+  scriptId: {
+    type: Number,
   }
 });
 </script>
 <template>
   <div class="card">
     <div class="col-1">
-      <img src="/images/2023050417194 by 3.jpg" alt="script image" />
+        <img :src="'/storage/' + posterImage" alt="Script offical blopper image" style="width:100%">
     </div>
     <div class="col-2">
       <div class="card-body">
@@ -27,7 +33,7 @@ defineProps({
         <p>{{ body }}</p>
       </div>
       <div class="card-buttons">
-        <StandardButton text="View" :is-link=true :href="route('scriptwriter.script.view', id = 1)" />
+        <StandardButton text="View" :is-link=true :href="route('scriptwriter.script.view', id=scriptId)" />
       </div>
     </div>
   </div>
