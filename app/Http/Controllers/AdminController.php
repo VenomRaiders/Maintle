@@ -112,5 +112,21 @@ class AdminController extends Controller
 
         return Inertia::render('Admin/scriptwriters/ScriptDetails', ['script' => $script,'admin_contact' => $admin_contact]);
     }
+
+    public function re_approve_script(Request $request){
+        $request->validate([
+            'script_id' => 'required|integer',
+        ]);
+
+        $script = ScriptCollection::withTrashed()->find($request->script_id);
+
+        if(!$script){
+            return redirect()->back()->with("error", "Invalid script provided");
+        }
+
+        $script->restore();
+
+        return redirect()->route('admin.all_scripts')->with("success", "Script successfully restored");
+    }
     
 }

@@ -33,6 +33,8 @@ Route::get('/projects/{id}', [GeneralController::class, 'project_details'])->nam
 Route::get('/about_us', [GeneralController::class, 'about_us'])->name('about_us');
 Route::get('/blog', [GeneralController::class, 'blog'])->name('blog');
 
+Route::get('/contract_document',[GeneralController::class, 'download_contract_document'])->name('contract_document');
+
 Route::get('/script/document/{id}/download', [GeneralController::class, 'download_script_document'])->name('download_script_document');
 
 
@@ -61,6 +63,7 @@ Route::group(['middleware' => ['auth','is_admin'], 'prefix' => 'admin', 'as'=>'a
     route::post('/scriptwriters/approve_script', [AdminController::class, 'approve_script'])->name('approve_script');
     route::post('/scriptwriters/reject_script', [AdminController::class, 'reject_script'])->name('reject_script');
     route::get('/scriptwriter/script/{id}/view', [AdminController::class, 'view_script'])->name('script.view');
+    Route::post('/scriptwriter/script/re_approve', [AdminController::class, 're_approve_script'])->name('re_approve_script');
 
     Route::post("/project/add_project", [AdminProjectController::class, "store_project"])->name("store_project");
     Route::get('/profile', [AdminController::class, 'admin_profile'])->name('admin_profile');
@@ -71,6 +74,8 @@ Route::group(['middleware' => ['auth','verified','is_verified_script_writter'], 
     Route::get("/add_script", [ScriptWrittersController::class, "add_script"])->name("add_script");
     Route::get('/{id}/view', [ScriptWrittersController::class, 'view_script'])->name('script.view');
     Route::get('/{id}/edit', [ScriptWrittersController::class, 'edit_script'])->name('script.edit');
+    Route::put('/{id}/edit', [ScriptWrittersController::class, 'update_script'])->name('script.edit.put');
+    Route::delete('/script/delete', [ScriptWrittersController::class, 'delete_script'])->name('script.delete');
 });
 
 Route::post("scriptwriter/add_script", [ScriptWrittersController::class, "save_script"])->name("add_script.posts")->middleware(['auth','verified']);
