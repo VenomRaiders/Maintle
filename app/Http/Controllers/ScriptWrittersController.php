@@ -113,19 +113,19 @@ class ScriptWrittersController extends Controller
     }
 
     public function edit_script(Request $request, $id){
-        $script = Auth::user()->scripts()->find($id)->first();
+        $script = Auth::user()->scripts()->where('id',$id)->with(['genres','subGenres'])->first();
         if(!$script){
             return redirect()->back()->with("error", "Invalid id provided");
         }
 
         $genres = Genre::all();
 
-        return Inertia::render('scriptwriter/EditScript', ["project" => $script, "genres" => $genres, "tab" => "ScriptWriter -> Modify Script"]);
+        return Inertia::render('scriptwriter/EditScript', ["script" => $script, "genres" => $genres, "tab" => "ScriptWriter -> Modify Script"]);
 
     }
 
     public function update_script(Request $request, $id){
-        $script = Auth::user()->scripts()->find($id)->first();
+        $script = Auth::user()->scripts()->find($id);
         if(!$script){
             return redirect()->back()->with("error", "Invalid id provided");
         }
@@ -176,7 +176,7 @@ class ScriptWrittersController extends Controller
             ]);
         }
 
-        $script =  $script->update([
+        $sc =  $script->update([
             'script_title' => $validated['title'],
             'script_logline' => $validated['logline'],
             'script_synopsis' => $validated['synopsis'],
@@ -190,13 +190,13 @@ class ScriptWrittersController extends Controller
             'script_lead_roles' => json_encode($validated['leadRoles'])
         ]);
 
-        if($poster_image_url != null){
+        if($request->posterImage != null){
             $script->update([
                 'poster_image' => $poster_image_url
             ]);
         }
 
-        if($script_document_url != null){
+        if($request->scriptDocument != null){
             $script->update([
                 'document_url' => $script_document_url
             ]);
@@ -219,7 +219,8 @@ class ScriptWrittersController extends Controller
             'script_id' => 'required'
         ]);
 
-        $script = Auth::user()->scripts()->find($validated['script_id'])->first();
+        $script = Auth::user()->scripts()->where('id',$validated['script_id'])->first();
+        
         if(!$script){
             return redirect()->back()->with("error", "Invalid id provided");
         }
