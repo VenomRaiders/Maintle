@@ -116,12 +116,12 @@ class User extends Authenticatable implements MustVerifyEmail
     // called when payment processed sucqcessfully
     public function buyScript($script_id, $amount) {
         $script = ScriptCollection::find($script_id);
+        $script->update(['is_bought' => 1]);
         ScriptsBought::create([
             'script_id' => $script_id,
             'user_id' => $this->id,
             'amount' => $amount
         ]);
-        $script->update(['is_bought' => true]);
 
         Mail::to($this->email)->send(new PaymentConfirmationMail($script));
     }
