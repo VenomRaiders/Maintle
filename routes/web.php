@@ -61,6 +61,7 @@ Route::group(['middleware' => ['auth','is_admin'], 'prefix' => 'admin', 'as'=>'a
     route::post('/scriptwriters/approve_script', [AdminController::class, 'approve_script'])->name('approve_script');
     route::post('/scriptwriters/reject_script', [AdminController::class, 'reject_script'])->name('reject_script');
     route::get('/scriptwriter/script/{id}/view', [AdminController::class, 'view_script'])->name('script.view');
+    Route::post('/scriptwriter/script/re_approve', [AdminController::class, 're_approve_script'])->name('re_approve_script');
 
     Route::post("/project/add_project", [AdminProjectController::class, "store_project"])->name("store_project");
     Route::get('/profile', [AdminController::class, 'admin_profile'])->name('admin_profile');
