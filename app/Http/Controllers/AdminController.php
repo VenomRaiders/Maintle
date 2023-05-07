@@ -126,7 +126,7 @@ class AdminController extends Controller
 
         $script->restore();
 
-        return redirect()->route('admin.all_scripts');
+        return redirect()->route('admin.all_scripts')->with("success", "Script successfully restored");
     }
     
 }
