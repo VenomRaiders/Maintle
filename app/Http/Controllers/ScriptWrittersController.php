@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Illuminate\Validation\Rules\File;
 use Illuminate\Support\Facades\Storage;
@@ -112,10 +113,10 @@ class ScriptWrittersController extends Controller
     }
 
     public function edit_script(Request $request, $id){
-        $script = ScriptCollection::find($id);
-        // if(!$project){
-        //     return redirect()->back()->with("error", "Invalid id provided");
-        // }
+        $script = Auth::user()->scripts()->find($id)->first();
+        if(!$script){
+            return redirect()->back()->with("error", "Invalid id provided");
+        }
 
         $genres = Genre::all();
 
@@ -124,7 +125,7 @@ class ScriptWrittersController extends Controller
     }
 
     public function update_script(Request $request, $id){
-        $script = ScriptCollection::find($id);
+        $script = Auth::user()->scripts()->find($id)->first();
         if(!$script){
             return redirect()->back()->with("error", "Invalid id provided");
         }
@@ -218,7 +219,7 @@ class ScriptWrittersController extends Controller
             'script_id' => 'required'
         ]);
 
-        $script = ScriptCollection::find($validated['script_id']);
+        $script = Auth::user()->scripts()->find($validated['script_id'])->first();
         if(!$script){
             return redirect()->back()->with("error", "Invalid id provided");
         }
