@@ -8,6 +8,8 @@ const props = defineProps(["rejected_scripts"]);
 <template>
 <ScriptwritersAdmin>
     <h4 class="text-center text-2xl font-bold">Rejected Scripts</h4>
-    <AdminScriptsCard v-for="script in rejected_scripts" :key="script.id" :script="script" :isRejected="true"/>
+    <div class="scripts-container">
+        <AdminScriptsCard v-for="script in rejected_scripts" :key="script.id" :script="script" :isRejected="true"/>G
+    </div>
 </ScriptwritersAdmin>
 </template>
