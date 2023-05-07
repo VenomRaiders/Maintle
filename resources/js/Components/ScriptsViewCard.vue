@@ -1,9 +1,21 @@
 <script setup>
 import { ref } from "vue";
+import { useForm } from "@inertiajs/vue3";
 import StandardButton from '@/Components/StandardButton.vue';
 import Tags from '@/Components/Tags.vue';
 
-defineProps({'script': Object, isAllowed:false })
+const props = defineProps({'script': Object, isAllowed:false, isOwner: false })
+
+function deleteScript() {
+    let sure = confirm("Are you sure you want to delete this script?");
+    if(sure) {
+        let delForm = useForm({
+            "script_id": props.script.id
+        })
+
+        delForm.delete(route('scriptwriter.script.delete'));
+    }
+}
 
 const toggleDelete = ref(false);
 </script>
@@ -16,7 +28,7 @@ const toggleDelete = ref(false);
         <div class="col-2">
             <div class="card-body">
                 <div class="item">
-                    <h1>Title</h1>
+                    <h1>Title <span v-if="script.is_bought">Sold</span></h1>
                     <p>{{ script.script_title }}</p>
                 </div>
                 <div class="item">
@@ -76,6 +88,16 @@ const toggleDelete = ref(false);
                         <p>Character Name<br><span>{{  leadRole.characterName }}</span></p>
                         <p>Gender<br><span>{{ leadRole.gender }}</span></p>
                         <p>Social Media Handle<br><span>{{ leadRole.socialMediaHandle }}</span></p>
+                    </div>
+                </div>
+
+                <div v-if="isOwner">
+                    <div v-if="!script.is_bought" class="item flex space-x-0 md:space-x-2">
+                            <StandardButton text="edit" :isLink="true" :href="route('scriptwriter.script.edit',script.id)"/>
+                            <StandardButton text="delete" @click="deleteScript" bgColor="red"/>
+                    </div>
+                    <div v-else>
+                        <h4>You can not modify the script again because it has been bought</h4>
                     </div>
                 </div>
             </div>

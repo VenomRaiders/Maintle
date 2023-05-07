@@ -1,12 +1,14 @@
 <script setup>
 import ScriptwriterDashboardLayout from '@/Layouts/ScriptwriterDashboardLayout.vue';
 import ScriptsViewCard from "@/Components/ScriptsViewCard.vue";
+
+const props = defineProps(['script'])
 </script>
 
 <template>
     <ScriptwriterDashboardLayout>
         <div class="content">
-            <ScriptsViewCard></ScriptsViewCard>
+            <ScriptsViewCard :script="script" :isAllowed="true" :isOwner="true"/>
         </div>
     </ScriptwriterDashboardLayout>
 </template>

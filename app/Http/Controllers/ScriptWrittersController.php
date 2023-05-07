@@ -105,10 +105,10 @@ class ScriptWrittersController extends Controller
 
     public function view_script(Request $request, $id) {
         $script = ScriptCollection::find($id);
-        // if(!$project){
-        //     return redirect()->back()->with("error", "Invalid id provided");
-        // }
-        return Inertia::render('scriptwriter/ViewScript', ["script" => $script, "tab" => "ScriptWriter -> Detailed View"]);
+        if(!$script){
+            return redirect()->back()->with("error", "Invalid id provided");
+        }
+        return Inertia::render('scriptwriter/ViewScript', ["script" => $script]);
     }
 
     public function edit_script(Request $request, $id){
@@ -119,9 +119,115 @@ class ScriptWrittersController extends Controller
 
         $genres = Genre::all();
 
-        // Todo: return the page to edit
         return Inertia::render('scriptwriter/EditScript', ["project" => $script, "genres" => $genres, "tab" => "ScriptWriter -> Modify Script"]);
 
     }
 
+    public function update_script(Request $request, $id){
+        $script = ScriptCollection::find($id);
+        if(!$script){
+            return redirect()->back()->with("error", "Invalid id provided");
+        }
+
+        if($script->is_bought){
+            return redirect()->back()->with("error", "You cannot delete a script that has been bought");
+        }
+
+        $validated = $request->validate([
+            'title' => 'required',
+            'posterImage' => ['nullable', File::image()->max(2 * 1024)], // max image size set to 2mb
+            'logline' => 'required',
+            'synopsis' => 'required',
+            'scriptDocument' => ['nullable', File::types(['pdf', 'doc', 'docx'])->max(10 * 1024)], // max file size set to 10mb
+            'contract_document' => ['nullable', File::types(['pdf', 'doc', 'docx'])->max(10 * 1024)], // max file size set to 10mb
+            'mainGenre' => 'required',
+            'subGenre' => 'required',
+            'castSize' => 'required',
+            'location' => 'required',
+            'copyright' => 'nullable',
+            'movie_format' => 'required',
+            'target_audience' => 'required',
+            'motivation' => 'required',
+            'relevance' => 'required',
+            'story_origin' => 'required',
+            'leadRoles' => 'required',
+        ]);
+
+        $poster_image_url = null;
+        if($request->has('posterImage') && $request->file('posterImage')){
+            $poster_image = $request->file('posterImage');
+            $poster_image_name = date('YmdHi').$poster_image->getClientOriginalName();
+            $poster_image_url = $poster_image->storeAs('script/images', $poster_image_name, 'public');
+
+            $script->update([
+                'poster_image' => $poster_image_url
+            ]);
+        }
+
+        $script_document_url = null;
+        if($request->has('scriptDocument') && $request->file('scriptDocument')){
+            $script_document = $request->file('scriptDocument');
+            $script_document_name = date('YmdHi').$script_document->getClientOriginalName();
+            $script_document_url = $script_document->store($script_document_name, 'scripts');
+
+            $script->update([
+                'document_url' => $script_document_url
+            ]);
+        }
+
+        $script =  $script->update([
+            'script_title' => $validated['title'],
+            'script_logline' => $validated['logline'],
+            'script_synopsis' => $validated['synopsis'],
+            'script_cast_size' => $validated['castSize'],
+            'script_no_locations' => $validated['location'],
+            'movie_format' => $validated['movie_format'],
+            'target_audience' => $validated['target_audience'],
+            'motivation' => $validated['motivation'],
+            'relevance' => $validated['relevance'],
+            'story_origin' => $validated['story_origin'],
+            'script_lead_roles' => json_encode($validated['leadRoles'])
+        ]);
+
+        if($poster_image_url != null){
+            $script->update([
+                'poster_image' => $poster_image_url
+            ]);
+        }
+
+        if($script_document_url != null){
+            $script->update([
+                'document_url' => $script_document_url
+            ]);
+        }
+
+        if($request->has('copyright')){
+            $script->update([
+                'copyright' => $validated['copyright']
+            ]);
+        }
+
+        $script->genres()->sync($validated['mainGenre']);
+        $script->subGenres()->sync($validated['subGenre']);
+
+        return redirect()->route('scriptwriter.dashboard')->with('message', 'Script updated successfully');
+    }
+
+    public function delete_script(Request $request){
+        $validated = $request->validate([
+            'script_id' => 'required'
+        ]);
+
+        $script = ScriptCollection::find($validated['script_id']);
+        if(!$script){
+            return redirect()->back()->with("error", "Invalid id provided");
+        }
+
+        if($script->is_bought){
+            return redirect()->back()->with("error", "You cannot delete a script that has been bought");
+        }
+
+        $script->delete();
+        return redirect()->route('scriptwriter.dashboard')->with("message", "Script deleted successfully");
+    }
 }

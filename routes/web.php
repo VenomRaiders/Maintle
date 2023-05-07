@@ -74,6 +74,8 @@ Route::group(['middleware' => ['auth','verified','is_verified_script_writter'], 
     Route::get("/add_script", [ScriptWrittersController::class, "add_script"])->name("add_script");
     Route::get('/{id}/view', [ScriptWrittersController::class, 'view_script'])->name('script.view');
     Route::get('/{id}/edit', [ScriptWrittersController::class, 'edit_script'])->name('script.edit');
+    Route::put('/{id}/edit', [ScriptWrittersController::class, 'update_script'])->name('script.edit.put');
+    Route::delete('/script/delete', [ScriptWrittersController::class, 'delete_script'])->name('script.delete');
 });
 
 Route::post("scriptwriter/add_script", [ScriptWrittersController::class, "save_script"])->name("add_script.posts")->middleware(['auth','verified']);
