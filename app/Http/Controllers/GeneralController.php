@@ -68,4 +68,9 @@ class GeneralController extends Controller
     public function blog() {
         return Inertia::render('Blog');
     }
+
+    public function download_contract_document() {
+        $document = Storage::disk('public')->download('contract_document.pdf');
+        return $document;
+    }
 }

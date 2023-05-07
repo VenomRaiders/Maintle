@@ -33,6 +33,8 @@ Route::get('/projects/{id}', [GeneralController::class, 'project_details'])->nam
 Route::get('/about_us', [GeneralController::class, 'about_us'])->name('about_us');
 Route::get('/blog', [GeneralController::class, 'blog'])->name('blog');
 
+Route::get('/contract_document',[GeneralController::class, 'download_contract_document'])->name('contract_document');
+
 Route::get('/script/document/{id}/download', [GeneralController::class, 'download_script_document'])->name('download_script_document');
 
 
