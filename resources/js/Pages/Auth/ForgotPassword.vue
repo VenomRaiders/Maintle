@@ -1,5 +1,5 @@
 <script setup>
-import { Link, useForm } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
 import AuthProcessLayout from '@/Layouts/AuthProcessLayout.vue';
 import ErrorMessage from "@/Components/ErrorMessage.vue"
 import LoadingComponent from "@/Components/LoadingComponent.vue"

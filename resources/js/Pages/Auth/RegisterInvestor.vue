@@ -1,6 +1,6 @@
 <script setup>
 import { Link, useForm } from '@inertiajs/vue3';
-import { ref, reactive } from 'vue';
+import { reactive } from 'vue';
 import AuthProcessLayout from '@/Layouts/AuthProcessLayout.vue';
 import ErrorMessage from "@/Components/ErrorMessage.vue"
 import LoadingComponent from "@/Components/LoadingComponent.vue"

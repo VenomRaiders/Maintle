@@ -1,6 +1,4 @@
 <script setup>
-import SuccessMessage from '@/Components/SuccessMessage.vue';
-import StandardButton from '@/Components/StandardButton.vue';
 import HomePageLayoutVue from "@/Layouts/HomePageLayout.vue";
 const props = defineProps(['scripts'])
 

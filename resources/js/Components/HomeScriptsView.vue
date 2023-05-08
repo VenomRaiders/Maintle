@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from "vue";
+import { usePage } from "@inertiajs/vue3";
 import StandardButton from '@/Components/StandardButton.vue';
 import Tags from '@/Components/Tags.vue';
 
@@ -75,7 +76,7 @@ function sendMessage(){
                 </div>
             </div>
             <div class="card-buttons">
-                <StandardButton v-if="!user || role != 'admin'" text="contact admin" @click="toggleMessage = !toggleMessage"/>
+                <StandardButton v-if="!user || role != 'admin'" text="Contact Admin" @click="toggleMessage = !toggleMessage"/>
                 <div v-if="toggleMessage" class="delete-confirm">
                     <textarea v-model="message" placeholder="Write message to admin"></textarea>
                     <div class="buttons">

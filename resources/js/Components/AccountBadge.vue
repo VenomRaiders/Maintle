@@ -1,8 +1,4 @@
 <script setup>
-
-function toggleNavBar() {
-    console.log('clicked')
-}
 </script>
 
 <template>

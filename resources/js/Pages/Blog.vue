@@ -1,5 +1,5 @@
 <script setup>
-import { Head, router } from "@inertiajs/vue3";
+import { Head } from "@inertiajs/vue3";
 import HomePageLayoutVue from "@/Layouts/HomePageLayout.vue";
 
 </script>

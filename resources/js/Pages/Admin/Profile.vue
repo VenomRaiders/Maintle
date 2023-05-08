@@ -1,6 +1,5 @@
 <script setup>
 import AdminDashboardLayout from "@/Layouts/AdminDashboardLayout.vue";
-import StatsCard from "@/Components/StatsCard.vue";
 </script>
 
 <template>

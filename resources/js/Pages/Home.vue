@@ -4,7 +4,6 @@ import { Head, Link, usePage } from "@inertiajs/vue3"
 import HomePageLayout from "@/Layouts/HomePageLayout.vue";
 
 const user = computed(() => usePage().props.auth.user)
-const role = computed(() => usePage().props.auth.role)
 
 </script>
 
