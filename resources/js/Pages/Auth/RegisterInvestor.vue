@@ -63,7 +63,6 @@ function createInvestor(){
     <AuthProcessLayout>
         <div class="form-container">
             <h1 class="text-2xl font-bold uppercase">Create An Investor Account</h1>
-            {{ form.errors }}
             <form @submit.prevent="createInvestor">
                 <hr class="st">
 

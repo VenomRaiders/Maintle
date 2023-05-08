@@ -73,7 +73,7 @@ function toggleNavBarOff() {
 
                 <div v-if="user" class="flex flex-col md:flex-row md:space-x-8 items-center">
                     <Link :href="route('dashboard')" class="text-white uppercase">Dashboard</Link>
-                    <Link :href="route('logout')" method="POST" class="text-white uppercase">Logout</Link>
+                    <Link :href="route('logout')" method="POST" as="button" class="text-white uppercase">Logout</Link>
                 </div>
             </div>
         </section>

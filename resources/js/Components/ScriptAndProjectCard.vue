@@ -1,5 +1,4 @@
 <script setup>
-import {Link} from "@inertiajs/vue3";
 import Tags from './Tags.vue';
 
 defineProps({
@@ -10,7 +9,7 @@ defineProps({
         type: String
     },
     genres: {
-        type: String
+        type: Object,
     },
     posterImage: {
         type: String
@@ -27,8 +26,8 @@ defineProps({
         <div class="card-body">
             <h4><b>{{ stitle }}</b></h4>
             <Tags v-for="genre in genres" :key="genre.id" :text="genre.genre"/>
-            <Tags text="Love"/>
             <p>{{ body }}</p>
+            <p class="price">1000$</p>
 
         </div>
         <div class="card-buttons">
@@ -83,6 +82,13 @@ defineProps({
     padding: 10px;
 }
 
+.price {
+    font-size: 20px;
+    color: blue;
+    background-color: var(--alternate-background-color);
+    max-width: fit-content;
+    padding: 2px;
+}
 
 
 
