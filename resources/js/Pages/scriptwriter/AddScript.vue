@@ -107,7 +107,7 @@ function submitForm(){
         <form @submit.prevent="submitForm">
           <hr class="st">
             <div v-if="$page.url == '/scriptwriter/first_script'" class="form-inputs">
-              <label for="contract_document">Signed Contract document. <a :href="route('contract_document')" target="_blank" class="text-sm text-blue-500 underline">Download Contract Document</a></label> 
+              <label for="contract_document">Signed Contract document. <span class="text-sm">Download Contract Document <a :href="route('contract_document')" target="_blank" class="text-blue-500 underline">EN</a> <a href="/contract_document?lang=fr" target="_blank" class="text-blue-500 underline">FR</a></span></label> 
               <input type="file" name="" id="contract_document" @change="form.contract_document = $event.target.files[0]" class="w-full rounded-md text-black">
               <ErrorMessage v-if="form.errors.contract_document">{{ form.errors.contract_document }}</ErrorMessage>
             </div>
