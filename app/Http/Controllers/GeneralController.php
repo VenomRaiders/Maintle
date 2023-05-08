@@ -16,7 +16,8 @@ class GeneralController extends Controller
     }
 
     public function scripts(){
-        $scripts = ScriptCollection::where('is_bought',0)->orderBy('created_at', 'desc')->get();
+        $scripts = ScriptCollection::where('is_bought',0)->with('genres')->orderBy('created_at', 'desc')->get();
+        
         return Inertia::render('Scripts',['scripts' => $scripts]);
     }
 
