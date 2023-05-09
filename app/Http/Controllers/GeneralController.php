@@ -16,7 +16,8 @@ class GeneralController extends Controller
     }
 
     public function scripts(){
-        $scripts = ScriptCollection::where('is_bought',0)->orderBy('created_at', 'desc')->get();
+        $scripts = ScriptCollection::where('is_bought',0)->with('genres')->orderBy('created_at', 'desc')->get();
+        
         return Inertia::render('Scripts',['scripts' => $scripts]);
     }
 
@@ -69,8 +70,13 @@ class GeneralController extends Controller
         return Inertia::render('Blog');
     }
 
-    public function download_contract_document() {
-        $document = Storage::disk('public')->download('contract_document.pdf');
+    public function download_contract_document(Request $request) {
+        if($request->has('lang') && $request->lang == 'fr'){
+            $document = Storage::disk('public')->download('documents/contract_fr.pdf');
+            return $document;
+        }
+        
+        $document = Storage::disk('public')->download('documents/contract_en.pdf');
         return $document;
     }
 }
