@@ -11,73 +11,16 @@ import HomePageLayoutVue from "@/Layouts/HomePageLayout.vue";
             <section>
                 <h1>Who Are we?</h1>
                 <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Excepturi, ab laudantium! Eos, quos laboriosam! Rerum,
-                    nesciunt debitis omnis consectetur quisquam sint natus
-                    quibusdam facere eos repellat tenetur commodi, aliquam
-                    tempore.
-                </p>
-                <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Excepturi, ab laudantium! Eos, quos laboriosam! Rerum,
-                    nesciunt debitis omnis consectetur quisquam sint natus
-                    quibusdam facere eos repellat tenetur commodi, aliquam
-                    tempore.
-                </p>
-                <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Excepturi, ab laudantium! Eos, quos laboriosam! Rerum,
-                    nesciunt debitis omnis consectetur quisquam sint natus
-                    quibusdam facere eos repellat tenetur commodi, aliquam
-                    tempore.
+                    Maintle is an innovative digital solution by Top Spot Group Ltd. It is an innovative way of linking the
+                    stakeholders of the African film and entertainment industry. A place where you can buy/sell scripts,
+                    invest in projects and source for talents.
                 </p>
             </section>
             <section>
                 <h1>What do we offer?</h1>
                 <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Excepturi, ab laudantium! Eos, quos laboriosam! Rerum,
-                    nesciunt debitis omnis consectetur quisquam sint natus
-                    quibusdam facere eos repellat tenetur commodi, aliquam
-                    tempore.
-                </p>
-                <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Excepturi, ab laudantium! Eos, quos laboriosam! Rerum,
-                    nesciunt debitis omnis consectetur quisquam sint natus
-                    quibusdam facere eos repellat tenetur commodi, aliquam
-                    tempore.
-                </p>
-                <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Excepturi, ab laudantium! Eos, quos laboriosam! Rerum,
-                    nesciunt debitis omnis consectetur quisquam sint natus
-                    quibusdam facere eos repellat tenetur commodi, aliquam
-                    tempore.
-                </p>
-            </section>
-            <section>
-                <h1>Learn More!</h1>
-                <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Excepturi, ab laudantium! Eos, quos laboriosam! Rerum,
-                    nesciunt debitis omnis consectetur quisquam sint natus
-                    quibusdam facere eos repellat tenetur commodi, aliquam
-                    tempore.
-                </p>
-                <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Excepturi, ab laudantium! Eos, quos laboriosam! Rerum,
-                    nesciunt debitis omnis consectetur quisquam sint natus
-                    quibusdam facere eos repellat tenetur commodi, aliquam
-                    tempore.
-                </p>
-                <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Excepturi, ab laudantium! Eos, quos laboriosam! Rerum,
-                    nesciunt debitis omnis consectetur quisquam sint natus
-                    quibusdam facere eos repellat tenetur commodi, aliquam
-                    tempore.
+                    Meet producers, invest in lucrative projects, cash out of the growing African film and entertainment
+                    market. Maintle has made it possible to access a variety of choices with just a few clicks.
                 </p>
             </section>
         </div>
