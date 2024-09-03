@@ -177,18 +177,27 @@ Once you have Node and Xampp installed, follow the Guide from the laravel offici
 
 2. Copy the contents of `.env.dev` file and paste it in `.env` to add all
     default Maintle configurations. Or simply rename `.env.dev` too `.env`.
+   Windows
+   ```cmd
+   copy .env.example .env
+   ```
 
-3. ### Install required packages using npm
+3. Setup Composer
+    ```cmd
+    composer install
+    ```
+
+4. ### Install required packages using npm
     ```cmd
     npm install
     ```
-4. ### Setup local database server
+5. ### Setup local database server
     Open **Xampp** and make sure the following options are toggled as show in the image below
 
     ![Xampp Off](./blobs/xampp-off.png) 
     ![Xampp Off](./blobs/xampp-on.png)
 
-5. ### Configure php artisan
+6. ### Configure php artisan
     ```cmd
     php artisan migrate
     php artisan db:seed
@@ -197,7 +206,7 @@ Once you have Node and Xampp installed, follow the Guide from the laravel offici
     In case of a new table changes, in place of `php artisan migrate`, enter `php artisan migrate:fresh` to pull most recent table changes
     and then proceed to the rest of the commands
 
-6. ### Start server
+7. ### Start server
     Open up two terminal windows in the same directory and type the follo wing in:
     - `Terminal 1`
         ```cmd
